@@ -1,0 +1,79 @@
+{
+  "vehicle": {
+    "id": "V2",
+    "name": "2021 Ford Ranger",
+    "trim": "XLT (halogen fog lights)",
+    "how": "Plate LMT915"
+  },
+  "message": "Reversed into a pole: rear bumper and left tail light",
+  "result": {
+    "vehicle": {
+      "id": "V2",
+      "name": "2021 Ford Ranger",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2021 Ford Ranger XLT",
+      "Checked rear bumper options",
+      "Found left tail light",
+      "Added bolt kit for the rear bumper"
+    ],
+    "lines": [
+      {
+        "component": "question_card",
+        "part_id": null,
+        "confidence": 0.5,
+        "mode": "ask",
+        "reason_short": "New or used rear bumper both fit this Ranger.",
+        "reason_long": "A new step bumper and a used grade B one are both available for this Ranger. The new one is much dearer and cannot be returned, so the choice is yours.",
+        "question": "New or used rear bumper?",
+        "choices": [
+          {
+            "label": "New step bumper",
+            "part_ids": [
+              "V2-BMP-R"
+            ]
+          },
+          {
+            "label": "Used, grade B",
+            "part_ids": [
+              "V2-BMP-R-USED"
+            ]
+          }
+        ]
+      },
+      {
+        "component": "part_card",
+        "part_id": "V2-TAIL-L",
+        "confidence": 0.93,
+        "mode": "suggest",
+        "reason_short": "Left tail light is damaged in the rear hit.",
+        "reason_long": "Reversing into a pole damages the rear corner, and you named the left tail light. It costs over $150, so please confirm it.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V2-CLIP-KIT",
+        "confidence": 0.8,
+        "mode": "suggest",
+        "reason_short": "Bolt kit needed to fit the rear bumper.",
+        "reason_long": "Any rear bumper replacement needs fresh bolts. It waits on which bumper you pick.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "note",
+        "part_id": null,
+        "confidence": 0.7,
+        "mode": "suggest",
+        "reason_short": "Check the number plate light and tow bar.",
+        "reason_long": "A pole hit at the rear can crack the plate light or bend the tow bar tongue. Have a look before ordering.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I suggested the left tail light and bolt kit, and need to know if you want a new or used rear bumper.",
+    "ms": 5297
+  }
+}

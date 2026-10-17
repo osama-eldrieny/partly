@@ -1,0 +1,43 @@
+{
+  "vehicle": {
+    "id": "V2",
+    "trim": "XLT (halogen fog lights)"
+  },
+  "message": "Front fog light smashed",
+  "result": {
+    "vehicle": {
+      "id": "V2",
+      "name": "2021 Ford Ranger",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2021 Ranger XLT",
+      "Checked fog light fitment for XLT",
+      "Checked small parts for the repair"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V2-FOG-HAL",
+        "confidence": 0.92,
+        "mode": "auto",
+        "reason_short": "Halogen fog light is the right one for this XLT.",
+        "reason_long": "The XLT runs halogen fog lights, so the halogen unit is the only one that fits. It is under $150 and returnable.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V2-FOG-BEZEL",
+        "confidence": 0.7,
+        "mode": "suggest",
+        "reason_short": "Bezel often cracks when the fog light is smashed.",
+        "reason_long": "The bezel holds the fog light and usually gets damaged in the same hit. Check it before refitting.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I added the halogen fog light and suggested a bezel in case it's cracked too.",
+    "ms": 3114
+  }
+}

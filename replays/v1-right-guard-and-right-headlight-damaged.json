@@ -1,0 +1,79 @@
+{
+  "vehicle": {
+    "id": "V1",
+    "name": "2019 Toyota Corolla Hatchback",
+    "trim": "ZR (LED headlights, front parking sensors)",
+    "how": "Plate KXR482"
+  },
+  "message": "Right guard and right headlight damaged",
+  "result": {
+    "vehicle": {
+      "id": "V1",
+      "name": "2019 Toyota Corolla Hatchback",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2019 Corolla ZR",
+      "Found right front guard",
+      "Found new and used right LED headlights",
+      "Checked fittings for guard and headlight"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V1-GUARD-R",
+        "confidence": 0.92,
+        "mode": "suggest",
+        "reason_short": "Right front guard fits all Corolla trims.",
+        "reason_long": "The right guard is damaged and this one fits every trim. It is over $150, so it needs your confirmation.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "question_card",
+        "part_id": null,
+        "confidence": 0.7,
+        "mode": "ask",
+        "reason_short": "New and used right LED headlights both fit.",
+        "reason_long": "Both fit the ZR. The used one is cheaper but cannot be returned.",
+        "question": "New or used right headlight?",
+        "choices": [
+          {
+            "label": "New LED headlight",
+            "part_ids": [
+              "V1-HL-R-LED"
+            ]
+          },
+          {
+            "label": "Used LED, grade A",
+            "part_ids": [
+              "V1-HL-R-LED-USED"
+            ]
+          }
+        ]
+      },
+      {
+        "component": "part_card",
+        "part_id": "V1-HL-BRKT",
+        "confidence": 0.7,
+        "mode": "suggest",
+        "reason_short": "Mounting bracket is often damaged with the headlight.",
+        "reason_long": "A new headlight is going on, and the bracket is cheap and returnable. Check the old one for cracks.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V1-FENDER-R",
+        "confidence": 0.65,
+        "mode": "suggest",
+        "reason_short": "Right wheel-arch liner may be damaged with the guard.",
+        "reason_long": "Guard damage often cracks the liner behind it. Check it when the guard is off.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I suggested the right guard and a couple of small parts. Pick new or used for the right headlight.",
+    "ms": 8734
+  }
+}

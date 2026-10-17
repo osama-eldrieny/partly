@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repair AI Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=5">
+<link rel="stylesheet" href="components.css?v=15">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;background:var(--s-surface-page);color:var(--s-text);font:15px/1.6 var(--p-font-sans);-webkit-font-smoothing:antialiased}
+a{color:var(--s-text);text-underline-offset:3px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--s-focus);outline-offset:2px;border-radius:4px}
+code,.mono{font-family:var(--p-font-mono);font-size:.92em}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px;max-width:1680px;margin:0 auto;padding:0 24px}
+nav.side{position:sticky;top:0;height:100vh;overflow:auto;padding:28px 0;display:flex;flex-direction:column;gap:2px}
+nav.side .logo{height:20px;color:var(--s-brand-mark);margin:0 10px 6px}
+nav.side .ds{font:500 11px var(--p-font-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--s-text-muted);margin:0 10px 22px}
+nav.side a{color:var(--s-text-muted);text-decoration:none;padding:6px 10px;border-radius:var(--p-radius-m);font-size:14px;transition:background var(--p-dur-fast),color var(--p-dur-fast)}
+nav.side a:hover{background:var(--s-surface-sunken);color:var(--s-text)}
+nav.side a.active{background:var(--s-surface-raised);color:var(--s-text);box-shadow:inset 2px 0 0 var(--s-unsure)}
+nav.side .grp{font:500 10px var(--p-font-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--s-text-muted);margin:16px 10px 4px}
+nav.side .bottom{margin-top:auto;display:flex;gap:8px;padding:12px 10px 0}
+.icon-btn{width:34px;height:34px;border-radius:var(--p-radius-m);border:1px solid var(--s-border);background:var(--s-surface-raised);display:grid;place-items:center}
+.icon-btn:hover{border-color:var(--s-text-muted)}
+main{padding:36px 0 120px;min-width:0}
+.mobile-top{display:none}
+.eyebrow{font:500 11px var(--p-font-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--s-text-muted)}
+h1{font-size:clamp(32px,4.5vw,48px);line-height:1.05;letter-spacing:-.035em;margin:10px 0 12px;font-weight:600}
+h2{font-size:28px;letter-spacing:-.025em;margin:6px 0 8px;font-weight:600}
+h3{font-size:18px;letter-spacing:-.01em;margin:0 0 4px;font-weight:600}
+.lead{color:var(--s-text-muted);font-size:17px;max-width:680px;margin:0}
+.redline{width:48px;height:3px;background:var(--s-unsure);margin:18px 0}
+section.doc{margin-top:72px}
+.sec-intro{color:var(--s-text-muted);max-width:700px;margin:0 0 24px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:28px}
+.stat{background:var(--s-surface-raised);border:1px solid var(--s-border);border-radius:var(--p-radius-l);padding:14px 16px}
+.stat b{display:block;font:500 24px var(--p-font-mono);letter-spacing:-.02em}
+.stat span{font-size:13px;color:var(--s-text-muted)}
+.files{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.file{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--s-border);background:var(--s-surface-raised);border-radius:var(--p-radius-m);padding:7px 12px;font:500 13px var(--p-font-mono);text-decoration:none;transition:border-color var(--p-dur-fast)}
+.file:hover{border-color:var(--s-text)}
+.file.primary{background:var(--s-text);color:var(--s-text-inverse);border-color:var(--s-text)}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.box{background:var(--s-surface-raised);border:1px solid var(--s-border);border-radius:var(--p-radius-l);padding:18px 20px}
+.box p{margin:6px 0 0;color:var(--s-text-muted);font-size:14px}
+.box .n{font:500 12px var(--p-font-mono);color:var(--s-unsure)}
+
+/* tokens */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--s-border);margin-bottom:14px;overflow-x:auto}
+.tabs button{border:0;background:none;padding:10px 14px;font-weight:500;color:var(--s-text-muted);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--s-text);border-bottom-color:var(--s-unsure)}
+table.tok{width:100%;border-collapse:collapse;background:var(--s-surface-raised);border:1px solid var(--s-border);border-radius:var(--p-radius-l);overflow:hidden;font-size:13px}
+table.tok th{text-align:left;font:500 11px var(--p-font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--s-text-muted);background:var(--s-surface-sunken);padding:10px 14px}
+table.tok td{padding:9px 14px;border-top:1px solid var(--s-border);vertical-align:middle}
+table.tok td:first-child{font-family:var(--p-font-mono)}
+table.tok td.ref{font-family:var(--p-font-mono);color:var(--s-text-muted)}
+.sw{display:inline-block;width:22px;height:22px;border-radius:6px;border:1px solid var(--s-border);vertical-align:middle;margin-right:8px}
+.chain{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font:13px var(--p-font-mono);margin:0 0 16px}
+.chain span{padding:6px 10px;border:1px solid var(--s-border);border-radius:var(--p-radius-m);background:var(--s-surface-raised)}
+.chain i{color:var(--s-text-muted);font-style:normal}
+
+/* components */
+.comp{margin-top:36px;padding-top:28px;border-top:1px solid var(--s-border)}
+.comp:first-of-type{border-top:0;padding-top:0}
+.comp-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.comp-head code{color:var(--s-text-muted)}
+.uses{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.uses>div{font-size:14px;padding:12px 14px;border-radius:var(--p-radius-m);background:var(--s-surface-sunken)}
+.uses>div>b{display:flex;align-items:center;gap:6px;font-size:12px;font-family:var(--p-font-mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.uses>.no>b{color:var(--s-unsure)}
+.states{display:grid;gap:14px}
+.states.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pv{border:1px dashed var(--s-border);border-radius:var(--p-radius-l);padding:14px;background:var(--s-surface-page)}
+.pv-label{font:500 11px var(--p-font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--s-text-muted);margin-bottom:10px;display:flex;justify-content:space-between;gap:8px}
+.pv .row{margin-top:8px}
+details.data{margin-top:10px}
+details.data summary{cursor:pointer;font:500 12px var(--p-font-mono);color:var(--s-text-muted)}
+pre{margin:8px 0 0;background:var(--s-surface-sunken);border-radius:var(--p-radius-m);padding:12px 14px;font:12px/1.55 var(--p-font-mono);overflow:auto;max-height:420px;white-space:pre-wrap;word-break:break-word}
+.inline-badges{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* rules (rendered from RULES.md) */
+.md h2{font-size:20px;margin:30px 0 8px}
+.md h1{display:none}
+.md p,.md li{color:var(--s-text);font-size:15px}
+.md ul{padding-left:20px}
+.md table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px;background:var(--s-surface-raised);border:1px solid var(--s-border)}
+.md th,.md td{border-top:1px solid var(--s-border);padding:8px 12px;text-align:left;vertical-align:top}
+.md th{background:var(--s-surface-sunken);font-weight:600}
+.md code{background:var(--s-surface-sunken);padding:1px 5px;border-radius:4px}
+
+.agent{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.step{display:flex;gap:12px}
+.step .k{font:500 12px var(--p-font-mono);width:26px;height:26px;border-radius:50%;background:var(--s-text);color:var(--s-text-inverse);display:grid;place-items:center;flex:none}
+footer{margin-top:72px;padding-top:20px;border-top:1px solid var(--s-border);font-size:13px;color:var(--s-text-muted)}
+
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr;gap:0;padding:0 16px}
+  nav.side{display:none}
+  .mobile-top{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:5;background:var(--s-surface-page);padding:12px 0;border-bottom:1px solid var(--s-border);overflow-x:auto}
+  .mobile-top a{white-space:nowrap;font-size:13px;color:var(--s-text-muted);text-decoration:none;border:1px solid var(--s-border);border-radius:99px;padding:5px 12px;background:var(--s-surface-raised)}
+  .g3,.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){.g2,.g3,.uses,.agent,.states.two{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+
+/* ---- Documentation theme: classic design-system docs (top bar, sidebar, canvas previews) ---- */
+:root{--doc-top:60px;--doc-accent:var(--s-unsure)}
+html{scroll-padding-top:84px}
+body{background:var(--s-surface-raised);font-size:15px}
+.topbar{position:sticky;top:0;z-index:20;height:var(--doc-top);display:flex;align-items:center;gap:20px;padding:0 24px;background:var(--s-surface-raised);border-bottom:1px solid var(--s-border)}
+.topbar .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--s-text)}
+.topbar .brand .logo-slot svg{height:20px;width:auto;color:var(--s-brand-mark);display:block}
+.topbar .brand .sep{width:1px;height:20px;background:var(--s-border)}
+.topbar .brand b{font-weight:600;font-size:15px}
+.topbar .ver{font:500 12px var(--p-font-mono);color:var(--s-text-muted);border:1px solid var(--s-border);border-radius:99px;padding:2px 8px}
+.topbar nav{display:flex;gap:4px;margin-left:24px}
+.topbar nav a{text-decoration:none;color:var(--s-text-muted);font-size:14px;font-weight:500;padding:8px 12px;border-radius:8px}
+.topbar nav a:hover{color:var(--s-text);background:var(--s-surface-sunken)}
+.topbar .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.topbar .search{display:flex;align-items:center;gap:8px;width:240px;height:36px;padding:0 12px;border:1px solid var(--s-border);border-radius:8px;background:var(--s-surface-page);color:var(--s-text-muted);font-size:14px}
+.topbar .search kbd{margin-left:auto;font:500 11px var(--p-font-mono);border:1px solid var(--s-border);border-radius:4px;padding:1px 5px;background:var(--s-surface-raised)}
+.layout{max-width:none;padding:0;gap:0;grid-template-columns:264px minmax(0,1fr)}
+nav.side{top:var(--doc-top);height:calc(100vh - var(--doc-top));padding:24px 16px;border-right:1px solid var(--s-border);background:var(--s-surface-page)}
+nav.side>.logo-slot,nav.side .ds{display:none}
+nav.side .grp{font:600 12px var(--p-font-sans);text-transform:none;letter-spacing:0;color:var(--s-text);margin:20px 10px 6px}
+nav.side a{font-size:14px;padding:7px 12px;border-radius:6px}
+nav.side a.active{background:var(--s-unsure-soft);color:var(--doc-accent);font-weight:500;box-shadow:none}
+main{padding:48px 56px 120px;max-width:1560px;width:100%}
+.eyebrow{font:600 13px var(--p-font-sans);text-transform:none;letter-spacing:0;color:var(--doc-accent)}
+h1{font-size:44px;font-weight:700;letter-spacing:-.03em;margin:8px 0 14px}
+h2{font-size:30px;font-weight:700;letter-spacing:-.02em}
+h3{font-size:18px;font-weight:600;line-height:1.3}.comp-head h3{font-size:22px}
+.redline{display:none}
+.lead{font-size:18px;line-height:1.6;max-width:760px;margin-bottom:24px}
+section.doc{margin-top:0;padding-top:56px;border-top:1px solid var(--s-border);margin-top:56px}
+.stat,.box{border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.stat b{font:700 28px var(--p-font-sans)}
+.box .n{font:600 12px var(--p-font-sans);color:var(--doc-accent)}
+.file{font:500 13px var(--p-font-sans);border-radius:8px}
+/* tabs: segmented control */
+.tabs{display:inline-flex;gap:2px;padding:3px;border:0;border-radius:10px;background:var(--s-surface-sunken)}
+.tabs button{border:0;margin:0;padding:7px 14px;border-radius:8px;font-size:14px}
+.tabs button[aria-selected="true"]{background:var(--s-surface-raised);color:var(--s-text);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+table.tok,.md table{border-radius:10px;border-collapse:separate;border-spacing:0}
+table.tok th{font:600 12px var(--p-font-sans);text-transform:none;letter-spacing:0;color:var(--s-text);background:var(--s-surface-page);border-bottom:1px solid var(--s-border)}
+table.tok td{border-top:0;border-bottom:1px solid var(--s-border)}
+table.tok tr:last-child td{border-bottom:0}
+/* component pages */
+.comp{margin-top:56px;padding-top:40px}
+.comp-head code{font-size:13px;background:var(--s-surface-sunken);padding:2px 8px;border-radius:6px}
+/* Do / Don't */
+.uses{gap:16px;margin:20px 0}
+.uses>div{background:var(--s-surface-raised);border:1px solid var(--s-border);border-top:4px solid var(--s-certain);border-radius:10px;padding:14px 16px}
+.uses>.no{border-top-color:var(--s-unsure)}
+.uses>div>b{font:600 14px var(--p-font-sans);text-transform:none;letter-spacing:0;color:var(--s-certain)}
+/* preview: labelled frame + dotted canvas */
+.states{gap:20px}
+.pv{border:1px solid var(--s-border);border-radius:12px;padding:0;background:var(--s-surface-raised);overflow:hidden}
+.pv-label{font:500 13px var(--p-font-sans);text-transform:none;letter-spacing:0;color:var(--s-text-muted);margin:0;padding:10px 16px;border-bottom:1px solid var(--s-border);background:var(--s-surface-raised)}
+.pv-label span::first-letter{text-transform:uppercase}
+.pv-canvas{padding:28px 24px;background-color:var(--s-surface-page);background-image:radial-gradient(var(--s-border) 1px,transparent 1px);background-size:16px 16px}
+details.data{margin:0;border-top:1px solid var(--s-border)}
+details.data summary{padding:10px 16px;font:500 13px var(--p-font-sans);color:var(--s-text-muted)}
+details.data summary:hover{color:var(--s-text)}
+details.data pre{margin:0;border-radius:0;background:#0f1115;color:#e6e6e6}
+pre{border-radius:10px}
+footer{margin-top:96px}
+@media (max-width:1100px){.topbar nav,.topbar .search{display:none}}
+@media (max-width:980px){main{padding:24px 16px 80px}.mobile-top{top:var(--doc-top);background:var(--s-surface-raised)}.layout{padding:0}}
+
+/* Do / Don't with visual examples */
+.uses>div{display:flex;flex-direction:column}
+.uses>div>p{margin:0 0 4px}
+.dd-ex{margin-top:12px;padding:20px;border-radius:8px;background-color:var(--s-surface-page);background-image:radial-gradient(var(--s-border) 1px,transparent 1px);background-size:16px 16px;pointer-events:none;flex:1}
+.uses .dd-ex.dont{box-shadow:inset 0 0 0 1px var(--s-unsure-soft)}
+.uses .dd-ex.do,.uses .dd-ex.dont{border:0;border-radius:8px;padding:20px}
+.dd-cap{display:flex;gap:6px;align-items:center;margin:8px 0 0!important;font-size:13px;color:var(--s-text-muted)}
+.no .dd-cap{color:var(--s-unsure)}
+.uses>.no>b{color:var(--s-unsure)}
+.ex-head{font:600 14px var(--p-font-sans);margin:28px 0 10px}
+.carbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 8px;padding:12px 16px;border:1px solid var(--s-border);border-radius:10px;background:var(--s-surface-page);font-size:14px}
+.carbar .plate{font:600 13px var(--p-font-mono);letter-spacing:.08em;padding:4px 10px;border:2px solid var(--s-text);border-radius:6px;background:var(--s-surface-raised)}
+.carbar .muted{margin-left:auto;color:var(--s-text-muted);font-size:13px}
+
+/* flow journey: service blueprint */
+.bp-wrap{overflow-x:auto;border:1px solid var(--s-border);border-radius:12px;background:var(--s-surface-raised)}
+.bp-wrap:focus-visible{outline:2px solid var(--s-focus)}
+.bp{display:grid;grid-template-columns:112px repeat(12,minmax(118px,1fr));min-width:1560px}
+.bp>div{padding:10px;border-top:1px solid var(--s-border);border-left:1px dashed var(--s-border);min-height:20px}
+.bp .lane{position:sticky;left:0;z-index:1;background:var(--s-surface-page);border-left:0;font:600 13px var(--p-font-sans);display:flex;flex-direction:column;justify-content:center;gap:2px}
+.bp .lane small{font-weight:400;color:var(--s-text-muted);font-size:11px}
+.bp .ph{border-top:0;background:var(--s-surface-page);font:600 12px var(--p-font-sans);color:var(--s-text-muted);text-transform:none;padding:8px 12px}
+.bp .ph b{color:var(--doc-accent)}
+.bp .hd{border-top:1px solid var(--s-border);display:flex;align-items:center;gap:8px;font:600 14px var(--p-font-sans);position:relative}
+.bp .hd .num{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--s-text);color:var(--s-text-inverse);font:600 11px var(--p-font-mono);flex:none}
+.bp .hd:not(.last)::after{content:"";position:absolute;right:-6px;top:50%;width:10px;height:10px;border-top:1.5px solid var(--s-text-muted);border-right:1.5px solid var(--s-text-muted);transform:translateY(-50%) rotate(45deg);background:var(--s-surface-raised);z-index:1}
+.bp .ai-col{background:var(--s-surface-page)}
+.bc{border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.4;border:1px solid var(--s-border);background:var(--s-surface-raised)}
+.bc code{font-size:11px;color:var(--s-text-muted);display:block;margin-top:4px}
+.bc.user{border-color:var(--s-text);border-width:1.5px}
+.bc.app{background:var(--s-surface-sunken);border-color:transparent}
+.bc.ai{background:var(--s-text);color:var(--s-text-inverse);border-color:var(--s-text)}
+.bc.ai code{color:var(--s-text-inverse);opacity:.7}
+.bc.ui{border-style:dashed}
+.bc.think{border:0;background:none;padding:0 2px;font-style:italic;color:var(--s-text-muted)}
+.bc.think::before{content:"\201C"}.bc.think::after{content:"\201D"}
+.bp .line-row{border-top:1px dashed var(--s-unsure);position:relative}
+.bp .lane.hd{align-items:flex-start;justify-content:center}
+.bp .line-tag{position:absolute;left:130px;top:-9px;font:600 10px var(--p-font-mono);color:var(--s-unsure);background:var(--s-surface-raised);padding:0 6px;letter-spacing:.06em;text-transform:uppercase}
+.bp-legend{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:12px;font-size:13px;color:var(--s-text-muted)}
+.bp-legend span{display:inline-flex;align-items:center;gap:6px}
+.lg{width:14px;height:14px;border-radius:4px;display:inline-block;border:1px solid var(--s-border)}
+.lg.user{border:1.5px solid var(--s-text)}.lg.app{background:var(--s-surface-sunken);border-color:transparent}.lg.ai{background:var(--s-text)}.lg.ui{border-style:dashed}
+.bp-fallback{flex-basis:100%}
+.bp-fallback b{color:var(--s-text);font-weight:600}
+/* file structure: IDE explorer */
+.ide{border:1px solid #2a2b2e;border-radius:12px;overflow:hidden;background:#141518;color:#d7d8db;font-size:13px}
+.ide-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#1c1d21;border-bottom:1px solid #2a2b2e}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:#3a3b40}
+.ide-title{font:500 12px var(--p-font-mono);color:#9a9ca3}
+.ide-meta{margin-left:auto;font:12px var(--p-font-mono);color:#7d7f86}
+.ide-body{display:grid;grid-template-columns:280px 1fr;min-height:420px}
+.ide-tree{border-right:1px solid #2a2b2e;padding:8px 0;font:13px/1 var(--p-font-mono)}
+.ide-tree .fold{display:flex;align-items:center;gap:6px;padding:7px 14px;color:#9a9ca3;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-family:var(--p-font-sans);font-weight:600;margin-top:6px}
+.ide-tree button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:8px;width:100%;padding:6px 14px 6px 26px;cursor:pointer;color:#d7d8db;position:relative}
+.ide-tree button::before{content:"";position:absolute;left:17px;top:0;bottom:0;border-left:1px solid #2f3035}
+.ide-tree button:hover{background:#1f2024}
+.ide-tree button[aria-selected="true"]{background:#26272c;color:#fff}
+.ide-tree button[aria-selected="true"]::after{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--p-red-300)}
+.ide-tree button:focus-visible{outline:2px solid var(--p-red-300);outline-offset:-2px}
+.ide-tree .ln{margin-left:auto;color:#6c6e75;font-size:11px}
+.ft{font:700 9px var(--p-font-mono);width:30px;text-align:center;padding:3px 0;border-radius:4px;flex:none;letter-spacing:.02em}
+.ft.css{background:#1e3a5f;color:#8cc2ff}.ft.js{background:#4a4114;color:#f5d76e}.ft.md{background:#2d3036;color:#c6c8ce}.ft.py{background:#1f3d33;color:#7fdcae}.ft.json{background:#3d2a14;color:#f5b36e}.ft.html{background:#4a1f1c;color:#ff9a8a}.ft.dir{background:#2d3036;color:#c6c8ce}.ft.env{background:#3a1a1c;color:#ff7a80}.ft.sh{background:#2d3036;color:#c6c8ce}
+.ide-detail{padding:22px 26px;display:flex;flex-direction:column;gap:16px}
+.ide-detail .path{display:flex;align-items:center;gap:10px;font:500 16px var(--p-font-mono);color:#fff}
+.ide-detail .what{font-size:15px;line-height:1.55;color:#c6c8ce;margin:0;max-width:640px}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:10px 16px;align-items:start}
+.kv dt{font:600 11px var(--p-font-sans);color:#7d7f86;text-transform:uppercase;letter-spacing:.08em;padding-top:3px}
+.kv dd{margin:0;display:flex;flex-wrap:wrap;gap:6px}
+.rd{font:500 12px var(--p-font-sans);padding:3px 9px;border-radius:99px;border:1px solid #3a3b40;color:#d7d8db}
+.rd.ai{background:#fff;color:#141518;border-color:#fff}
+.kv code{font-size:12px;background:#1f2024;border:1px solid #2f3035;border-radius:5px;padding:2px 7px;color:#d7d8db}
+.ide-detail .snip{margin:0;background:#0e0f11;border:1px solid #2a2b2e;border-radius:8px;padding:12px 14px;font:12px/1.6 var(--p-font-mono);color:#b9bbc0;max-height:none;white-space:pre-wrap}
+.ide-detail .warn{color:#ff9a8a;font-size:13px}
+.dep-h{margin:32px 0 12px;font-size:18px}
+.dep{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;position:relative}
+.dep-col h4{margin:0 0 10px;font:600 12px var(--p-font-sans);color:var(--s-text-muted)}
+.dep-col{display:flex;flex-direction:column;gap:8px;position:relative}
+.dep-col:not(:last-child)::after{content:"→";position:absolute;right:-22px;top:50%;font-size:18px;color:var(--s-text-muted)}
+.node{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid var(--s-border);border-radius:8px;background:var(--s-surface-raised);font:500 13px var(--p-font-mono);transition:border-color var(--p-dur-fast),opacity var(--p-dur-fast)}
+.node:hover{border-color:var(--s-text-muted)}
+.node:focus-visible{outline:2px solid var(--s-focus)}
+.node.on{border-color:var(--s-text);box-shadow:0 0 0 1px var(--s-text)}
+.node.rel{border-color:var(--s-text-muted)}
+.dep.focus .node:not(.on):not(.rel){opacity:.35}
+.node.ext{border-style:dashed;font-family:var(--p-font-sans)}
+@media (max-width:860px){.ide-body{grid-template-columns:1fr}.ide-tree{border-right:0;border-bottom:1px solid #2a2b2e}.dep{grid-template-columns:1fr 1fr}.dep-col::after{display:none}.kv{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#overview"><span class="logo-slot"></span><span class="sep"></span><b>Repair AI Design System</b></a>
+  <span class="ver">v0.3</span>
+  <nav aria-label="Main"><a href="#tokens">Foundations</a><a href="#components">Components</a><a href="#flow">How it works</a><a href="#contract">AI</a><a href="#rules">Guidelines</a></nav>
+  <div class="right"><a class="file primary" href="/">Open demo</a></div>
+</header>
+<div class="layout">
+<nav class="side" aria-label="Sections">
+  <span class="logo-slot"></span>
+  <div class="ds">Repair AI · Design system</div>
+  <a href="#overview">Overview</a>
+  <a href="#principles">Principles</a>
+  <div class="grp">Foundations</div>
+  <a href="#tokens">Tokens</a>
+  <a href="#icons">Icons</a>
+  <div class="grp">Components</div>
+  <a href="#c-badges">Mode badges</a>
+  <a href="#c-conf">Confidence meter</a>
+  <a href="#c-chips">Info chips</a>
+  <a href="#c-part">Part card</a>
+  <a href="#c-question">Question card</a>
+  <a href="#c-notfound">Not found card</a>
+  <a href="#c-quote">Quote row</a>
+  <a href="#c-source">Source label</a>
+  <a href="#c-tip">Tip</a>
+  <a href="#c-plate">Plate input</a>
+  <a href="#c-next">Next-step chips</a>
+  <a href="#c-sending">Sending steps</a>
+  <a href="#c-receipt">Receipt</a>
+  <a href="#c-track">Job tracker</a>
+  <a href="#c-guide">Repair guide</a>
+  <div class="grp">AI</div>
+  <a href="#flow">Flow journey</a>
+  <a href="#files">File structure</a>
+  <a href="#contract">AI contract</a>
+  <a href="#guard">Safety rule</a>
+  <a href="#rules">Rules &amp; guidelines</a>
+  <a href="#agents">For coding agents</a>
+  <div class="bottom">
+        <button class="icon-btn" id="theme" type="button" aria-label="Toggle theme"><svg class="i" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </div>
+</nav>
+
+<main>
+<div class="mobile-top"><a href="/">Demo</a><a href="#tokens">Tokens</a><a href="#c-part">Components</a><a href="#contract">AI contract</a><a href="#rules">Rules</a><a href="#agents">Agents</a></div>
+
+<section id="overview">
+  <div class="eyebrow">Unofficial concept by Osama Eldrieny · not a Partly product</div>
+  <h1>A design system whose heaviest user is an AI</h1>
+  <p class="lead">The AI in Repair AI never draws UI. It returns data, and the app renders it with the components on this page. Engineers and coding agents read the same tokens, components and rules, so the right choice is the default.</p>
+  <div class="redline"></div>
+  <div class="stats">
+    <div class="stat"><b id="statTokens">–</b><span>tokens in 2 tiers</span></div>
+    <div class="stat"><b>15</b><span>components, all live</span></div>
+    <div class="stat"><b>4</b><span>shapes the AI may return</span></div>
+    <div class="stat"><b id="statRules">–</b><span>written rules</span></div>
+  </div>
+  <div class="files">
+    <a class="file" href="tokens.css" target="_blank">tokens.css</a>
+    <a class="file" href="components.css" target="_blank">components.css</a>
+    <a class="file" href="components.js" target="_blank">components.js</a>
+    <a class="file" href="RULES.md" target="_blank">RULES.md</a>
+    <a class="file" href="/api/contract" target="_blank">/api/contract</a>
+  </div>
+  <p style="font-size:13px;color:var(--s-text-muted);margin-top:14px">Everything below is rendered from these files at load time. Change a token or a component and this page and the demo change together.</p>
+</section>
+
+<section class="doc" id="principles">
+  <div class="eyebrow">Principles</div><h2>Six decisions the whole system follows</h2>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="box"><div class="n">01</div><h3>The AI never draws UI</h3><p>It returns data in a fixed shape. The app chooses the component.</p></div>
+    <div class="box"><div class="n">02</div><h3>The cost of being wrong decides</h3><p>Cheap and sure: act. Unsure or expensive: suggest. Can't tell: ask.</p></div>
+    <div class="box"><div class="n">03</div><h3>The UI enforces the rule</h3><p>If the model breaks a rule, the component corrects it. Trust can't depend on the prompt.</p></div>
+    <div class="box"><div class="n">04</div><h3>Never a dead end</h3><p>Every "no" comes with a next step. Every AI decision has a one-tap way out.</p></div>
+    <div class="box"><div class="n">05</div><h3>Red means risk</h3><p>Red appears only where the user could lose money or time. Never as decoration.</p></div>
+    <div class="box"><div class="n">06</div><h3>The user's work survives</h3><p>An AI update never undoes a decision the user already made.</p></div>
+  </div>
+</section>
+
+<section class="doc" id="tokens">
+  <div class="eyebrow">Foundations</div><h2>Tokens</h2>
+  <p class="sec-intro">Two tiers. Primitives hold raw values; semantic tokens say what a colour means. Components take colours from semantic tokens only, so a new theme or brand changes token values, never components. Values shown are live for the current theme.</p>
+  <div class="chain" id="chain"></div>
+  <p style="margin:-6px 0 16px;font-size:13px;color:var(--s-text-muted)">Two token tiers: primitive (tier 1) and semantic (tier 2). The component class at the start and the resolved value at the end are not tiers, so the path has three steps.</p>
+  <div class="tabs" role="tablist"><button role="tab" aria-selected="false" data-tier="p">Tier 1 · Primitive</button><button role="tab" aria-selected="true" data-tier="s">Tier 2 · Semantic</button></div>
+  <table class="tok"><thead><tr><th>Token</th><th>Points to</th><th>Value now</th></tr></thead><tbody id="tokBody"></tbody></table>
+</section>
+
+<section class="doc" id="icons">
+  <div class="eyebrow">Foundations</div><h2>Icons</h2>
+  <p class="sec-intro">Lucide only, inlined so the product works offline. One stroke width, 13–16px. An icon always sits next to text, unless the same text is in an <code>aria-label</code>.</p>
+  <div class="box"><div class="inline-badges" id="iconGrid"></div></div>
+</section>
+
+<section class="doc" id="components">
+  <div class="eyebrow">Components</div><h2>Components</h2>
+  <p class="sec-intro">Each component is a function in <code>components.js</code>: data in, HTML out. These previews call the same functions the demo calls, with real demo data.</p>
+  <div class="carbar"><span class="plate">KXR482</span><span><b>2019 Toyota Corolla Hatchback</b> · ZR (LED headlights, front parking sensors)</span><span class="muted">Every example below uses this car</span></div>
+  <div id="compList"></div>
+</section>
+
+<section class="doc" id="flow">
+  <div class="eyebrow">How it works</div><h2>Flow journey: one job, plate to repair</h2>
+  <p class="sec-intro">A service blueprint for the Corolla job (plate KXR482). Each column is a step; each lane is who acts. The AI acts once, in step 4. Everything around it is the app and the design system.</p>
+  <div class="bp-wrap" tabindex="0" aria-label="Flow journey, scroll sideways"><div class="bp" id="bp"></div></div>
+  <div class="bp-legend"><span><i class="lg user"></i>User action</span><span><i class="lg app"></i>App / design system</span><span><i class="lg ai"></i>AI</span><span><i class="lg ui"></i>What's on screen</span><span class="bp-fallback"><b>If the AI is slow or down:</b> a recorded answer plays and the header turns from green "Live AI" to red "Offline replay".</span></div>
+</section>
+
+<section class="doc" id="files">
+  <div class="eyebrow">How it works</div><h2>File structure</h2>
+  <p class="sec-intro">Each file has one job and a clear reader. Pick a file to see what it does, who reads it, and what it connects to.</p>
+  <div class="ide">
+    <div class="ide-bar"><span class="dots"><i></i><i></i><i></i></span><span class="ide-title">partly-repair-demo</span><span class="ide-meta" id="ideMeta"></span></div>
+    <div class="ide-body">
+      <nav class="ide-tree" id="ideTree" aria-label="Files"></nav>
+      <div class="ide-detail" id="ideDetail" aria-live="polite"></div>
+    </div>
+  </div>
+  <h3 class="dep-h">How the files connect</h3>
+  <div class="dep" id="dep"></div>
+</section>
+
+<section class="doc" id="contract">
+  <div class="eyebrow">AI</div><h2>The AI contract</h2>
+  <p class="sec-intro">What the model is told, and the only shape it may answer in. Loaded live from the running server, so this is exactly what the demo sends.</p>
+  <div class="grid g2">
+    <div class="box"><h3>Instructions</h3><p id="cModel"></p><pre id="cInstr">Loading…</pre></div>
+    <div class="box"><h3>Output schema</h3><p>Structured output: the answer must validate against this.</p><pre id="cSchema">Loading…</pre></div>
+  </div>
+</section>
+
+<section class="doc" id="guard">
+  <div class="eyebrow">AI</div><h2>The safety rule, in code</h2>
+  <p class="sec-intro">In testing, the model auto-added a $320 tail light even though the instructions said only parts under $150 may be added automatically. So the rule lives in the component layer too. This is the live function from <code>components.js</code>:</p>
+  <pre id="guardCode"></pre>
+</section>
+
+<section class="doc" id="rules">
+  <div class="eyebrow">Guidelines</div><h2>Rules &amp; guidelines</h2>
+  <p class="sec-intro">Written for two readers: an engineer and a coding agent. If a rule is unclear to either, the rule is wrong. Rendered from <a href="RULES.md" target="_blank"><code>RULES.md</code></a>.</p>
+  <div class="md box" id="rulesMd">Loading…</div>
+</section>
+
+<section class="doc" id="agents">
+  <div class="eyebrow">AI</div><h2>For coding agents</h2>
+  <p class="sec-intro">How a coding agent (like Claude Code) builds a new Repair AI screen from this system without a designer in the room.</p>
+  <div class="agent">
+    <div class="box grid" style="gap:14px">
+      <div class="step"><span class="k">1</span><div><b>Read the rules first</b><p style="margin:2px 0 0">RULES.md and tokens.css are the source of truth.</p></div></div>
+      <div class="step"><span class="k">2</span><div><b>Use components, not markup</b><p style="margin:2px 0 0">Call the functions in components.js. Never rebuild a card by hand.</p></div></div>
+      <div class="step"><span class="k">3</span><div><b>Semantic colours only</b><p style="margin:2px 0 0">No hex values or colour primitives in components.</p></div></div>
+      <div class="step"><span class="k">4</span><div><b>Keep the guard</b><p style="margin:2px 0 0">Model output always passes through guard() before rendering.</p></div></div>
+    </div>
+    <div class="box"><h3>Example instruction for the agent</h3><pre>Build the "Order tracking" screen for Repair AI.
+
+Before writing code:
+- Read RULES.md and tokens.css.
+- Reuse components.js (partCard, chips, quoteRow).
+- Colours: semantic tokens only (--s-*). Space, radius, type, motion: primitives (--p-*).
+- Red = risk only (rule 8). Every action has an undo (rule 5).
+- Copy: plain words for a mechanic (rule 6).
+
+If a pattern you need doesn't exist, stop and
+propose a new component with "Use when / Never".</pre></div>
+  </div>
+</section>
+
+<footer>Repair AI design system · unofficial concept by Osama Eldrieny for an interview with Partly. Partly logo and colours from partly.com/brand. Fonts: Geist and Geist Mono as free stand-ins for FK Grotesk and Replica Mono.</footer>
+</main>
+</div>
+
+<script src="components.js?v=3"></script>
+<script>
+const $=s=>document.querySelector(s);
+const pretty=o=>JSON.stringify(o,null,2);
+
+/* ---------- Components catalogue ---------- */
+function preview(label,html,data){
+  return '<div class="pv"><div class="pv-label"><span>'+label+'</span></div><div class="pv-canvas">'+html+'</div>'+(data?'<details class="data"><summary>Show data</summary><pre>'+esc(pretty(data))+'</pre></details>':'')+'</div>';
+}
+function block(id,name,fn,desc,use,never,states,two,dd){
+  dd=dd||{};
+  const ex=(kind,html,cap)=>html?'<div class="dd-ex '+kind+'" aria-hidden="true">'+html+'</div>'+(cap?'<p class="dd-cap">'+cap+'</p>':''):'';
+  return '<article class="comp" id="'+id+'"><div class="comp-head"><h3>'+name+'</h3><code>'+fn+'</code></div><p style="color:var(--s-text-muted);margin:4px 0 0">'+desc+'</p>'
+    +'<div class="uses"><div class="yes"><b>'+ic('check','sm')+'Do</b><p>'+use+'</p>'+ex('do',dd.do,dd.doCap)+'</div><div class="no"><b>'+ic('ban','sm')+'Don\'t</b><p>'+never+'</p>'+ex('dont',dd.dont,dd.dontCap)+'</div></div>'
+    +'<p class="ex-head">Examples</p><div class="states'+(two?' two':'')+'">'+states.join('')+'</div></article>';
+}
+const line=(o)=>Object.assign({component:'part_card',confidence:.9,mode:'suggest',reason_short:'',reason_long:'',question:null,choices:[]},o);
+
+function buildComponents(){
+  const L={
+    sug:line({part_id:'V1-BMP-F-S',confidence:.85,reason_short:'ZR bumper with sensor holes fits this Corolla.'}),
+    risk:line({part_id:'V1-HL-L-LED',confidence:.93,reason_short:'ZR uses the LED headlight.',reason_long:'The plate says ZR trim, which has LED headlights. The halogen unit will not fit the wiring.'}),
+    guarded:guard(line({part_id:'V1-GUARD-L',mode:'auto',confidence:.92,reason_short:'Left front guard dented in the front hit.'})),
+    alts:Object.assign(line({part_id:'V1-HL-R-LED',confidence:.9,reason_short:'ZR uses the LED headlight.'}),{showAlts:true}),
+    noAlts:Object.assign(line({part_id:'V1-BONNET',confidence:.85,reason_short:'Bonnet creased at the front edge.'}),{showAlts:true}),
+    low:line({part_id:'V1-BMP-REINF',confidence:.6,reason_short:'Reinforcement bar may be bent; inspect first.',reason_long:'Front hits often bend the bar behind the bumper, but it can only be confirmed once the bumper is off.'}),
+    q:line({component:'question_card',part_id:null,confidence:.5,mode:'ask',question:'New or used front bumper?',reason_short:'Both fit this Corolla ZR; price and returns differ.',choices:[{label:'New bumper',part_ids:['V1-BMP-F-S']},{label:'Used, grade A',part_ids:['V1-BMP-F-S-USED']}]}),
+    nf:line({component:'not_found',part_id:null,reason_short:'No roof panel in the catalogue for this Corolla ZR.'}),
+    nfForm:Object.assign(line({component:'not_found',part_id:null,reason_short:'No roof panel in the catalogue for this Corolla ZR.'}),{state:'manual-form'}),
+    auto:line({part_id:'V1-CLIP-KIT',mode:'auto',confidence:.95,reason_short:'New clips needed whenever a bumper comes off.'}),
+    appr:Object.assign(line({part_id:'V1-BMP-ABS',confidence:.8,reason_short:'Absorber often cracks in a front hit.'}),{state:'added'}),
+    you:Object.assign(line({part_id:'V1-HL-R-LED',confidence:1,reason_short:'You chose: Right headlight, LED.'}),{state:'you'}),
+    nr:Object.assign(line({part_id:'V1-HL-L-LED',confidence:.93,reason_short:'ZR uses the LED headlight.'}),{state:'added'}),
+    rem:Object.assign(line({part_id:'V1-BMP-REINF',confidence:.6,reason_short:'Reinforcement bar may be bent.'}),{state:'removed'}),
+    pend:Object.assign(line({component:'not_found',part_id:null,reason_short:'No front number plate bracket found for this Corolla.'}),{state:'requested'})
+  };
+  const strip=o=>{const {showAlts,guarded,...r}=o;return r};
+  const out=[];
+  out.push(block('c-badges','Mode badges','.badge.auto · .badge.suggest · .badge.ask · .badge.you',
+    'Says who decided. Shown on every AI line, always with text, never colour alone.',
+    'Showing the mode of an AI line: added on its own, suggested, needs an answer, or chosen by the user.',
+    'Use badges for status that isn\'t about who decided (stock, returns): that\'s an info chip.',
+    [preview('All four modes','<div class="inline-badges"><span class="badge auto">Added · 95% sure</span><span class="badge suggest">Suggested</span><span class="badge ask">'+ic('help','sm')+' Needs your answer</span><span class="badge you">Chosen by you</span></div>')],false,{do:'<span class="badge suggest">Suggested</span>',doCap:'Says who decided.',dont:'<span class="badge ask">'+ic('ban','sm')+' Not returnable</span>',dontCap:'A mode badge used for a part fact.'}));
+  out.push(block('c-conf','Confidence meter','conf(line)',
+    'How sure the AI is. The number is the signal; the bar is a second, faster one. Three bands: 90%+ black (sure, the auto limit), 70–89% grey (fairly sure), below 70% red (check before adding).',
+    'Next to a suggestion, so the user knows how much checking it needs.',
+    'Show it without the number, or on lines the user chose themselves.',
+    [preview('Sure · fairly sure · check first','<div class="inline-badges">'+conf({confidence:.95})+conf({confidence:.8})+conf({confidence:.6})+'</div>')],false,{do:conf({confidence:.75}),doCap:'Number plus bar.',dont:'<span class="conf"><span class="bar"><i style="width:75%"></i></span></span>',dontCap:'Bar alone: how sure is that?'}));
+  out.push(block('c-chips','Info chips','chips(part) · supplier(part)',
+    'Facts about a part. Grey for normal facts, red for a risk to the user. Supplier shown as an initials avatar.',
+    'Delivery and stock: same place on every card, colour only changes. Risks below: not returnable, used.',
+    'One stock format: "N in stock". Red under 3, grey from 3 up. Every real risk shows red, with no cap per card.',
+    [preview('Normal facts',supplier(PDS.parts['V1-BMP-ABS'])+chips(PDS.parts['V1-BMP-ABS'])),
+     preview('Risks',supplier(PDS.parts['V1-HL-L-LED'])+chips(PDS.parts['V1-HL-L-LED'])),
+     preview('Used part: all risks red',supplier(PDS.parts['V1-BMP-F-S-USED'])+chips(PDS.parts['V1-BMP-F-S-USED'])),
+     preview('No stock: bonnet, 0 in stock',chips(Object.assign({},PDS.parts['V1-BONNET'],{stock:{}})))],true,{do:'<div class="chips">'+'<span class="ichip risk">'+ic('ban','sm')+'Not returnable</span>'+'<span class="ichip risk">'+ic('recycle','sm')+'Used part</span>'+'<span class="ichip"><span class="dot"></span>6 in stock</span>'+'<span class="ichip">'+ic('truck','sm')+'Today 4pm</span>'+'</div>',doCap:'Risks red; stock 3 or more grey.',dont:'<div class="chips">'+'<span class="ichip risk">'+ic('ban','sm')+'Not returnable</span>'+'<span class="ichip risk">'+ic('recycle','sm')+'Used part</span>'+'<span class="ichip risk">'+ic('alert','sm')+'Last one in stock</span>'+'<span class="ichip"><span class="dot"></span>1 in stock</span>'+'</div>',dontCap:'Two wordings for one fact ("Last one in stock" and "1 in stock").'}));
+  const XA=Object.assign(line({part_id:'V1-HL-L-LED',confidence:.95,reason_short:'ZR uses the LED headlight.'}),{state:'auto'});
+  const XB=Object.assign(line({part_id:'V1-BMP-ABS',confidence:.95,reason_short:'Absorber fits the front bumper.'}),{state:'auto'});
+  out.push('<article class="comp" id="c-part"><div class="comp-head"><h3>Part card</h3><code>needCard(line, i)</code></div>'
+    +'<p style="color:var(--s-text-muted);margin:4px 0 0">The one decision the user makes for each part: add it, swap it, or drop it. Lives in "Needs you".</p>'
+    +'<div style="margin:16px 0;padding:14px 16px;border-radius:12px;background:var(--s-surface-sunken);font-size:14px"><b>Why this layout:</b> between phone calls the user scans in this order: what is it, how much, where it comes from, is it in stock, what do I decide, then tap. Each card follows that order, so the eye always knows where to look.</div>'
+    +'<p class="ex-head" style="margin-top:0">Anatomy: five areas, top to bottom</p>'
+    +'<div style="display:grid;gap:8px;margin-bottom:16px">'
+    +[['1','Name and price','Part name on the left, price on the right. Price is always top-right.'],
+      ['2','Header row','Supplier, part number, delivery time, stock. Same place on every card. Only the colour changes: stock under 3 is red, 3 or more is grey.'],
+      ['3','Risk row','Only when a risk applies: Not returnable, Used part. Always red. Hidden when there is no risk, so the row never shows a placeholder.'],
+      ['4','Suggestion','"Suggested", the confidence bar with the percentage, and one line of reason. The full reason is behind "Why?".'],
+      ['5','Actions','Add to quote (the one primary action), Wrong part, Not needed. Same three, same order, on every card. No other actions.']
+     ].map(r=>'<div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;padding:10px 12px;border:1px solid var(--s-border);border-radius:10px"><span style="font:600 13px var(--p-font-mono);width:24px;height:24px;border-radius:50%;background:var(--s-text);color:var(--s-text-inverse);display:grid;place-items:center">'+r[0]+'</span><div><b>'+r[1]+'</b><div style="color:var(--s-text-muted);font-size:14px">'+r[2]+'</div></div></div>').join('')
+    +'</div>'
+    +'<div class="uses"><div class="yes"><b>'+ic('check','sm')+'Do</b>'
+      +'<ul style="margin:6px 0 0;padding-left:18px;font-size:14px"><li>One decision per card. The user always knows what the next tap is.</li><li>Keep price, delivery and stock where they are on every card.</li><li>Use red only for a real risk or stock under 3.</li><li>Say why in one line. Put the detail behind "Why?".</li><li>Keep the three actions in the same order.</li></ul>'
+      +'<div class="dd-ex do" aria-hidden="true">'+needCard(L.risk,0)+'</div><p class="dd-cap">Risk row only when it applies; stock stays in the header.</p></div>'
+    +'<div class="no"><b>'+ic('ban','sm')+'Don\'t</b>'
+      +'<ul style="margin:6px 0 0;padding-left:18px;font-size:14px"><li>Move price, delivery or stock to a different place on some cards.</li><li>Colour normal facts or stock of 3 and above red.</li><li>Use two wordings for one fact, such as "1 in stock" and "Last one in stock".</li><li>Add a fourth action, or a chat box, inside the card.</li><li>Show a card for a part that is already approved. That is a quote row.</li></ul>'
+      +'<div class="dd-ex dont" aria-hidden="true"><article class="card need" style="margin:0"><div class="need-head"><div class="need-id"><p class="title">Left headlight, LED</p></div><div class="need-price">$1,450 NZD</div></div>'
+      +'<div class="chips"><span class="ichip risk">Not returnable</span><span class="ichip risk">Last one in stock</span><span class="ichip">1 in stock</span><span class="ichip">Tomorrow 9am</span></div>'
+      +'<div class="need-meta"><span class="sup"><b aria-hidden="true">MO</b>Metro OEM Direct</span><span class="pn">DM-81150-L</span></div>'
+      +'<div class="need-ai"><div class="need-ai-top"><span class="badge suggest">Suggested</span></div>ZR uses the LED headlight.</div>'
+      +'<div class="need-actions"><button class="btn">Add to quote</button><button class="btn ghost">Wrong part</button><button class="btn ghost">Ask AI</button><button class="btn link">Not needed</button></div></article></div>'
+      +'<p class="dd-cap">Price moved away from the title, stock split into two wordings in the risk row, delivery moved into the risk row, and a fourth action. Every rule broken.</p></div></div>'
+    +'<p class="ex-head">In the quote, or not</p>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">'
+    +'<div style="border:1px solid var(--s-border);border-radius:12px;overflow:hidden"><div style="padding:10px 12px;background:var(--s-text);color:var(--s-text-inverse);font:600 13px var(--p-font-mono);text-transform:uppercase;letter-spacing:.06em">In the quote</div>'
+      +[['Sure 90%+, $150 or less, returnable','Added automatically. Undo visible, source shown.'],
+        ['User taps "Add to quote"','Added by you. Shows "You approved".']
+       ].map(r=>'<div style="padding:10px 12px;border-top:1px solid var(--s-border);font-size:14px"><b>'+r[0]+'</b><div style="color:var(--s-text-muted)">'+r[1]+'</div></div>').join('')
+    +'</div>'
+    +'<div style="border:1px solid var(--s-border);border-radius:12px;overflow:hidden"><div style="padding:10px 12px;background:var(--s-surface-sunken);color:var(--s-text);font:600 13px var(--p-font-mono);text-transform:uppercase;letter-spacing:.06em">Not in the quote</div>'
+      +[['Sure 90%+, over $150','Needs you: the user adds it with one tap.'],
+        ['Not returnable, any price or confidence','Needs you. Never added automatically.'],
+        ['Under 90% sure','Needs you: confirm, change, or not needed.'],
+        ['Out of stock (0 in stock)','Show "Ask suppliers for a price" instead.'],
+        ['User taps "Not needed"','Leaves the quote. "Add back" stays visible.']
+       ].map(r=>'<div style="padding:10px 12px;border-top:1px solid var(--s-border);font-size:14px"><b>'+r[0]+'</b><div style="color:var(--s-text-muted)">'+r[1]+'</div></div>').join('')
+    +'</div></div>'
+    +'<div class="uses"><div class="yes"><b>'+ic('check','sm')+'Do</b>'
+      +'<ul style="margin:6px 0 0;padding-left:18px;font-size:14px"><li>Add automatically only when all three hold: 90% or more sure, $150 or less, and returnable.</li><li>Show every auto-added item with its source and undo.</li><li>Keep anything the user must decide in "Needs you", not in the quote.</li></ul>'
+      +'<div class="dd-ex do" aria-hidden="true"><div class="quote">'+quoteRow(XB,0)+'</div></div>'
+      +'<p class="dd-cap">Auto-added: $78, returnable, 95% sure, in stock, undo visible.</p>'
+      +'<div class="dd-ex do" aria-hidden="true">'+needCard(L.guarded,0)+'</div>'
+      +'<p class="dd-cap">Model said "auto" for a $345 part: it stays a suggestion.</p></div>'
+    +'<div class="no"><b>'+ic('ban','sm')+'Don\'t</b>'
+      +'<ul style="margin:6px 0 0;padding-left:18px;font-size:14px"><li>Add a non-returnable part automatically, even at 99% sure.</li><li>Add anything over $150 just because the AI is confident.</li><li>Put an out-of-stock part in the quote.</li><li>Hide undo on an auto-added item, or remove a part with no "Add back".</li></ul>'
+      +'<div class="dd-ex dont" aria-hidden="true"><div class="quote">'+quoteRow(XA,0)+'</div></div>'
+      +'<p class="dd-cap">Non-returnable $1,450 part added automatically: wrong, it belongs in Needs you.</p></div></div>'
+    +'<p class="ex-head">States</p><div class="states two">'
+    +[preview('Suggested: fairly sure, user confirms',needCard(L.sug,0),strip(L.sug)),
+      preview('Risk: not returnable and 1 in stock, both shown',needCard(L.risk,0),strip(L.risk)),
+      preview('Low confidence: "Why?" opens the detail',needCard(L.low,0),strip(L.low)),
+      preview('Wrong part open: alternatives in the same slot',needCard(L.alts,0))].join('')
+    +'</div></article>');
+  out.push(block('c-question','Question card','questionCard(line, i)',
+    'The AI can\'t tell between options. One question, 2 or 3 one-tap choices; each choice can select several parts.',
+    'Two or more parts still fit after the vehicle and trim are known (new vs used bumper, halogen vs LED headlight).',
+    'Ask about the vehicle or trim (the plate gives it), or ask two questions one answer would settle.',
+    [preview('New or used',questionCard(L.q,0),strip(L.q))],true,{do:questionCard(L.q,0),doCap:'Two parts both fit; price and returns differ.',dont:questionCard(line({component:'question_card',question:'Which trim is this Corolla?',reason_short:'Bumper and headlight depend on the trim.',choices:[{label:'Ascent',part_ids:['V1-BMP-F-NS']},{label:'ZR',part_ids:['V1-BMP-F-S']}]}),0),dontCap:'The plate already gave the trim.'}));
+  out.push(block('c-notfound','Not found card','notFoundCard(line, i)',
+    'Example: the estimator enters a Corolla ZR with a dented roof panel, but the catalogue has no roof panel for that trim. The AI does not guess a part. The user chooses one of three: ask suppliers, add the part, or say not needed.',
+    'Use it only when the catalogue has no matching part for this car and damage. The car is always known, so this card is never about the car.',
+    'Out of stock is not this card. A part that exists but has 0 in stock stays a part card, shown with a red "0 in stock" chip.',
+    [preview('Default',notFoundCard(L.nf,0),strip(L.nf)),preview('Adding manually',notFoundCard(L.nfForm,0))],true,{do:notFoundCard(L.nf,0),doCap:'Corolla ZR is known. The catalogue has no roof panel for it, so the AI does not guess.',dont:notFoundCard(line({component:'not_found',reason_short:'Bonnet exists, but 0 in stock.'}),0),dontCap:'Wrong: the bonnet exists in the catalogue. It is out of stock, so it stays a part card.'}));
+  out.push(block('c-quote','Quote row','quoteRow(line, i) · pendingRow(line, i)',
+    'One compact row per part on the quote, like an invoice. Says who added it, keeps Undo one tap away, expands for details.',
+    'A part is on the quote: auto-added, approved, chosen, removed, or waiting for a supplier price.',
+    'Hide auto-added parts. They are quiet, but always visible and undoable.',
+    [preview('All row states','<div class="quote">'+quoteRow(L.auto,0)+quoteRow(L.appr,0)+quoteRow(L.you,0)+quoteRow(L.nr,0)+pendingRow(L.pend,0)+'<div class="qlabel">Not needed</div>'+quoteRow(L.rem,0)+'</div>')],false,{do:'<div class="quote">'+quoteRow(L.auto,0)+'</div>',doCap:'Auto-added, visible, one tap to undo.',dont:'<div class="quote"><div class="qlabel" style="border-top:0">3 more parts added automatically</div></div>',dontCap:'Auto-added parts hidden from the user.'}));
+  out.push(block('c-source','Source label','sourceLabel(line, part)',
+    'Answers "how did this part get on my quote?" Who first, then what they did. Only "Added by AI" stands out, because it\'s the one part the user never looked at. Hover for a one-line explanation.',
+    'On every quote row: Added by AI, You approved, You chose, You added, or Waiting for price.',
+    'Use jargon ("Auto"), a bare "You", or confidence on the quote ("AI 95%"). Don\'t mix a status and a source in one label.',
+    [preview('All five labels','<div class="inline-badges">'+sourceLabel(L.auto,null,'ai')+sourceLabel(L.appr,null,'approved')+sourceLabel(L.you,null,'chose')+sourceLabel(L.you,null,'manual')+sourceLabel(L.pend,null,'waiting')+'</div>'),
+     preview('In the quote header','<h3 class="sec-h" style="margin:0;display:flex;gap:8px;align-items:center;font-size:16px">On the quote <span class="who">5</span><span style="font:400 13px var(--p-font-sans);color:var(--s-text-muted)">1 added by AI: check before sending</span></h3>')],true,
+    {do:'<div class="inline-badges">'+sourceLabel(L.auto,null,'ai')+sourceLabel(L.appr,null,'approved')+'</div>',doCap:'Who did it, and what they did.',
+     dont:'<div class="inline-badges"><span class="who">'+ic('sparkles','sm')+'Auto</span><span class="who">'+ic('user','sm')+'You</span><span class="who">AI 95%</span></div>',dontCap:'Auto what? You did what? Confidence on the quote.'}));
+  out.push(block('c-tip','Tip','.tip',
+    'Practical advice from the AI that isn\'t a part.',
+    'Something the repairer should check, like sensors behind a bumper.',
+    'Use it for a missing part (that\'s not_found) or to repeat what a card says.',
+    [preview('Tip','<div class="tip">'+ic('help','sm')+'<span><b>Tip:</b> Check the front parking sensors for damage.</span></div>')],false,{do:'<div class="tip" style="margin-top:0">'+ic('help','sm')+'<span><b>Tip:</b> Check the front parking sensors for damage.</span></div>',doCap:'Advice that isn\'t a part.',dont:'<div class="tip" style="margin-top:0">'+ic('help','sm')+'<span><b>Tip:</b> No right LED headlight found for this Corolla.</span></div>',dontCap:'A missing part hidden in a tip.'}));
+  /* ---------- After sending: the job keeps going ---------- */
+  const sendLi=(st,a,b)=>'<li class="'+st+'"><span class="dot"></span><div><b>'+a+'</b><small>'+(b||'')+'</small></div></li>';
+  const sending=(sts)=>'<section class="sending" style="margin:0"><h3>'+ic('send','sm')+' Sending quote</h3><ul>'
+    +sendLi(sts[0],'Checking the quote','3 parts, 1 price pending, nothing waiting on you')
+    +sendLi(sts[1],'Holding 2 parts with Metro OEM Direct',sts[1]==='done'?'Held for 24 hours · arrives Tomorrow 9am':'')
+    +sendLi(sts[2],'Asking 5 suppliers to price: Front plate bracket',sts[2]==='done'?'Request sent · replies usually within the hour':'')
+    +sendLi(sts[3],'Sending Q-4821 to the customer for approval',sts[3]==='done'?'Sent':'')+'</ul></section>';
+  const rcRow=(n,p,nr)=>'<div class="rc-row"><span class="nm">'+n+'</span>'+(nr?'<span class="ichip risk">'+ic('ban','sm')+'Not returnable</span>':'')+'<span class="pr">'+p+'</span></div>';
+  const receipt='<section class="receipt" style="margin:0;animation:none"><div class="rc-head"><span class="rc-ok">'+ic('check')+'</span><div><h2>Quote Q-4821 sent</h2><p>2019 Toyota Corolla Hatchback ZR · KXR482 · waiting for customer approval</p></div></div>'
+    +'<div class="rc-list"><div class="rc-sup"><span class="sup"><b aria-hidden="true">MO</b>Metro OEM Direct</span><span class="rc-eta">'+ic('truck','sm')+'Tomorrow 9am</span></div>'
+    +rcRow('Front bumper cover (with sensor holes)','$585 <span class="cur">NZD</span>')+rcRow('Left headlight, LED','$1,450 <span class="cur">NZD</span>',true)
+    +'<div class="rc-sup"><span class="sup"><b aria-hidden="true">NA</b>Northside Auto Parts</span><span class="rc-eta">'+ic('truck','sm')+'Today 2pm</span></div>'+rcRow('Bumper clip and fastener kit','$24 <span class="cur">NZD</span>')
+    +'<div class="rc-sup"><span class="sup"><b aria-hidden="true">5</b>5 suppliers asked</span></div><div class="rc-row"><span class="nm">Front plate bracket</span><span class="pr muted">Price pending</span></div>'
+    +'<div class="qfoot"><span>Total <small>· incl. GST · excludes pending price</small></span><b>$2,059 <span class="cur">NZD</span></b></div></div>'
+    +'<p class="rc-demo">Demo: nothing was sent to a customer or supplier.</p></section>';
+  const tk=(st,icon,t,d,w)=>'<li class="'+st+'"><span class="tk">'+(st==='done'?ic('check','sm'):ic(icon,'sm'))+'</span><div><b>'+t+'</b><small>'+d+'</small></div><em>'+w+'</em></li>';
+  const track=s=>'<ol class="track">'+[
+    ['check','Quote built','Checked by you, line by line'],['send','Sent to the customer','Q-4821 · 1 price still pending'],['user','Customer approves','Parts are held for you for 24 hours'],
+    ['truck','Parts ordered','Northside Auto Parts (1) · Metro OEM Direct (2)'],['car','Parts arrive','Today 2pm · Northside Auto Parts<br>Tomorrow 9am · Metro OEM Direct'],['wrench','Repair and close the job','Guided repair, step by step']
+  ].map(([i,t,d],k)=>tk(k<s?'done':k===s?'now':'next',i,t,d,k<s?'Done':k===s?'Now':'')).join('')+'</ol>';
+  const gStep=(st,n,t,h,body)=>'<li class="'+st+'"><div class="g-row"><span class="g-n">'+(st==='done'?ic('check','sm'):n)+'</span><b>'+t+'</b><em>'+h+' h</em></div>'+(body||'')+'</li>';
+  const guide=(img)=>'<div class="g-body"><div class="g-fig has-img"><img class="g-img" alt="Replace the left headlight" src="shots/repair/'+img+'.jpg"><p class="g-figcap">Highlighted: where this step happens</p></div><ol class="g-steps">'
+    +gStep('done',1,'Remove the front bumper cover','0.6')
+    +gStep('now',2,'Replace the left headlight','0.6','<div class="g-detail"><p>3 bolts. Move the connector across and check the lights work before refitting.</p><div class="g-actions"><button type="button" class="btn ghost">Back</button><button type="button" class="btn">'+ic('check','sm')+' Done</button></div></div>')
+    +gStep('next',3,'Aim the headlights','0.3')+'</ol></div>';
+  const inspect='<ol class="g-steps">'+gStep('now',8,'Final inspection','0.2','<div class="g-detail"><p>Check gaps, lights and sensors. Add a photo for the job record.</p><button type="button" class="g-photo">'+ic('camera','sm')+'Add a photo for the job record</button><div class="g-actions"><button type="button" class="btn" disabled>'+ic('check','sm')+' Inspection passed</button></div></div>')+'</ol>';
+  const nextChips=(arr)=>'<div class="row" style="gap:8px;flex-wrap:wrap">'+arr.map((t,k)=>'<button type="button" class="chip'+(k===0&&!/next job/.test(t)?' primary':'')+'">'+t+'</button>').join('')+'</div>';
+
+  out.push(block('c-plate','Plate input','.plate-in',
+    'The first step of every job. The plate gives the car and trim, so the AI never has to ask.',
+    'Starting a job. One field, NZ strip, the same 48px height as the Look up button.',
+    'Ask for make, model and trim when the plate already gives them. Let light show at the corners: the strip and border share one colour.',
+    [preview('Empty','<div class="plate-row"><label class="plate-in"><span>NZ</span><input placeholder="ABC123" aria-label="Number plate"></label><button type="button" class="btn lg">Look up</button></div>'),
+     preview('Filled','<div class="plate-row"><label class="plate-in"><span>NZ</span><input value="KXR482" aria-label="Number plate"></label><button type="button" class="btn lg">Look up</button></div>')],true,
+    {do:'<label class="plate-in"><span>NZ</span><input value="KXR482" aria-label="Number plate"></label>',doCap:'Plate gives car and trim.',dont:'<div class="row" style="gap:6px"><span class="chip">Toyota</span><span class="chip">Corolla</span><span class="chip">2019</span><span class="chip">ZR?</span></div>',dontCap:'Asking what the plate already knows.'}));
+  out.push(block('c-next','Next-step chips','.chip · .chip.primary',
+    'One-tap next steps above the input. They change with the stage of the job, so the user never wonders what to do next.',
+    'After sending: approve, change the quote, parts arrived, start the repair guide, start the next job. The first real step is primary.',
+    'Show steps that aren\'t possible yet, or more than 3 chips. Don\'t lock the input while the quote can still change.',
+    [preview('Quote sent','<div style="display:grid;gap:10px">'+nextChips(['Customer approved: order the parts','Change this quote','Start next job'])+'</div>'),
+     preview('Parts arrived',nextChips(['Start the repair guide','Start next job']))],true,
+    {do:nextChips(['All parts arrived','Start next job']),doCap:'Only what can happen next.',dont:nextChips(['Customer approved','Parts arrived','Start repair','Close job','Next job']),dontCap:'Every future step at once.'}));
+  out.push(block('c-sending','Sending steps','.sending',
+    'Shows what Send actually does, one step at a time. The wait is visible, never a silent spinner.',
+    'After the user taps Send: check the quote, hold parts per supplier, ask suppliers for pending prices, send to the customer.',
+    'Show a spinner with no words, or AI internals ("validating schema").',
+    [preview('In progress',sending(['done','done','now','next'])),preview('Done',sending(['done','done','done','done']))],true,
+    {do:'<section class="sending" style="margin:0"><ul>'+sendLi('done','Holding 2 parts with Metro OEM Direct','Held for 24 hours')+'</ul></section>',doCap:'Says what happened, in the user\'s words.',dont:'<section class="sending" style="margin:0"><ul>'+sendLi('now','Processing…','')+'</ul></section>',dontCap:'A spinner that says nothing.'}));
+  out.push(block('c-receipt','Receipt','.receipt · .rc-*',
+    'What the user gets after sending: parts grouped by supplier with arrival time, risk chips, the total and the job progress.',
+    'Right after sending. Group by supplier, show the earliest arrival, keep "Not returnable" visible.',
+    'Show AI internals: confidence, source labels, the $150 rule, build time. The user cares about the job, not how the AI made it.',
+    [preview('Sent',receipt)],false,
+    {do:'<div class="rc-list">'+rcRow('Left headlight, LED','$1,450 <span class="cur">NZD</span>',true)+'</div>',doCap:'Facts the user acts on.',dont:'<div class="rc-list"><div class="rc-row"><span class="nm">Left headlight, LED</span><span class="who ai">'+ic('sparkles','sm')+'Added by AI</span><span class="pr">93% sure</span></div></div>',dontCap:'How the AI built it. Not useful after sending.'}));
+  out.push(block('c-track','Job tracker','.track',
+    'The whole job after the quote, in 6 steps. Each step is done, now, or next; only one is "now".',
+    'Inside the receipt. Moved forward by the next-step chips: approve, order, arrive, repair, close.',
+    'Show two "now" steps, or end the job at "Sent". The job ends when the car is fixed.',
+    [preview('Waiting for the customer',track(2)),preview('Repairing',track(5))],true,
+    {do:track(2).replace(/<li class="(done|next)">[\s\S]*?<\/li>/g,'').replace('<ol','<ol style="margin:0"'),doCap:'One clear "now".',dont:'<ol class="track"><li class="now"><span class="tk">'+ic('send','sm')+'</span><div><b>Sent</b></div><em>Now</em></li><li class="now"><span class="tk">'+ic('truck','sm')+'</span><div><b>Ordering</b></div><em>Now</em></li></ol>',dontCap:'Two steps at once.'}));
+  out.push(block('c-guide','Repair guide','.guide · .g-*',
+    'Step-by-step repair built from the parts on the quote and the trim. One step open at a time with its image, time and one warning.',
+    'After the parts arrive. The final inspection needs a photo before "Inspection passed".',
+    'Use a fixed list for every job, or skip the OEM note: "Illustrative steps for the demo. A real job follows the OEM repair procedure."',
+    [preview('Current step',guide('v1-hl-left')),preview('Final inspection',inspect)],true,
+    {do:'<div class="g-fig has-img"><img class="g-img" alt="Left headlight highlighted" src="shots/repair/v1-hl-left.jpg"></div>',doCap:'Car\'s own left side, part in red, no frame.',dont:'<div class="g-fig"><img class="g-img" alt="Right headlight highlighted by mistake" src="shots/repair/v1-hl-right.jpg" style="max-width:220px"></div>',dontCap:'"Left headlight" step showing the right one, small in a dotted frame.'}));
+  $('#compList').innerHTML=out.join('');
+  $('#compList').addEventListener('click',e=>{if(e.target.closest('button'))e.preventDefault()});
+  $('#compList').addEventListener('submit',e=>e.preventDefault());
+}
+
+
+/* ---------- Flow journey (service blueprint) ---------- */
+function buildFlow(){
+  const phases=[['Set up',2],['AI drafts',3],['Review',2],['Send',1],['After sending',4]];
+  const steps=[
+    {h:'Enter plate',user:['Types plate <b>KXR482</b>'],app:['Looks up car + trim','catalog.json → plates'],ui:'Plate step → car card',think:'Which Corolla is this?'},
+    {h:'Describe damage',user:['"Front bumper hit, left headlight cracked"'],ui:'Composer + quick actions',think:'Just say what I see.'},
+    {h:'Send to AI',app:['Sends car, trim, message, catalogue, rules, schema','server.py → /api/estimate'],ui:'Waiting steps',think:'Is it working?'},
+    {h:'AI drafts',ai:['Returns 4 shapes: part ID, mode, confidence, reason','Claude Sonnet 5.5 · structured output'],ui:'Waiting steps'},
+    {h:'Check',app:['Drops unknown parts · risky auto → suggest · fills price, stock, supplier','clean() · guard()']},
+    {h:'Show',app:['Splits into Needs you / On the quote','render()'],ui:'Part card · Question card · Not found · Tip · Quote row',think:'What do I need to check?'},
+    {h:'Correct',user:['Add · Wrong part · Not needed · answer · ask suppliers'],app:['Keeps every user decision on updates','carryOver()'],ai:['Full new list on a follow-up message'],ui:'Source labels: You approved · You chose',think:'Easy to fix.'},
+    {h:'Send',user:['Sends the quote'],app:['Enabled only when Needs you is empty'],ui:'Total · "1 added by AI" · Send',think:'I checked the AI parts.'},
+    {h:'Sending',app:['Holds parts per supplier · asks 5 suppliers for pending prices · sends to the customer','sendQuote()'],ui:'Sending steps → Receipt',think:'I can see what Send did.'},
+    {h:'Approve',user:['Customer approves'],app:['Orders the held parts','nextStep(\'approve\')'],ui:'Job tracker · next-step chips',think:'What happens next is obvious.'},
+    {h:'Parts arrive',user:['Taps "All parts arrived"'],app:['Earliest arrival first','etaRank()'],ui:'Job tracker'},
+    {h:'Repair',user:['Follows the steps · adds a photo · closes the job'],app:['Steps from the quoted parts + trim','repairSteps()'],ui:'Repair guide · step images',think:'I know how to fix this car.'}
+  ];
+  const cell=(c,k,ai)=>'<div'+(ai?' class="ai-col"':'')+'>'+(c?'<div class="bc '+k+'">'+c[0]+(c[1]?'<code>'+c[1]+'</code>':'')+'</div>':'')+'</div>';
+  let h='<div class="ph" style="position:sticky;left:0;z-index:2"></div>'+phases.map(([n,span],k)=>'<div class="ph" style="grid-column:span '+span+'"><b>'+String(k+1).padStart(2,'0')+'</b> · '+n+'</div>').join('');
+  h+='<div class="lane hd" style="border-top:1px solid var(--s-border)">Step</div>'+steps.map((s,k)=>'<div class="hd'+(k===3?' ai-col':'')+(k===steps.length-1?' last':'')+'"><span class="num">'+(k+1)+'</span>'+s.h+'</div>').join('');
+  const lanes=[['user','User','Repair estimator'],['ui','On screen','Design system'],['line'],['app','App','Front end + server'],['ai','AI','Claude'],['think','Thinking','What the user feels']];
+  lanes.forEach(([k,n,sub])=>{
+    if(k==='line'){h+='<div class="lane line-row" style="grid-column:1/-1;min-height:0;padding:0"><span class="line-tag">Line of visibility · below is hidden from the user</span></div>';return}
+    h+='<div class="lane">'+n+'<small>'+sub+'</small></div>'+steps.map((s,i)=>cell(k==='ui'?(s.ui?[s.ui]:null):k==='think'?(s.think?[s.think]:null):s[k],k,i===3)).join('');
+  });
+  $('#bp').innerHTML=h;
+}
+/* ---------- File structure (explorer + dependency map) ---------- */
+const FILES=[
+  {g:'Design system',f:'tokens.css',t:'css',ln:57,what:'Two tiers of tokens. Primitives hold raw values; semantic tokens say what a colour means. Light and dark themes.',readers:['Engineers','Coding agents'],uses:[],usedBy:['components.css','index.html','system.html','presentation.html'],key:['--p-* primitives','--s-* semantic','--s-unsure = risk','--s-live = status'],snip:'--s-unsure: var(--p-red-600);  /* AI needs the user */'},
+  {g:'Design system',f:'components.css',t:'css',ln:113,what:'Styles for every component. Takes colours from semantic tokens only.',readers:['Engineers','Coding agents'],uses:['tokens.css'],usedBy:['index.html','system.html'],key:['.card','.badge','.ichip','.conf','.qrow','.who'],snip:'.ichip.risk{background:var(--s-unsure-soft);color:var(--s-unsure)}'},
+  {g:'Design system',f:'components.js',t:'js',ln:129,what:'The core AI components as functions: data in, HTML out. Also guard(), the safety rule, and the 2-red-chip limit.',readers:['Engineers','Coding agents'],uses:['catalog.json'],usedBy:['index.html','system.html'],key:['needCard()','questionCard()','notFoundCard()','quoteRow()','sourceLabel()','chips()','guard()'],snip:"if(line.mode==='auto'&&(line.confidence<0.9||p.price>=150||!p.returnable))\n  return {...line,mode:'suggest',guarded:true};"},
+  {g:'Design system',f:'RULES.md',t:'md',ln:84,what:'15 written rules: shapes, modes, confidence, corrections, copy, layout, chips, icons, saying no, source labels, after sending, repair guide, small inputs. The AI prompt follows the same rules.',readers:['Engineers','Coding agents','AI'],uses:[],usedBy:['server.py','system.html'],key:['§2 What the AI can return','§3 Modes','§8 Chips','§12 Source labels','§13 After sending','§14 Repair guide']},
+  {g:'Design system',f:'system.html',t:'html',ln:569,what:'This page. Renders tokens, components, Do / Don\'t, the AI contract and the rules live from the files above.',readers:['Designers','Engineers'],uses:['tokens.css','components.css','components.js','RULES.md','catalog.json','server.py'],usedBy:[],key:['/api/contract','RULES.md renderer','live previews']},
+  {g:'AI',f:'server.py',t:'py',ln:233,what:'The system prompt, the output schema, clean() and the Claude API call. Keeps the API key on the server, never in the page.',readers:['Engineers'],uses:['catalog.json','RULES.md','.env','Claude API'],usedBy:['index.html','system.html'],key:['SYSTEM prompt','SCHEMA (4 shapes)','clean()','/api/estimate','/api/replays'],snip:'MODEL = "claude-sonnet-5-5"\n# output must match SCHEMA or it never reaches the screen'},
+  {g:'AI',f:'catalog.json',t:'json',ln:940,what:'5 cars, 64 parts, 5 suppliers, 7 plates. Prices in NZD incl. GST (estimates). The AI only picks part IDs; the app reads prices from here.',readers:['AI','App'],uses:[],usedBy:['server.py','index.html','system.html'],key:['vehicles[].trims','parts[].fits','parts[].returnable','plates']},
+  {g:'AI',f:'replays/',t:'dir',ln:14,lnLabel:'14 files',what:'Recorded real answers from the AI, matched by car and trim. Played when the AI is slow, down, or with ?replay=1.',readers:['App'],uses:['server.py'],usedBy:['index.html'],key:['v1-front-bumper-hit-left-headlight-cracked.json','…']},
+  {g:'AI',f:'.env',t:'env',ln:1,what:'The Anthropic API key. Read only by server.py. Never served and never committed (it\'s in .gitignore).',readers:['Server only'],uses:[],usedBy:['server.py'],key:['ANTHROPIC_API_KEY'],warn:'Secret: never publish.'},
+  {g:'Product',f:'index.html',t:'html',ln:480,what:'The demo: plate, composer, Needs you, On the quote, Send, then receipt, job tracker and repair guide. Keeps user decisions when the AI updates (carryOver).',readers:['Users'],uses:['tokens.css','components.css','components.js','server.py','catalog.json','repair-steps.js','shots/repair/'],usedBy:[],key:['render()','carryOver()','sendQuote()','renderTrack()','renderGuide()']},
+  {g:'Product',f:'repair-steps.js',t:'js',ln:150,what:'Repair steps for all 5 cars. Each step says which parts and trims it needs, its time, one warning, and the image prompt. repairSteps() builds a job\'s guide from the quoted parts.',readers:['Engineers','Coding agents'],uses:[],usedBy:['index.html'],key:['REPAIR_STEPS','repairSteps()','REPAIR_INSPECT','REPAIR_BASE prompt'],snip:"{id:'v1-hl-left', t:'Replace the left headlight', h:0.6,\n when:has=>has('HL-L'), w:null}"},
+  {g:'Product',f:'shots/repair/',t:'dir',ln:67,lnLabel:'66 images',what:'One image per repair step, all 5 cars. PROMPTS.md holds the prompt for each. Left and right are the car\'s own sides.',readers:['Users'],uses:['repair-steps.js'],usedBy:['index.html'],key:['v1-bumper-off.jpg','…','PROMPTS.md']},
+  {g:'Product',f:'presentation.html',t:'html',ln:354,what:'The presentation: context, the live demo, and the design-system rules behind it.',readers:['Presenter'],uses:['tokens.css'],usedBy:[],key:['16 slides','#n links']},
+  {g:'Product',f:'start.command',t:'sh',ln:2,what:'Double-click to start the local server on port 8791.',readers:['Presenter'],uses:['server.py'],usedBy:[],key:[]}
+];
+const ftLabel={css:'CSS',js:'JS',md:'MD',py:'PY',json:'JSON',html:'HTML',dir:'DIR',env:'ENV',sh:'SH'};
+const READER_AI=['AI'];
+function showFile(name){
+  const f=FILES.find(x=>x.f===name);if(!f)return;
+  document.querySelectorAll('#ideTree button').forEach(b=>b.setAttribute('aria-selected',b.dataset.f===name));
+  const chips=a=>a.length?a.map(x=>'<code>'+esc(x)+'</code>').join(''):'<span style="color:#6c6e75">—</span>';
+  $('#ideDetail').innerHTML='<div class="path"><span class="ft '+f.t+'">'+ftLabel[f.t]+'</span>'+esc(f.f)+'</div>'
+    +'<p class="what">'+esc(f.what)+'</p>'+(f.warn?'<div class="warn">'+esc(f.warn)+'</div>':'')
+    +'<dl class="kv"><dt>Read by</dt><dd>'+f.readers.map(r=>'<span class="rd'+(READER_AI.includes(r)?' ai':'')+'">'+esc(r)+'</span>').join('')+'</dd>'
+    +'<dt>Uses</dt><dd>'+chips(f.uses)+'</dd><dt>Used by</dt><dd>'+chips(f.usedBy)+'</dd>'
+    +(f.key.length?'<dt>Key parts</dt><dd>'+chips(f.key)+'</dd>':'')+'</dl>'
+    +(f.snip?'<pre class="snip">'+esc(f.snip)+'</pre>':'');
+  $('#ideMeta').textContent=f.f+' · '+(f.lnLabel||f.ln+' lines');
+  const rel=new Set([...f.uses,...f.usedBy]);
+  $('#dep').classList.add('focus');
+  document.querySelectorAll('#dep .node').forEach(n=>{n.classList.toggle('on',n.dataset.f===name);n.classList.toggle('rel',rel.has(n.dataset.f))});
+}
+function buildFiles(){
+  let h='',g='';
+  FILES.forEach(f=>{if(f.g!==g){g=f.g;h+='<div class="fold">'+ic('chev','sm')+g+'</div>'}h+='<button type="button" role="option" data-f="'+f.f+'" aria-selected="false"><span class="ft '+f.t+'">'+ftLabel[f.t]+'</span>'+esc(f.f)+'<span class="ln">'+(f.lnLabel||f.ln)+'</span></button>'});
+  $('#ideTree').innerHTML=h;
+  $('#ideTree').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showFile(b.dataset.f)});
+  const cols=[['Sources of truth',['tokens.css','RULES.md','catalog.json','repair-steps.js','.env']],['Building blocks',['components.css','components.js','server.py']],['Surfaces',['index.html','system.html','presentation.html','shots/repair/']],['Runtime',['Claude API','replays/']]];
+  $('#dep').innerHTML=cols.map(([t,fs])=>'<div class="dep-col"><h4>'+t+'</h4>'+fs.map(x=>{const f=FILES.find(y=>y.f===x);return '<button type="button" class="node'+(f?'':' ext')+'" data-f="'+x+'">'+(f?'<span class="ft '+f.t+'">'+ftLabel[f.t]+'</span>':'')+x+'</button>'}).join('')+'</div>').join('');
+  $('#dep').addEventListener('click',e=>{const b=e.target.closest('.node');if(b&&FILES.some(f=>f.f===b.dataset.f))showFile(b.dataset.f)});
+  showFile('components.js');
+}
+/* ---------- Tokens, read from tokens.css ---------- */
+let TOK={p:[],s:[]};
+async function loadTokens(){
+  const css=await (await fetch('tokens.css')).text();
+  const seen=new Set();
+  for(const m of css.matchAll(/(--([ps])-[a-z0-9-]+)\s*:\s*([^;]+);/g)){
+    const [,name,tier,val]=m;if(seen.has(name))continue;seen.add(name);
+    TOK[tier].push({name,val:val.trim()});
+  }
+  $('#statTokens').textContent=seen.size;
+  $('#chain').innerHTML='<span>.badge.ask</span><i>→</i><span>--s-unsure</span><i>→</i><span>--p-red-600</span><i>→</i><span id="chainVal"></span>';
+  showTier('s');
+}
+function resolved(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()}
+function isColor(v){return /^(#|rgb|hsl)/.test(v)}
+function showTier(t){
+  document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tier===t));
+  $('#tokBody').innerHTML=TOK[t].map(x=>{const v=resolved(x.name);return '<tr><td>'+x.name+'</td><td class="ref">'+(x.val.startsWith('var(')?esc(x.val.replace(/var\((--[^)]+)\)/g,'$1')):'raw value')+'</td><td>'+(isColor(v)?'<span class="sw" style="background:'+v+'"></span>':'')+'<code>'+esc(v)+'</code></td></tr>'}).join('');
+  const cv=$('#chainVal');if(cv)cv.innerHTML='<span class="sw" style="background:'+resolved('--s-unsure')+';margin:0 6px 0 0;width:14px;height:14px"></span>'+resolved('--s-unsure');
+}
+document.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tier]');if(b)showTier(b.dataset.tier)});
+
+/* ---------- Tiny markdown renderer for RULES.md ---------- */
+function md(src){
+  const inline=t=>esc(t).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  const out=[];const lines=src.split('\n');let i=0;
+  while(i<lines.length){
+    const l=lines[i];
+    if(/^#\s/.test(l)){out.push('<h1>'+inline(l.slice(2))+'</h1>');i++}
+    else if(/^##\s/.test(l)){out.push('<h2>'+inline(l.slice(3))+'</h2>');i++}
+    else if(/^\|/.test(l)){const rows=[];while(i<lines.length&&/^\|/.test(lines[i])){rows.push(lines[i]);i++}
+      const cells=r=>r.replace(/^\||\|$/g,'').split('|').map(c=>inline(c.trim()));
+      out.push('<table><thead><tr>'+cells(rows[0]).map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(2).map(r=>'<tr>'+cells(r).map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</tbody></table>')}
+    else if(/^-\s/.test(l)){const it=[];while(i<lines.length&&/^-\s/.test(lines[i])){it.push('<li>'+inline(lines[i].slice(2))+'</li>');i++}out.push('<ul>'+it.join('')+'</ul>')}
+    else if(l.trim()){out.push('<p>'+inline(l)+'</p>');i++}
+    else i++;
+  }
+  return out.join('');
+}
+
+/* ---------- Boot ---------- */
+(async()=>{
+  const cat=await (await fetch('catalog.json')).json();
+  cat.vehicles.forEach(v=>v.parts.forEach(p=>PDS.parts[p.id]=p));PDS.suppliers=cat.suppliers;
+  /* Previews use the first demo plate's trim for each car, so "Wrong part" shows what the demo would show. */
+  const trimOf=vid=>(Object.values(cat.plates).find(x=>x.vehicle===vid)||{}).trim;
+  PDS.slotOptions=p=>{const v=cat.vehicles.find(v=>v.parts.some(x=>x.id===p.id));return v.parts.filter(x=>x.group===p.group&&x.id!==p.id&&PDS.fitsTrim(x,trimOf(v.id)))};
+  buildComponents();
+  buildFlow();
+  buildFiles();
+  $('#iconGrid').innerHTML=Object.keys(LUCIDE).map(n=>'<span class="ichip">'+ic(n)+n+'</span>').join('');
+  $('#guardCode').textContent=guard.toString();
+  await loadTokens();
+  try{const r=await (await fetch('RULES.md')).text();$('#rulesMd').innerHTML=md(r);$('#statRules').textContent=(r.match(/^-\s/gm)||[]).length+(r.match(/^\|\s*`/gm)||[]).length}catch(e){$('#rulesMd').textContent='Could not load RULES.md'}
+  try{const c=await (await fetch('/api/contract')).json();$('#cModel').textContent='Model: '+c.model+'. The parts catalogue is appended after these instructions.';$('#cInstr').textContent=c.instructions;$('#cSchema').textContent=pretty(c.schema)}
+  catch(e){$('#cInstr').textContent='Start the demo server to load the live contract.';$('#cSchema').textContent=''}
+  try{const t=await (await fetch('brand/partly-logo.svg')).text();const el=document.querySelector('.logo-slot');el.innerHTML=t;const v=el.querySelector('svg');v.removeAttribute('width');v.removeAttribute('height');v.setAttribute('class','logo')}catch(e){}
+  if(location.hash){const t=document.querySelector(location.hash);if(t)t.scrollIntoView()}
+})();
+
+/* theme toggle, nav highlight */
+(function(){
+  const root=document.documentElement;
+  const saved=(()=>{try{return localStorage.getItem('demo-theme')}catch(e){return null}})();if(saved)root.dataset.theme=saved;
+  $('#theme').addEventListener('click',()=>{const dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;root.dataset.theme=dark?'light':'dark';try{localStorage.setItem('demo-theme',root.dataset.theme)}catch(e){}
+    const t=document.querySelector('.tabs [aria-selected="true"]');if(t)showTier(t.dataset.tier)});
+  const links=[...document.querySelectorAll('nav.side a[href^="#"]')];
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-20% 0px -70% 0px'});
+  setTimeout(()=>document.querySelectorAll('main section[id], .comp[id]').forEach(s=>io.observe(s)),300);
+})();
+</script>
+</body>
+</html>

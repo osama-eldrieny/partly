@@ -1,0 +1,64 @@
+{
+  "vehicle": {
+    "id": "V4",
+    "trim": "SR5 (LED headlights, lane-keep camera)"
+  },
+  "message": "Hit a kangaroo: bumper, grille, right headlight",
+  "result": {
+    "vehicle": {
+      "id": "V4",
+      "name": "2022 Toyota Hilux",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2022 Hilux SR5",
+      "Checked bumper, grille and right headlight",
+      "Picked parts that fit the SR5 LED trim",
+      "Looked for small parts the repair needs"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V4-BMP-F",
+        "confidence": 0.92,
+        "mode": "suggest",
+        "reason_short": "Only one front bumper fits this Hilux.",
+        "reason_long": "Kangaroo strike on the front end points to the front bumper. It costs over $150, so it needs your confirmation.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V4-GRILLE",
+        "confidence": 0.92,
+        "mode": "suggest",
+        "reason_short": "Front grille fits all Hilux trims.",
+        "reason_long": "The grille was named as damaged and sits right behind the bumper. It is over $150, so please confirm.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V4-HL-R-LED",
+        "confidence": 0.93,
+        "mode": "suggest",
+        "reason_short": "SR5 uses the LED right headlight.",
+        "reason_long": "The SR5 has LED headlights, so the halogen unit does not fit. It is non-returnable and costly, so please confirm.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V4-BASH",
+        "confidence": 0.65,
+        "mode": "suggest",
+        "reason_short": "Bash plate often gets bent in a front hit.",
+        "reason_long": "A kangaroo strike strong enough to damage the bumper may have bent the bash plate. Check it before ordering.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I suggested the bumper, grille, right LED headlight and a bash plate for this Hilux; please confirm each one.",
+    "ms": 4869
+  }
+}

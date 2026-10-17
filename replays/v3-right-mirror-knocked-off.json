@@ -1,0 +1,54 @@
+{
+  "vehicle": {
+    "id": "V3",
+    "trim": "Akera (blind-spot sensors, heated mirrors)"
+  },
+  "message": "Right mirror knocked off",
+  "result": {
+    "vehicle": {
+      "id": "V3",
+      "name": "2020 Mazda CX-5",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2020 CX-5 Akera",
+      "Found right door mirror for Akera",
+      "Checked blind-spot sensor service",
+      "Checked stock"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V3-MIR-R-BSM",
+        "confidence": 0.88,
+        "mode": "suggest",
+        "reason_short": "Right heated blind-spot mirror is the Akera fit.",
+        "reason_long": "Mirror knocked off means a full right mirror assembly is needed. This Akera has the heated blind-spot version, which is not returnable.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V3-BSM-CAL",
+        "confidence": 0.8,
+        "mode": "suggest",
+        "reason_short": "Blind-spot sensor needs calibrating after mirror replacement.",
+        "reason_long": "The new mirror carries the blind-spot sensor on this Akera. Calibration is needed to make sure it reads correctly.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "note",
+        "part_id": null,
+        "confidence": 0.7,
+        "mode": "suggest",
+        "reason_short": "Check the door skin and wiring plug.",
+        "reason_long": "A knocked-off mirror can damage the door moulding area and the mirror wiring connector. Check both before fitting the new mirror.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I suggested the right heated blind-spot mirror and its sensor calibration for this CX-5.",
+    "ms": 3994
+  }
+}

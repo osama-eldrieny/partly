@@ -1,0 +1,69 @@
+{
+  "vehicle": {
+    "id": "V1",
+    "name": "2019 Toyota Corolla Hatchback",
+    "trim": "Ascent Sport (halogen headlights, no parking sensors)",
+    "how": "Plate JTA119"
+  },
+  "message": "Lower grille and bumper scraped",
+  "result": {
+    "vehicle": {
+      "id": "V1",
+      "name": "2019 Toyota Corolla Hatchback",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2019 Corolla Hatchback, Ascent Sport",
+      "Found lower grille and front bumper cover for this trim",
+      "Checked new vs used bumper options",
+      "Added small fitting parts"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V1-GRILLE",
+        "confidence": 0.93,
+        "mode": "auto",
+        "reason_short": "Scraped lower grille needs replacing.",
+        "reason_long": "The lower grille fits all trims and is under $150. Scrape damage at the front lower edge usually breaks it.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "question_card",
+        "part_id": null,
+        "confidence": 0.5,
+        "mode": "ask",
+        "reason_short": "New or used bumper cover both fit this Corolla.",
+        "reason_long": "A new cover and a used grade A cover both fit the Ascent Sport. The used one is cheaper but cannot be returned.",
+        "question": "New or used front bumper cover?",
+        "choices": [
+          {
+            "label": "New bumper cover",
+            "part_ids": [
+              "V1-BMP-F-NS"
+            ]
+          },
+          {
+            "label": "Used, grade A",
+            "part_ids": [
+              "V1-BMP-F-USED"
+            ]
+          }
+        ]
+      },
+      {
+        "component": "part_card",
+        "part_id": "V1-CLIP-KIT",
+        "confidence": 0.8,
+        "mode": "suggest",
+        "reason_short": "Fresh clips needed to refit the bumper.",
+        "reason_long": "Clips often break when a bumper is removed. It depends on the bumper choice, so confirm it with one tap.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "Added the lower grille and suggested a clip kit; please pick a new or used bumper cover.",
+    "ms": 5616
+  }
+}

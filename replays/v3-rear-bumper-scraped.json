@@ -1,0 +1,33 @@
+{
+  "vehicle": {
+    "id": "V3",
+    "trim": "Akera (blind-spot sensors, heated mirrors)"
+  },
+  "message": "Rear bumper scraped",
+  "result": {
+    "vehicle": {
+      "id": "V3",
+      "name": "2020 Mazda CX-5",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2020 Mazda CX-5 Akera",
+      "Read damage: rear bumper scraped",
+      "Checked rear bumper parts for this CX-5"
+    ],
+    "lines": [
+      {
+        "component": "not_found",
+        "part_id": null,
+        "confidence": 0.95,
+        "mode": "suggest",
+        "reason_short": "No rear bumper cover found for this CX-5.",
+        "reason_long": "The only bumper listed for this CX-5 is the front cover. There are no rear bumper parts or clips listed.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I couldn't find a rear bumper for this CX-5, so nothing has been added.",
+    "ms": 11152
+  }
+}

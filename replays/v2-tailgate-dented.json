@@ -1,0 +1,36 @@
+{
+  "vehicle": {
+    "id": "V2",
+    "name": "2021 Ford Ranger",
+    "trim": "XLT (halogen fog lights)",
+    "how": "Plate LMT915"
+  },
+  "message": "Tailgate dented",
+  "result": {
+    "vehicle": {
+      "id": "V2",
+      "name": "2021 Ford Ranger",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2021 Ford Ranger XLT",
+      "Read damage: dented tailgate",
+      "Checked tailgate parts for this Ranger",
+      "Checked for supporting parts"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V2-TAILGATE",
+        "confidence": 0.92,
+        "mode": "suggest",
+        "reason_short": "Tailgate shell fits all Rangers, but it's pricey and non-returnable.",
+        "reason_long": "A dented tailgate points to replacing the tailgate shell, which fits all trims. It costs over $150 and can't be returned, so it needs your OK.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I suggested a tailgate shell for this Ranger. It's out of stock right now, so please confirm if you want it.}",
+    "ms": 3408
+  }
+}

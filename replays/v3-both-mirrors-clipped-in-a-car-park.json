@@ -1,0 +1,59 @@
+{
+  "vehicle": {
+    "id": "V3",
+    "trim": "Akera (blind-spot sensors, heated mirrors)"
+  },
+  "message": "Both mirrors clipped in a car park",
+  "result": {
+    "vehicle": {
+      "id": "V3",
+      "name": "2020 Mazda CX-5",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2020 CX-5 Akera",
+      "Found both door mirrors, heated with blind-spot",
+      "Found glass-only option for each side",
+      "Checked sensor calibration need"
+    ],
+    "lines": [
+      {
+        "component": "question_card",
+        "part_id": null,
+        "confidence": 0.5,
+        "mode": "ask",
+        "reason_short": "Whole mirrors or just the glass? Big price difference.",
+        "reason_long": "Clipped mirrors may only need new glass, or the housings may be broken. Full Akera mirrors are expensive and can't be returned.",
+        "question": "How bad is the damage to the mirrors?",
+        "choices": [
+          {
+            "label": "Replace whole mirrors",
+            "part_ids": [
+              "V3-MIR-R-BSM",
+              "V3-MIR-L-BSM"
+            ]
+          },
+          {
+            "label": "Mirror glass only",
+            "part_ids": [
+              "V3-MIR-GLASS-R",
+              "V3-MIR-GLASS-L"
+            ]
+          }
+        ]
+      },
+      {
+        "component": "part_card",
+        "part_id": "V3-BSM-CAL",
+        "confidence": 0.7,
+        "mode": "suggest",
+        "reason_short": "Needed if the blind-spot mirrors are replaced.",
+        "reason_long": "This Akera has blind-spot sensors in the mirrors. Replacing the mirror assemblies means the sensors need calibrating.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "Quick question on the mirrors first, and I've suggested a blind-spot calibration in case they're replaced.",
+    "ms": 8477
+  }
+}

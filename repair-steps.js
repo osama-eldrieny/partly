@@ -1,0 +1,155 @@
+/* Repair guide step library. One list per car, in repair order.
+   A step is used when its `when(has, trim)` returns true. `has(group)` checks the parts on the quote.
+   Each step has an image (shots/repair/<id>.jpg) and the prompt used to generate it (see shots/repair/PROMPTS.md).
+   Illustrative steps for the demo, not OEM procedures. */
+const REPAIR_STYLE={
+  V1:'generic modern compact 5-door hatchback',
+  V2:'generic double-cab pickup truck (ute) with a chrome rear step bumper and a tailgate',
+  V3:'generic modern mid-size SUV',
+  V4:'generic double-cab pickup truck with a body-coloured front bumper and a black underbody bash plate',
+  V5:'generic modern electric fastback sedan with a smooth nose and no front grille'
+};
+const REPAIR_BASE='Clean technical repair-manual illustration of a {car}, no brand, no logos, no badges, no readable number plate. Thin dark-grey line art on a pure white background, flat style, very light grey for hidden parts, only the part for this step filled in red (#C62127). Same car, same style in every image of this set. No people, no text, no labels, no watermark. 4:3 aspect ratio.';
+const FRONT1=['front-bumper','front-absorber','front-reinforcement','clips','grille','headlight-left','headlight-right','hl-bracket','sensor','liner-left','liner-right'];
+const any=(has,gs)=>gs.some(has);
+const REPAIR_STEPS={
+V1:[
+  {id:'v1-bumper-off',t:'Remove the front bumper cover',h:.6,r:['bumper'],when:h=>any(h,FRONT1),n:'10 clips along the top and wheel arches, 4 bolts under the grille.',w:(h,t)=>/sensor/i.test(t)?'Unplug the parking sensor harness before pulling the bumper away.':'',
+   p:'3/4 front view. The front bumper cover is pulled slightly forward off the car, highlighted in red, with small arrows showing it coming off. A thin wiring plug is visible behind it at the lower left.'},
+  {id:'v1-reinf',t:'Replace the reinforcement bar',h:.5,r:['reinf'],when:h=>h('front-reinforcement'),n:'4 bolts, 2 each side. Tighten to the OEM torque.',
+   p:'3/4 front view, bumper cover removed. The horizontal metal reinforcement bar across the front is highlighted in red, with 2 bolt positions on each end marked by tiny circles.'},
+  {id:'v1-absorber',t:'Fit the new energy absorber',h:.2,r:['absorber'],when:h=>h('front-absorber'),n:'Push-fit onto the reinforcement bar. Check it sits flush.',
+   p:'3/4 front view, bumper cover removed. The foam energy absorber block in front of the metal reinforcement bar is highlighted in red.'},
+  {id:'v1-hl-left',t:'Replace the left headlight',h:.6,r:['hl-l'],when:h=>h('headlight-left'),n:'3 bolts. Move the connector across and check the lights work before refitting.',w:(h,t,used)=>used('headlight-left')?'Used part: check the lens and mounting tabs before fitting.':'',
+   p:'3/4 front view, bumper cover removed. The headlight on the car\'s left side (the viewer\'s right) is pulled slightly out of its opening, highlighted in red, with 3 bolt positions marked by tiny circles.'},
+  {id:'v1-hl-right',t:'Replace the right headlight',h:.6,r:['hl-r'],when:h=>h('headlight-right'),n:'3 bolts. Move the connector across and check the lights work before refitting.',w:(h,t,used)=>used('headlight-right')?'Used part: check the lens and mounting tabs before fitting.':'',
+   p:'3/4 front view, bumper cover removed. The headlight on the car\'s right side (the viewer\'s left) is pulled slightly out of its opening, highlighted in red, with 3 bolt positions marked by tiny circles.'},
+  {id:'v1-hl-bracket',t:'Fit the headlight mounting bracket',h:.2,r:['hl-l'],when:h=>h('hl-bracket'),n:'2 bolts behind the headlight.',
+   p:'Close-up of the area behind a headlight with the bumper removed. A small metal mounting bracket is highlighted in red.'},
+  {id:'v1-grille',t:'Fit the lower grille',h:.3,r:['grille'],when:h=>h('grille'),n:'Clips into the bumper cover from the front.',
+   p:'Straight-on front view of the bumper cover off the car. The lower grille insert is shown being pushed into the bumper opening, highlighted in red.'},
+  {id:'v1-liner',t:'Refit the wheel-arch liner',h:.3,r:['guard-l','guard-r'],when:h=>any(h,['liner-left','liner-right']),n:'Plastic rivets around the arch, 2 screws to the bumper.',
+   p:'Side view of the front wheel arch with the wheel removed. The black plastic wheel-arch liner is highlighted in red, with rivet positions marked by tiny circles.'},
+  {id:'v1-sensor',t:'Fit the parking sensor',h:.3,r:['sensors'],when:h=>h('sensor'),n:'Clips into its holder from behind. Plug in before refitting the bumper.',
+   p:'Rear view of the inside of a bumper cover. One small round parking sensor in its holder is highlighted in red, with its plug shown.'},
+  {id:'v1-bumper-on',t:'Refit the front bumper cover',h:.6,r:['bumper','clips'],when:h=>any(h,FRONT1),n:'Line up the wheel-arch clips first, then the top edge.',w:(h,t)=>[h('clips')?'Use the new clip kit. Old clips don\'t hold after removal.':'',/sensor/i.test(t)?'Reconnect the parking sensor harness.':''].filter(Boolean).join(' '),
+   p:'3/4 front view. The front bumper cover is being pushed back onto the car, highlighted in red, with small red dots marking clip positions along the top edge and wheel arches.'},
+  {id:'v1-sensor-test',t:'Test the parking sensors',h:.2,r:['sensors'],when:(h,t)=>/sensor/i.test(t)&&any(h,FRONT1),n:'Reverse slowly towards a wall: each sensor should beep. Clear any fault codes.',
+   p:'3/4 front view, bumper refitted. Four small round parking sensors on the bumper are highlighted in red, with thin arcs coming out of them like sound waves.'},
+  {id:'v1-hl-aim',t:'Aim the headlights',h:.3,r:['hl-l','hl-r'],when:h=>any(h,['headlight-left','headlight-right']),n:'Use the aiming screen. Check low and high beam.',
+   p:'The car facing a plain wall a short distance away. Both headlights are highlighted in red, projecting two soft beams onto the wall, with a simple horizontal aiming line on the wall.'},
+  {id:'v1-bonnet',t:'Replace the bonnet',h:1.0,r:['bonnet'],when:h=>h('bonnet'),n:'4 hinge bolts, then the latch. Two people to lift.',w:()=> 'Mark the hinge positions before removing the old bonnet.',
+   p:'3/4 front view. The bonnet (hood) is lifted on its hinges and highlighted in red, with the 2 hinge positions marked by tiny circles.'},
+  {id:'v1-guard-left',t:'Replace the left front guard',h:1.2,r:['guard-l'],when:h=>h('guard-left'),n:'Bolts along the top, at the door and under the bumper.',
+   p:'3/4 front view from the car\'s left side. The front guard (fender) above the front wheel is highlighted in red, slightly lifted away, with bolt positions along its top edge.'},
+  {id:'v1-guard-right',t:'Replace the right front guard',h:1.2,r:['guard-r'],when:h=>h('guard-right'),n:'Bolts along the top, at the door and under the bumper.',
+   p:'3/4 front view from the car\'s right side. The front guard (fender) above the front wheel is highlighted in red, slightly lifted away, with bolt positions along its top edge.'},
+  {id:'v1-rear-off',t:'Remove the rear bumper cover',h:.6,r:[],when:h=>h('rear-bumper'),n:'Clips in the wheel arches, 2 bolts inside the boot.',
+   p:'3/4 rear view of the hatchback. The rear bumper cover is pulled slightly back off the car, highlighted in red, with small arrows.'},
+  {id:'v1-rear-on',t:'Fit the new rear bumper cover',h:.6,r:[],when:h=>h('rear-bumper'),n:'Line up the side clips first. Check the gap to the tail lights.',
+   p:'3/4 rear view of the hatchback. The new rear bumper cover is being pushed into place, highlighted in red, with clip positions marked by small red dots.'}
+],
+V2:[
+  {id:'v2-rear-off',t:'Remove the rear step bumper',h:.7,when:h=>any(h,['rear-bumper','towbar','plate-light','clips']),n:'4 bolts to the chassis. Unplug the number plate light first.',w:()=> 'Heavy part: support it before taking out the last bolt.',
+   p:'3/4 rear view of the ute. The chrome rear step bumper is lowered away from the chassis, highlighted in red, with 4 bolt positions marked.'},
+  {id:'v2-towbar',t:'Replace the tow bar tongue',h:.3,when:h=>h('towbar'),n:'Slide into the receiver and fit the locking pin.',
+   p:'Close-up of the rear of the ute under the bumper. The tow bar tongue with its ball is highlighted in red, sliding into the square receiver.'},
+  {id:'v2-plate-light',t:'Fit the number plate light',h:.2,when:h=>h('plate-light'),n:'Clips into the bumper. Check it lights before refitting.',
+   p:'Close-up of the rear step bumper. The small number plate light unit is highlighted in red, clipping into the bumper.'},
+  {id:'v2-rear-on',t:'Fit the rear step bumper',h:.7,when:h=>any(h,['rear-bumper','towbar','plate-light','clips']),n:'Use the new bolt kit. Tighten to the OEM torque.',
+   p:'3/4 rear view of the ute. The rear step bumper is lifted into place, highlighted in red, with 4 bolt positions marked by small red dots.'},
+  {id:'v2-tail-left',t:'Replace the left tail light',h:.4,when:h=>h('tail-left'),n:'Open the tailgate. 2 screws, then pull the light backwards.',
+   p:'3/4 rear view of the ute with the tailgate open. The tail light on the car\'s left side (the viewer\'s left from behind) is pulled out, highlighted in red.'},
+  {id:'v2-tail-right',t:'Replace the right tail light',h:.4,when:h=>h('tail-right'),n:'Open the tailgate. 2 screws, then pull the light backwards.',
+   p:'3/4 rear view of the ute with the tailgate open. The tail light on the car\'s right side (the viewer\'s right from behind) is pulled out, highlighted in red.'},
+  {id:'v2-tailgate',t:'Replace the tailgate shell',h:1.5,when:h=>h('tailgate'),n:'Move the handle, latch and camera to the new shell. Two people to lift.',
+   p:'3/4 rear view of the ute. The tailgate is lifted off its hinges, highlighted in red.'},
+  {id:'v2-camera',t:'Fit the reversing camera',h:.4,when:h=>h('camera'),n:'Mounts in the tailgate handle. Route the cable through the hinge.',
+   p:'Close-up of the tailgate handle area. A small reversing camera is highlighted in red, fitting into the handle housing.'},
+  {id:'v2-camera-test',t:'Test the reversing camera',h:.2,when:h=>any(h,['camera','tailgate']),n:'Select reverse: check the picture and the guide lines.',
+   p:'View from the driver seat towards the dashboard screen. The screen showing a simple reversing camera view with guide lines is highlighted in red.'},
+  {id:'v2-front-off',t:'Remove the front bumper cover',h:.7,when:h=>any(h,['front-bumper','fog','fog-bezel']),n:'Bolts under the grille and in the wheel arches.',
+   p:'3/4 front view of the ute. The front bumper cover is pulled forward off the vehicle, highlighted in red.'},
+  {id:'v2-fog',t:'Replace the fog light',h:.3,when:h=>h('fog'),n:'3 screws from behind the bumper.',w:(h,t)=>/LED/i.test(t)?'LED fog light: check the connector type before fitting.':'',
+   p:'Close-up of the lower front bumper from behind. A round fog light unit is highlighted in red.'},
+  {id:'v2-fog-bezel',t:'Fit the fog light bezel',h:.2,when:h=>h('fog-bezel'),n:'Clips in from the front.',
+   p:'Close-up of the lower front bumper from the front. The trim bezel around the fog light is highlighted in red.'},
+  {id:'v2-front-on',t:'Refit the front bumper cover',h:.7,when:h=>any(h,['front-bumper','fog','fog-bezel']),n:'Check the gaps to the headlights.',
+   p:'3/4 front view of the ute. The front bumper cover is pushed back into place, highlighted in red.'}
+],
+V3:[
+  {id:'v3-trim-off',t:'Remove the door trim panel',h:.4,when:h=>any(h,['mirror-left','mirror-right','handle','door-left-front','door-right-front']),n:'Screws behind the handle and armrest, then clips around the edge.',w:()=> 'Unplug the window and mirror switches before lifting the panel away.',
+   p:'Inside view of a front door. The interior door trim panel is pulled away from the door, highlighted in red.'},
+  {id:'v3-mirror-right',t:'Replace the right door mirror',h:.5,when:h=>h('mirror-right'),n:'3 nuts inside the door. Feed the cable through.',
+   p:'3/4 front view of the SUV. The door mirror on the car\'s right side (the viewer\'s left) is lifted off the door, highlighted in red.'},
+  {id:'v3-mirror-left',t:'Replace the left door mirror',h:.5,when:h=>h('mirror-left'),n:'3 nuts inside the door. Feed the cable through.',
+   p:'3/4 front view of the SUV. The door mirror on the car\'s left side (the viewer\'s right) is lifted off the door, highlighted in red.'},
+  {id:'v3-glass-right',t:'Replace the right mirror glass',h:.2,when:h=>h('mirror-glass-right')&&!h('mirror-right'),n:'Tilt the glass in, then pull the bottom edge out. Plug in the heater.',
+   p:'Close-up of a door mirror. The mirror glass is tilted out of the housing, highlighted in red.'},
+  {id:'v3-glass-left',t:'Replace the left mirror glass',h:.2,when:h=>h('mirror-glass-left')&&!h('mirror-left'),n:'Tilt the glass in, then pull the bottom edge out. Plug in the heater.',
+   p:'Close-up of a door mirror seen from the other side. The mirror glass is tilted out of the housing, highlighted in red.'},
+  {id:'v3-door-right',t:'Replace the right front door shell',h:2.5,when:h=>h('door-right-front'),n:'Move the glass, regulator, lock and wiring to the new shell.',w:()=> 'Support the door before removing the hinge bolts.',
+   p:'Side view of the SUV from its right side. The front door is lifted off its hinges, highlighted in red.'},
+  {id:'v3-door-left',t:'Replace the left front door shell',h:2.5,when:h=>h('door-left-front'),n:'Move the glass, regulator, lock and wiring to the new shell.',w:()=> 'Support the door before removing the hinge bolts.',
+   p:'Side view of the SUV from its left side. The front door is lifted off its hinges, highlighted in red.'},
+  {id:'v3-handle',t:'Replace the outer door handle',h:.3,when:h=>h('handle'),n:'1 bolt on the door edge, then slide the handle out.',
+   p:'Close-up of the outside of a front door. The outer door handle is highlighted in red, sliding out of the door.'},
+  {id:'v3-moulding',t:'Fit the door moulding',h:.2,when:h=>h('door-moulding'),n:'Clips along the bottom of the door. Clean the surface first.',
+   p:'Side view of a front door. The thin trim moulding along the lower door is highlighted in red.'},
+  {id:'v3-trim-on',t:'Refit the door trim panel',h:.4,when:h=>any(h,['mirror-left','mirror-right','handle','door-left-front','door-right-front']),n:'Reconnect the switches. Check the window and mirror work.',
+   p:'Inside view of a front door. The interior door trim panel is pressed back into place, highlighted in red.'},
+  {id:'v3-bsm-cal',t:'Calibrate the blind-spot sensors',h:.5,when:(h,t)=>h('calibration')||(/akera|blind/i.test(t)&&any(h,['mirror-left','mirror-right'])),n:'Run the calibration with the scan tool. Check the mirror warning lights.',
+   p:'3/4 rear view of the SUV. Two small radar zones behind the rear corners are shown as red fan shapes, with a small scan tool on the floor.'},
+  {id:'v3-front-off',t:'Remove the front bumper cover',h:.7,when:h=>h('front-bumper'),n:'Clips along the top and in the wheel arches.',
+   p:'3/4 front view of the SUV. The front bumper cover is pulled forward off the car, highlighted in red.'},
+  {id:'v3-front-on',t:'Fit the new front bumper cover',h:.7,when:h=>h('front-bumper'),n:'Line up the side clips first.',
+   p:'3/4 front view of the SUV. The new front bumper cover is pushed into place, highlighted in red.'}
+],
+V4:[
+  {id:'v4-bash',t:'Remove the bash plate',h:.3,when:h=>any(h,['bash-plate','front-bumper','grille','headlight-left','headlight-right']),n:'6 bolts underneath.',
+   p:'Low 3/4 front view of the pickup. The black bash plate under the front is lowered away, highlighted in red.'},
+  {id:'v4-bumper-off',t:'Remove the front bumper',h:.8,when:h=>any(h,['front-bumper','grille','headlight-left','headlight-right']),n:'Bolts behind the bash plate and in the wheel arches.',
+   p:'3/4 front view of the pickup. The front bumper is pulled forward off the vehicle, highlighted in red.'},
+  {id:'v4-grille',t:'Replace the front grille',h:.3,when:h=>h('grille'),n:'Clips along the top, 2 screws underneath.',
+   p:'3/4 front view of the pickup with the bumper removed. The front grille is highlighted in red.'},
+  {id:'v4-hl-left',t:'Replace the left headlight',h:.6,when:h=>h('headlight-left'),n:'3 bolts. Check the lights work before refitting the bumper.',
+   p:'3/4 front view of the pickup, bumper removed. The headlight on the car\'s left side (the viewer\'s right) is pulled out, highlighted in red.'},
+  {id:'v4-hl-right',t:'Replace the right headlight',h:.6,when:h=>h('headlight-right'),n:'3 bolts. Check the lights work before refitting the bumper.',
+   p:'3/4 front view of the pickup, bumper removed. The headlight on the car\'s right side (the viewer\'s left) is pulled out, highlighted in red.'},
+  {id:'v4-bumper-on',t:'Refit the front bumper',h:.8,when:h=>any(h,['front-bumper','grille','headlight-left','headlight-right']),n:'Check the gaps to the headlights and guards.',
+   p:'3/4 front view of the pickup. The front bumper is pushed back into place, highlighted in red.'},
+  {id:'v4-bash-on',t:'Fit the bash plate',h:.3,when:h=>any(h,['bash-plate','front-bumper','grille','headlight-left','headlight-right']),n:'6 bolts. Use the new plate if it was on the quote.',
+   p:'Low 3/4 front view of the pickup. The bash plate is lifted into place under the front, highlighted in red, with bolt positions marked.'},
+  {id:'v4-hl-aim',t:'Aim the headlights',h:.3,when:h=>any(h,['headlight-left','headlight-right']),n:'Use the aiming screen. Check low and high beam.',
+   p:'The pickup facing a plain wall. Both headlights are highlighted in red, projecting two soft beams onto the wall with a horizontal aiming line.'},
+  {id:'v4-ws-out',t:'Remove the windscreen',h:1.0,when:h=>any(h,['windscreen','ws-mould']),n:'Remove the wipers and cowl, then cut the urethane.',w:()=> 'Wear cut-resistant gloves. Two people to lift the glass.',
+   p:'3/4 front view of the pickup. The windscreen is lifted out of its frame, highlighted in red.'},
+  {id:'v4-ws-in',t:'Fit the new windscreen',h:1.0,when:h=>any(h,['windscreen','ws-mould']),n:'New urethane bead and moulding. Leave to cure before driving.',w:(h,t)=>/camera|SR5/i.test(t)?'This trim has a lane camera: use the glass with the camera bracket.':'',
+   p:'3/4 front view of the pickup. The new windscreen is lowered into place, highlighted in red, with a thin moulding around its edge.'},
+  {id:'v4-cam-cal',t:'Calibrate the windscreen camera',h:.5,when:(h,t)=>h('calibration')||(/camera|SR5/i.test(t)&&h('windscreen')),n:'Static calibration with the target board. Confirm lane-keep works on a test drive.',
+   p:'Front view of the pickup facing a calibration target board on a stand. The small camera behind the top of the windscreen is highlighted in red.'}
+],
+V5:[
+  {id:'v5-fascia-off',t:'Remove the front fascia',h:.7,when:h=>any(h,['front-bumper','headlight-left','headlight-right','clips']),n:'Open the front trunk. Clips along the top, bolts in the wheel arches.',w:()=> 'Disconnect the 12V battery first.',
+   p:'3/4 front view of the electric sedan with the front trunk open. The front fascia (bumper cover) is pulled forward off the car, highlighted in red.'},
+  {id:'v5-hl-left',t:'Replace the left headlight',h:.7,when:h=>h('headlight-left'),n:'4 bolts. Check the lights work before refitting.',
+   p:'3/4 front view of the electric sedan, fascia removed. The headlight on the car\'s left side (the viewer\'s right) is pulled out, highlighted in red.'},
+  {id:'v5-hl-right',t:'Replace the right headlight',h:.7,when:h=>h('headlight-right'),n:'4 bolts. Check the lights work before refitting.',
+   p:'3/4 front view of the electric sedan, fascia removed. The headlight on the car\'s right side (the viewer\'s left) is pulled out, highlighted in red.'},
+  {id:'v5-fascia-on',t:'Refit the front fascia',h:.7,when:h=>any(h,['front-bumper','headlight-left','headlight-right','clips']),n:'Use the new clip kit. Reconnect the 12V battery.',
+   p:'3/4 front view of the electric sedan. The front fascia is pushed back into place, highlighted in red, with clip positions marked by small red dots.'},
+  {id:'v5-ws-out',t:'Remove the windscreen',h:1.2,when:h=>h('windscreen'),n:'Remove the cowl and camera cover, then cut the urethane.',w:()=> 'Two people to lift the glass.',
+   p:'3/4 front view of the electric sedan. The windscreen is lifted out of its frame, highlighted in red.'},
+  {id:'v5-ws-in',t:'Fit the new windscreen',h:1.2,when:h=>h('windscreen'),n:'New urethane bead. Refit the camera cover.',
+   p:'3/4 front view of the electric sedan. The new windscreen is lowered into place, highlighted in red.'},
+  {id:'v5-cam-cal',t:'Calibrate the driver-assist cameras',h:.5,when:h=>any(h,['windscreen','calibration']),n:'Start the camera calibration from the car\'s service menu, then drive until it completes.',
+   p:'Front view of the electric sedan. The camera cluster behind the top of the windscreen is highlighted in red, with thin lines showing its field of view.'}
+]};
+const REPAIR_INSPECT={V1:'Panel gaps even, all lights working, no warning lights on the dash.',V2:'Bumper and tailgate aligned, all rear lights working, camera picture clear.',V3:'Door gaps even, mirror folds and adjusts, no warning lights.',V4:'Gaps even, lights aimed, no warning lights, camera features working.',V5:'Gaps even, lights working, no driver-assist warnings.'};
+/* Build the steps for a job: car id, trim, and the part groups on the quote. */
+function repairSteps(vid,trim,groups,usedGroups){
+  const has=g=>groups.includes(g),used=g=>usedGroups.includes(g);
+  const S=(REPAIR_STEPS[vid]||[]).filter(s=>s.when(has,trim)).map(s=>({id:s.id,t:s.t,h:s.h,r:s.r||[],n:s.n,w:s.w?s.w(has,trim,used):''}));
+  if(S.length)S.push({id:vid.toLowerCase()+'-inspect',t:'Final inspection',h:.2,r:[],n:REPAIR_INSPECT[vid],inspect:true});
+  return S;
+}

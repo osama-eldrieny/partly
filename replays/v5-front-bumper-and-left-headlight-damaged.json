@@ -1,0 +1,54 @@
+{
+  "vehicle": {
+    "id": "V5",
+    "trim": "Long Range (Autopilot camera)"
+  },
+  "message": "Front bumper and left headlight damaged",
+  "result": {
+    "vehicle": {
+      "id": "V5",
+      "name": "2023 Tesla Model 3",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2023 Model 3 Long Range",
+      "Found front bumper fascia",
+      "Found left headlight assembly",
+      "Added clips for the bumper"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V5-BMP-F",
+        "confidence": 0.95,
+        "mode": "suggest",
+        "reason_short": "Front bumper fascia fits this Model 3.",
+        "reason_long": "Only one front bumper fits all trims. It is not returnable and costs over $150, so it needs a tap to confirm.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V5-HL-L",
+        "confidence": 0.95,
+        "mode": "suggest",
+        "reason_short": "Left headlight assembly fits this Model 3.",
+        "reason_long": "Only one left headlight fits this car. It is expensive and not returnable, so it needs a tap to confirm.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V5-BMP-CLIP",
+        "confidence": 0.92,
+        "mode": "auto",
+        "reason_short": "Clip kit needed to refit the front fascia.",
+        "reason_long": "A new fascia needs fresh clips. The kit is cheap and returnable.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I've added the fascia clip kit and suggested the front bumper and left headlight for you to confirm.",
+    "ms": 3439
+  }
+}

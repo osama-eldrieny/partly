@@ -1,0 +1,86 @@
+{
+  "vehicle": {
+    "id": "V1",
+    "name": "2019 Toyota Corolla Hatchback",
+    "trim": "ZR (LED headlights, front parking sensors)",
+    "how": "Plate KXR482"
+  },
+  "message": "Front bumper hit, left headlight cracked",
+  "result": {
+    "vehicle": {
+      "id": "V1",
+      "name": "2019 Toyota Corolla Hatchback",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2019 Corolla ZR",
+      "Checked front bumper parts for ZR",
+      "Checked left headlight for ZR",
+      "Added clips and absorber for bumper repair"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V1-BMP-F-S",
+        "confidence": 0.95,
+        "mode": "suggest",
+        "reason_short": "ZR bumper with sensor holes, needed for front hit.",
+        "reason_long": "This Corolla ZR has front parking sensors, so it needs the bumper with sensor holes. It costs over $150, so please confirm.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V1-HL-L-LED",
+        "confidence": 0.95,
+        "mode": "suggest",
+        "reason_short": "Left LED headlight for this ZR.",
+        "reason_long": "The ZR comes with LED headlights, and the left one is cracked. It is expensive and not returnable, so please confirm.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V1-BMP-ABS",
+        "confidence": 0.8,
+        "mode": "suggest",
+        "reason_short": "Energy absorber often damaged in front hits.",
+        "reason_long": "A front bumper impact usually crushes the absorber behind the cover. Check it when the bumper is off.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V1-CLIP-KIT",
+        "confidence": 0.92,
+        "mode": "auto",
+        "reason_short": "New clips needed when refitting the bumper.",
+        "reason_long": "Bumper clips usually break on removal after a hit. The kit is cheap and returnable.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V1-HL-BRKT",
+        "confidence": 0.6,
+        "mode": "suggest",
+        "reason_short": "Headlight bracket may be broken with the crack.",
+        "reason_long": "A cracked headlight from a front hit often means the mounting tabs or bracket are damaged. Check before fitting the new light.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "note",
+        "part_id": null,
+        "confidence": 0.9,
+        "mode": "suggest",
+        "reason_short": "Check the front parking sensors and reinforcement bar.",
+        "reason_long": "The sensors sit in the bumper and the reinforcement bar is behind it. Inspect both for damage once the bumper is off.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I suggested the ZR bumper, left LED headlight, absorber and headlight bracket, and added the clip kit.",
+    "ms": 6434
+  }
+}

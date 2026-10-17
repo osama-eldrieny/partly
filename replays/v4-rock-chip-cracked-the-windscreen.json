@@ -1,0 +1,54 @@
+{
+  "vehicle": {
+    "id": "V4",
+    "trim": "SR5 (LED headlights, lane-keep camera)"
+  },
+  "message": "Rock chip cracked the windscreen",
+  "result": {
+    "vehicle": {
+      "id": "V4",
+      "name": "2022 Toyota Hilux",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2022 Hilux SR5",
+      "Checked windscreen options for the SR5",
+      "Added camera bracket glass and moulding",
+      "Checked lane-keep camera calibration"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V4-WS",
+        "confidence": 0.95,
+        "mode": "suggest",
+        "reason_short": "SR5 windscreen with camera bracket for the lane-keep camera.",
+        "reason_long": "The cracked windscreen needs replacing, and the SR5 has a lane-keep camera so it takes the bracket version. It is non-returnable and over $150, so it needs your confirmation.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V4-WS-MOULD",
+        "confidence": 0.85,
+        "mode": "suggest",
+        "reason_short": "Moulding kit is needed when refitting a new windscreen.",
+        "reason_long": "A new windscreen needs a fresh moulding kit to seal and finish the edge. It is cheap and returnable, but depends on the windscreen being confirmed.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V4-CAM-CAL",
+        "confidence": 0.9,
+        "mode": "suggest",
+        "reason_short": "Lane-keep camera must be calibrated after windscreen replacement.",
+        "reason_long": "This Hilux SR5 has a windscreen-mounted lane-keep camera that needs recalibrating after the glass is changed. It depends on the windscreen being confirmed.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I suggested the SR5 windscreen with camera bracket, the moulding kit and the camera calibration for you to confirm.",
+    "ms": 4375
+  }
+}

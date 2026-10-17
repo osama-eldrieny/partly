@@ -1,0 +1,106 @@
+{
+ "vehicle": {
+  "id": "V1",
+  "name": "2019 Toyota Corolla Hatchback",
+  "trim": "ZR (LED headlights, front parking sensors)",
+  "how": "Plate KXR482"
+ },
+ "message": "Also the front number plate bracket",
+ "followup": true,
+ "result": {
+  "vehicle": {
+   "id": "V1",
+   "name": "2019 Toyota Corolla Hatchback",
+   "trim_known": true
+  },
+  "steps": [
+   "Kept your choices",
+   "Looked for a front number plate bracket for the ZR",
+   "No match in the catalogue, so I won't guess"
+  ],
+  "lines": [
+   {
+    "component": "part_card",
+    "part_id": "V1-BMP-F-S",
+    "confidence": 0.92,
+    "mode": "suggest",
+    "reason_short": "ZR bumper cover with sensor holes.",
+    "reason_long": "The ZR has front parking sensors, so it needs the bumper with sensor holes. It costs over $150, so it needs your tap.",
+    "question": null,
+    "choices": []
+   },
+   {
+    "component": "part_card",
+    "part_id": "V1-HL-L-LED",
+    "confidence": 0.92,
+    "mode": "suggest",
+    "reason_short": "Left LED headlight for this ZR.",
+    "reason_long": "The ZR has LED headlights and the left one is cracked. It is expensive and not returnable, so please confirm.",
+    "question": null,
+    "choices": []
+   },
+   {
+    "component": "part_card",
+    "part_id": "V1-BMP-REINF",
+    "confidence": 0.6,
+    "mode": "suggest",
+    "reason_short": "Reinforcement bar may be bent from the hit.",
+    "reason_long": "A front bumper hit can bend the bar behind the cover. Check it before ordering.",
+    "question": null,
+    "choices": []
+   },
+   {
+    "component": "part_card",
+    "part_id": "V1-BMP-ABS",
+    "confidence": 0.75,
+    "mode": "suggest",
+    "reason_short": "Energy absorber often cracks in a front hit.",
+    "reason_long": "The absorber sits behind the bumper cover and commonly breaks in front impacts.",
+    "question": null,
+    "choices": []
+   },
+   {
+    "component": "part_card",
+    "part_id": "V1-CLIP-KIT",
+    "confidence": 0.95,
+    "mode": "auto",
+    "reason_short": "New clips are needed whenever the bumper comes off.",
+    "reason_long": "Bumper clips usually break when the cover comes off after a hit. The kit depends on the bumper being confirmed.",
+    "question": null,
+    "choices": []
+   },
+   {
+    "component": "part_card",
+    "part_id": "V1-HL-BRKT",
+    "confidence": 0.65,
+    "mode": "suggest",
+    "reason_short": "Headlight bracket may be broken.",
+    "reason_long": "A cracked headlight in a front hit often means the mounting bracket is damaged too.",
+    "question": null,
+    "choices": []
+   },
+   {
+    "component": "note",
+    "part_id": null,
+    "confidence": 0.9,
+    "mode": "suggest",
+    "reason_short": "Check the front parking sensors.",
+    "reason_long": "The sensors sit in the bumper cover and may be damaged or need moving to the new cover.",
+    "question": null,
+    "choices": []
+   },
+   {
+    "component": "not_found",
+    "part_id": null,
+    "confidence": 0.95,
+    "mode": "suggest",
+    "reason_short": "No front number plate bracket found for this Corolla.",
+    "reason_long": "The catalogue has no front plate bracket listed for the 2019 Corolla ZR. Rather than guess a part that might not fit, I've left it for you or the suppliers.",
+    "question": null,
+    "choices": []
+   }
+  ],
+  "reply": "I suggested the ZR bumper cover, left LED headlight and the supporting parts for you to confirm.",
+  "ms": 6694
+ }
+}

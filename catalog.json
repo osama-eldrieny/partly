@@ -1,0 +1,941 @@
+{
+  "_note": "Demo data. Prices are NZD incl. GST, estimated in Oct 2026 from public AU/US/UK genuine and aftermarket listings, converted to NZD. Part numbers and suppliers are made up.",
+  "suppliers": {
+    "S1": {
+      "name": "Northside Auto Parts",
+      "eta": "Today 2pm"
+    },
+    "S2": {
+      "name": "Metro OEM Direct",
+      "eta": "Tomorrow 9am"
+    },
+    "S3": {
+      "name": "Coastline Recyclers",
+      "eta": "Today 4pm"
+    },
+    "S4": {
+      "name": "Southern Glass Co",
+      "eta": "Thursday"
+    },
+    "S5": {
+      "name": "Fastline Parts Hub",
+      "eta": "Today 11am"
+    }
+  },
+  "vehicles": [
+    {
+      "id": "V1",
+      "name": "2019 Toyota Corolla Hatchback",
+      "trims": [
+        "Ascent Sport (halogen headlights, no parking sensors)",
+        "ZR (LED headlights, front parking sensors)"
+      ],
+      "parts": [
+        {
+          "id": "V1-BMP-F-NS",
+          "name": "Front bumper cover",
+          "fits": "Ascent Sport (no sensor holes)",
+          "number": "DM-52119-A",
+          "price": 545,
+          "stock": {
+            "S1": 3,
+            "S2": 5
+          },
+          "returnable": true,
+          "group": "front-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V1-BMP-F-S",
+          "name": "Front bumper cover (with sensor holes)",
+          "fits": "ZR (parking sensors)",
+          "number": "DM-52119-B",
+          "price": 585,
+          "stock": {
+            "S2": 2
+          },
+          "returnable": true,
+          "group": "front-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V1-BMP-F-USED",
+          "name": "Front bumper cover, used, grade A",
+          "fits": "Ascent Sport",
+          "number": "DM-52119-A-U",
+          "price": 260,
+          "stock": {
+            "S3": 1
+          },
+          "returnable": false,
+          "group": "front-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V1-BMP-R",
+          "name": "Rear bumper cover",
+          "fits": "All trims",
+          "number": "DM-52159",
+          "price": 520,
+          "stock": {
+            "S1": 2,
+            "S2": 3
+          },
+          "returnable": true,
+          "group": "rear-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V1-HL-L-HAL",
+          "name": "Left headlight, halogen",
+          "fits": "Ascent Sport",
+          "number": "DM-81150-H",
+          "price": 465,
+          "stock": {
+            "S1": 1,
+            "S2": 3
+          },
+          "returnable": true,
+          "group": "headlight-left",
+          "role": "main"
+        },
+        {
+          "id": "V1-HL-L-LED",
+          "name": "Left headlight, LED",
+          "fits": "ZR",
+          "number": "DM-81150-L",
+          "price": 1450,
+          "stock": {
+            "S2": 1
+          },
+          "returnable": false,
+          "group": "headlight-left",
+          "role": "main"
+        },
+        {
+          "id": "V1-HL-R-HAL",
+          "name": "Right headlight, halogen",
+          "fits": "Ascent Sport",
+          "number": "DM-81110-H",
+          "price": 465,
+          "stock": {
+            "S1": 2
+          },
+          "returnable": true,
+          "group": "headlight-right",
+          "role": "main"
+        },
+        {
+          "id": "V1-HL-R-LED",
+          "name": "Right headlight, LED",
+          "fits": "ZR",
+          "number": "DM-81110-L",
+          "price": 1450,
+          "stock": {
+            "S2": 2,
+            "S5": 1
+          },
+          "returnable": false,
+          "group": "headlight-right",
+          "role": "main"
+        },
+        {
+          "id": "V1-HL-R-LED-USED",
+          "name": "Right headlight, LED, used, grade A",
+          "fits": "ZR",
+          "number": "DM-81110-L-U",
+          "price": 620,
+          "stock": {
+            "S3": 1
+          },
+          "returnable": false,
+          "group": "headlight-right",
+          "role": "main"
+        },
+        {
+          "id": "V1-GRILLE",
+          "name": "Lower grille",
+          "fits": "All trims",
+          "number": "DM-53112",
+          "price": 120,
+          "stock": {
+            "S1": 4,
+            "S3": 2
+          },
+          "returnable": true,
+          "group": "grille",
+          "role": "main"
+        },
+        {
+          "id": "V1-BONNET",
+          "name": "Bonnet",
+          "fits": "All trims",
+          "number": "DM-53301",
+          "price": 820,
+          "stock": {
+            "S2": 2
+          },
+          "returnable": true,
+          "group": "bonnet",
+          "role": "main"
+        },
+        {
+          "id": "V1-GUARD-L",
+          "name": "Left front guard",
+          "fits": "All trims",
+          "number": "DM-53812",
+          "price": 345,
+          "stock": {
+            "S1": 2
+          },
+          "returnable": true,
+          "group": "guard-left",
+          "role": "main"
+        },
+        {
+          "id": "V1-GUARD-R",
+          "name": "Right front guard",
+          "fits": "All trims",
+          "number": "DM-53811",
+          "price": 345,
+          "stock": {
+            "S1": 1,
+            "S2": 2
+          },
+          "returnable": true,
+          "group": "guard-right",
+          "role": "main"
+        },
+        {
+          "id": "V1-BMP-REINF",
+          "name": "Front bumper reinforcement bar",
+          "fits": "All trims",
+          "number": "DM-52021",
+          "price": 285,
+          "stock": {
+            "S1": 2,
+            "S2": 4
+          },
+          "returnable": true,
+          "group": "front-reinforcement",
+          "role": "fitting"
+        },
+        {
+          "id": "V1-BMP-ABS",
+          "name": "Front bumper energy absorber",
+          "fits": "All trims",
+          "number": "DM-52611",
+          "price": 78,
+          "stock": {
+            "S1": 6
+          },
+          "returnable": true,
+          "group": "front-absorber",
+          "role": "fitting"
+        },
+        {
+          "id": "V1-CLIP-KIT",
+          "name": "Bumper clip and fastener kit",
+          "fits": "All trims",
+          "number": "DM-90467-K",
+          "price": 24,
+          "stock": {
+            "S1": 40,
+            "S2": 25
+          },
+          "returnable": true,
+          "group": "clips",
+          "role": "fitting"
+        },
+        {
+          "id": "V1-SENSOR",
+          "name": "Front parking sensor",
+          "fits": "ZR",
+          "number": "DM-89341",
+          "price": 165,
+          "stock": {
+            "S2": 6
+          },
+          "returnable": false,
+          "group": "sensor",
+          "role": "fitting"
+        },
+        {
+          "id": "V1-FENDER-L",
+          "name": "Left front wheel-arch liner",
+          "fits": "All trims",
+          "number": "DM-53876",
+          "price": 72,
+          "stock": {
+            "S1": 5
+          },
+          "returnable": true,
+          "group": "liner-left",
+          "role": "fitting"
+        },
+        {
+          "id": "V1-FENDER-R",
+          "name": "Right front wheel-arch liner",
+          "fits": "All trims",
+          "number": "DM-53875",
+          "price": 72,
+          "stock": {
+            "S1": 4
+          },
+          "returnable": true,
+          "group": "liner-right",
+          "role": "fitting"
+        },
+        {
+          "id": "V1-HL-BRKT",
+          "name": "Headlight mounting bracket",
+          "fits": "All trims",
+          "number": "DM-52116",
+          "price": 38,
+          "stock": {
+            "S1": 8
+          },
+          "returnable": true,
+          "group": "hl-bracket",
+          "role": "fitting"
+        },
+        {
+          "id": "V1-BMP-F-S-USED",
+          "name": "Front bumper cover (with sensor holes), used, grade A",
+          "fits": "ZR (parking sensors)",
+          "number": "DM-52119-B-U",
+          "price": 290,
+          "stock": {
+            "S3": 1
+          },
+          "returnable": false,
+          "group": "front-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V1-HL-L-LED-USED",
+          "name": "Left headlight, LED, used, grade A",
+          "fits": "ZR",
+          "number": "DM-81150-L-U",
+          "price": 620,
+          "stock": {
+            "S3": 2
+          },
+          "returnable": false,
+          "group": "headlight-left",
+          "role": "main"
+        }
+      ]
+    },
+    {
+      "id": "V2",
+      "name": "2021 Ford Ranger",
+      "trims": [
+        "XLT (halogen fog lights)",
+        "Wildtrak (LED fog lights, reversing camera)"
+      ],
+      "parts": [
+        {
+          "id": "V2-BMP-R",
+          "name": "Rear step bumper assembly",
+          "fits": "All trims",
+          "number": "DM-17906-R",
+          "price": 465,
+          "stock": {
+            "S2": 1
+          },
+          "returnable": false,
+          "group": "rear-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V2-BMP-R-USED",
+          "name": "Rear step bumper, used, grade B",
+          "fits": "All trims",
+          "number": "DM-17906-R-U",
+          "price": 220,
+          "stock": {
+            "S3": 1
+          },
+          "returnable": false,
+          "group": "rear-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V2-TAIL-L",
+          "name": "Left tail light",
+          "fits": "All trims",
+          "number": "DM-13405-L",
+          "price": 320,
+          "stock": {
+            "S1": 2,
+            "S2": 2
+          },
+          "returnable": true,
+          "group": "tail-left",
+          "role": "main"
+        },
+        {
+          "id": "V2-TAIL-R",
+          "name": "Right tail light",
+          "fits": "All trims",
+          "number": "DM-13404-R",
+          "price": 320,
+          "stock": {
+            "S1": 1
+          },
+          "returnable": true,
+          "group": "tail-right",
+          "role": "main"
+        },
+        {
+          "id": "V2-TAILGATE",
+          "name": "Tailgate shell",
+          "fits": "All trims",
+          "number": "DM-40700",
+          "price": 1650,
+          "stock": {},
+          "returnable": false,
+          "group": "tailgate",
+          "role": "main"
+        },
+        {
+          "id": "V2-CAMERA",
+          "name": "Reversing camera",
+          "fits": "Wildtrak",
+          "number": "DM-19G490",
+          "price": 420,
+          "stock": {
+            "S2": 2
+          },
+          "returnable": false,
+          "group": "camera",
+          "role": "main"
+        },
+        {
+          "id": "V2-FOG-HAL",
+          "name": "Front fog light, halogen",
+          "fits": "XLT",
+          "number": "DM-15200-H",
+          "price": 135,
+          "stock": {
+            "S1": 4
+          },
+          "returnable": true,
+          "group": "fog",
+          "role": "main"
+        },
+        {
+          "id": "V2-FOG-LED",
+          "name": "Front fog light, LED",
+          "fits": "Wildtrak",
+          "number": "DM-15200-L",
+          "price": 460,
+          "stock": {
+            "S2": 2
+          },
+          "returnable": false,
+          "group": "fog",
+          "role": "main"
+        },
+        {
+          "id": "V2-BMP-F",
+          "name": "Front bumper cover",
+          "fits": "All trims",
+          "number": "DM-17757",
+          "price": 690,
+          "stock": {
+            "S2": 2
+          },
+          "returnable": true,
+          "group": "front-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V2-TOWBAR",
+          "name": "Tow bar tongue",
+          "fits": "All trims",
+          "number": "DM-19D520",
+          "price": 160,
+          "stock": {
+            "S1": 3
+          },
+          "returnable": true,
+          "group": "towbar",
+          "role": "fitting"
+        },
+        {
+          "id": "V2-PLATE-LIGHT",
+          "name": "Number plate light",
+          "fits": "All trims",
+          "number": "DM-13550",
+          "price": 28,
+          "stock": {
+            "S1": 12
+          },
+          "returnable": true,
+          "group": "plate-light",
+          "role": "fitting"
+        },
+        {
+          "id": "V2-CLIP-KIT",
+          "name": "Rear bumper bolt kit",
+          "fits": "All trims",
+          "number": "DM-W7055-K",
+          "price": 26,
+          "stock": {
+            "S1": 30
+          },
+          "returnable": true,
+          "group": "clips",
+          "role": "fitting"
+        },
+        {
+          "id": "V2-FOG-BEZEL",
+          "name": "Fog light bezel",
+          "fits": "All trims",
+          "number": "DM-15266",
+          "price": 52,
+          "stock": {
+            "S1": 5
+          },
+          "returnable": true,
+          "group": "fog-bezel",
+          "role": "fitting"
+        }
+      ]
+    },
+    {
+      "id": "V3",
+      "name": "2020 Mazda CX-5",
+      "trims": [
+        "Maxx (no blind-spot sensors)",
+        "Akera (blind-spot sensors, heated mirrors)"
+      ],
+      "parts": [
+        {
+          "id": "V3-MIR-R-BASIC",
+          "name": "Right door mirror, manual fold",
+          "fits": "Maxx",
+          "number": "DM-KB8A-69-12Z",
+          "price": 420,
+          "stock": {
+            "S1": 2
+          },
+          "returnable": true,
+          "group": "mirror-right",
+          "role": "main"
+        },
+        {
+          "id": "V3-MIR-R-BSM",
+          "name": "Right door mirror, heated, blind-spot",
+          "fits": "Akera",
+          "number": "DM-KB8A-69-12Y",
+          "price": 1180,
+          "stock": {
+            "S2": 1
+          },
+          "returnable": false,
+          "group": "mirror-right",
+          "role": "main"
+        },
+        {
+          "id": "V3-MIR-L-BASIC",
+          "name": "Left door mirror, manual fold",
+          "fits": "Maxx",
+          "number": "DM-KB8A-69-18Z",
+          "price": 420,
+          "stock": {
+            "S1": 1
+          },
+          "returnable": true,
+          "group": "mirror-left",
+          "role": "main"
+        },
+        {
+          "id": "V3-MIR-L-BSM",
+          "name": "Left door mirror, heated, blind-spot",
+          "fits": "Akera",
+          "number": "DM-KB8A-69-18Y",
+          "price": 1180,
+          "stock": {},
+          "returnable": false,
+          "group": "mirror-left",
+          "role": "main"
+        },
+        {
+          "id": "V3-DOOR-R-F",
+          "name": "Right front door shell",
+          "fits": "All trims",
+          "number": "DM-KB7W-58-02X",
+          "price": 1350,
+          "stock": {
+            "S2": 1
+          },
+          "returnable": false,
+          "group": "door-right-front",
+          "role": "main"
+        },
+        {
+          "id": "V3-DOOR-L-F",
+          "name": "Left front door shell",
+          "fits": "All trims",
+          "number": "DM-KB7W-59-02X",
+          "price": 1350,
+          "stock": {
+            "S2": 1
+          },
+          "returnable": false,
+          "group": "door-left-front",
+          "role": "main"
+        },
+        {
+          "id": "V3-BMP-F",
+          "name": "Front bumper cover",
+          "fits": "All trims",
+          "number": "DM-KB8A-50-031",
+          "price": 720,
+          "stock": {
+            "S1": 2,
+            "S2": 1
+          },
+          "returnable": true,
+          "group": "front-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V3-MIR-GLASS-R",
+          "name": "Right mirror glass only",
+          "fits": "All trims",
+          "number": "DM-KB8A-69-1G1",
+          "price": 95,
+          "stock": {
+            "S1": 5
+          },
+          "returnable": true,
+          "group": "mirror-glass-right",
+          "role": "fitting"
+        },
+        {
+          "id": "V3-MIR-GLASS-L",
+          "name": "Left mirror glass only",
+          "fits": "All trims",
+          "number": "DM-KB8A-69-1G7",
+          "price": 95,
+          "stock": {
+            "S1": 3
+          },
+          "returnable": true,
+          "group": "mirror-glass-left",
+          "role": "fitting"
+        },
+        {
+          "id": "V3-DOOR-MOULD",
+          "name": "Right front door moulding",
+          "fits": "All trims",
+          "number": "DM-KB7W-50-RS1",
+          "price": 125,
+          "stock": {
+            "S1": 3
+          },
+          "returnable": true,
+          "group": "door-moulding",
+          "role": "fitting"
+        },
+        {
+          "id": "V3-HANDLE-R",
+          "name": "Right front outer door handle",
+          "fits": "All trims",
+          "number": "DM-KD53-58-410",
+          "price": 95,
+          "stock": {
+            "S1": 6,
+            "S3": 2
+          },
+          "returnable": true,
+          "group": "handle",
+          "role": "fitting"
+        },
+        {
+          "id": "V3-BSM-CAL",
+          "name": "Blind-spot sensor calibration (service)",
+          "fits": "Akera",
+          "number": "SVC-BSM-CAL",
+          "price": 250,
+          "stock": {
+            "S5": 99
+          },
+          "returnable": true,
+          "group": "calibration",
+          "role": "fitting"
+        }
+      ]
+    },
+    {
+      "id": "V4",
+      "name": "2022 Toyota Hilux",
+      "trims": [
+        "SR (halogen headlights, no lane camera)",
+        "SR5 (LED headlights, lane-keep camera)"
+      ],
+      "parts": [
+        {
+          "id": "V4-BMP-F",
+          "name": "Front bumper, steel",
+          "fits": "All trims",
+          "number": "DM-52101-0K",
+          "price": 950,
+          "stock": {
+            "S2": 2
+          },
+          "returnable": true,
+          "group": "front-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V4-HL-L-HAL",
+          "name": "Left headlight, halogen",
+          "fits": "SR",
+          "number": "DM-81170-HL",
+          "price": 520,
+          "stock": {
+            "S1": 2
+          },
+          "returnable": true,
+          "group": "headlight-left",
+          "role": "main"
+        },
+        {
+          "id": "V4-HL-L-LED",
+          "name": "Left headlight, LED",
+          "fits": "SR5",
+          "number": "DM-81170-LL",
+          "price": 1650,
+          "stock": {
+            "S2": 1
+          },
+          "returnable": false,
+          "group": "headlight-left",
+          "role": "main"
+        },
+        {
+          "id": "V4-HL-R-HAL",
+          "name": "Right headlight, halogen",
+          "fits": "SR",
+          "number": "DM-81130-HL",
+          "price": 520,
+          "stock": {
+            "S1": 1
+          },
+          "returnable": true,
+          "group": "headlight-right",
+          "role": "main"
+        },
+        {
+          "id": "V4-HL-R-LED",
+          "name": "Right headlight, LED",
+          "fits": "SR5",
+          "number": "DM-81130-LL",
+          "price": 1650,
+          "stock": {},
+          "returnable": false,
+          "group": "headlight-right",
+          "role": "main"
+        },
+        {
+          "id": "V4-GRILLE",
+          "name": "Front grille",
+          "fits": "All trims",
+          "number": "DM-53101-0K",
+          "price": 380,
+          "stock": {
+            "S1": 3
+          },
+          "returnable": true,
+          "group": "grille",
+          "role": "main"
+        },
+        {
+          "id": "V4-WS",
+          "name": "Windscreen with camera bracket",
+          "fits": "SR5 (lane-keep camera)",
+          "number": "GL-HLX-WS-C",
+          "price": 1250,
+          "stock": {
+            "S4": 2
+          },
+          "returnable": false,
+          "group": "windscreen",
+          "role": "main"
+        },
+        {
+          "id": "V4-WS-BASIC",
+          "name": "Windscreen, no camera bracket",
+          "fits": "SR",
+          "number": "GL-HLX-WS",
+          "price": 650,
+          "stock": {
+            "S4": 3
+          },
+          "returnable": false,
+          "group": "windscreen",
+          "role": "main"
+        },
+        {
+          "id": "V4-BASH",
+          "name": "Front bash plate",
+          "fits": "All trims",
+          "number": "DM-51410-0K",
+          "price": 145,
+          "stock": {
+            "S1": 4
+          },
+          "returnable": true,
+          "group": "bash-plate",
+          "role": "fitting"
+        },
+        {
+          "id": "V4-CAM-CAL",
+          "name": "Windscreen camera calibration (service)",
+          "fits": "SR5",
+          "number": "SVC-CAM-CAL",
+          "price": 320,
+          "stock": {
+            "S4": 99
+          },
+          "returnable": true,
+          "group": "calibration",
+          "role": "fitting"
+        },
+        {
+          "id": "V4-WS-MOULD",
+          "name": "Windscreen moulding kit",
+          "fits": "All trims",
+          "number": "GL-HLX-MK",
+          "price": 70,
+          "stock": {
+            "S4": 10
+          },
+          "returnable": true,
+          "group": "ws-mould",
+          "role": "fitting"
+        }
+      ]
+    },
+    {
+      "id": "V5",
+      "name": "2023 Tesla Model 3",
+      "trims": [
+        "Long Range (Autopilot camera)"
+      ],
+      "parts": [
+        {
+          "id": "V5-BMP-F",
+          "name": "Front bumper fascia",
+          "fits": "All trims",
+          "number": "DM-1084168",
+          "price": 820,
+          "stock": {
+            "S2": 1
+          },
+          "returnable": false,
+          "group": "front-bumper",
+          "role": "main"
+        },
+        {
+          "id": "V5-HL-L",
+          "name": "Left headlight assembly",
+          "fits": "All trims",
+          "number": "DM-1077371",
+          "price": 1750,
+          "stock": {},
+          "returnable": false,
+          "group": "headlight-left",
+          "role": "main"
+        },
+        {
+          "id": "V5-HL-R",
+          "name": "Right headlight assembly",
+          "fits": "All trims",
+          "number": "DM-1077372",
+          "price": 1750,
+          "stock": {
+            "S2": 1
+          },
+          "returnable": false,
+          "group": "headlight-right",
+          "role": "main"
+        },
+        {
+          "id": "V5-WS",
+          "name": "Windscreen with camera bracket",
+          "fits": "All trims",
+          "number": "GL-M3-WS",
+          "price": 1450,
+          "stock": {
+            "S4": 1
+          },
+          "returnable": false,
+          "group": "windscreen",
+          "role": "main"
+        },
+        {
+          "id": "V5-BMP-CLIP",
+          "name": "Front fascia clip kit",
+          "fits": "All trims",
+          "number": "DM-1084180-K",
+          "price": 32,
+          "stock": {
+            "S1": 20
+          },
+          "returnable": true,
+          "group": "clips",
+          "role": "fitting"
+        },
+        {
+          "id": "V5-CAM-CAL",
+          "name": "Autopilot camera calibration (service)",
+          "fits": "All trims",
+          "number": "SVC-M3-CAL",
+          "price": 350,
+          "stock": {
+            "S5": 99
+          },
+          "returnable": true,
+          "group": "calibration",
+          "role": "fitting"
+        }
+      ]
+    }
+  ],
+  "plates": {
+    "KXR482": {
+      "vehicle": "V1",
+      "trim": "ZR (LED headlights, front parking sensors)"
+    },
+    "JTA119": {
+      "vehicle": "V1",
+      "trim": "Ascent Sport (halogen headlights, no parking sensors)"
+    },
+    "LMT915": {
+      "vehicle": "V2",
+      "trim": "XLT (halogen fog lights)"
+    },
+    "WLD402": {
+      "vehicle": "V2",
+      "trim": "Wildtrak (LED fog lights, reversing camera)"
+    },
+    "PZD207": {
+      "vehicle": "V3",
+      "trim": "Akera (blind-spot sensors, heated mirrors)"
+    },
+    "HLX330": {
+      "vehicle": "V4",
+      "trim": "SR5 (LED headlights, lane-keep camera)"
+    },
+    "TSL777": {
+      "vehicle": "V5",
+      "trim": "Long Range (Autopilot camera)"
+    }
+  }
+}

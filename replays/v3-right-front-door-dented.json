@@ -1,0 +1,63 @@
+{
+  "vehicle": {
+    "id": "V3",
+    "trim": "Akera (blind-spot sensors, heated mirrors)"
+  },
+  "message": "Right front door dented",
+  "result": {
+    "vehicle": {
+      "id": "V3",
+      "name": "2020 Mazda CX-5",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2020 CX-5 Akera",
+      "Checked right front door parts",
+      "Looked for supporting parts"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V3-DOOR-R-F",
+        "confidence": 0.85,
+        "mode": "suggest",
+        "reason_short": "Dented right front door needs a new shell.",
+        "reason_long": "The right front door shell fits all trims. It is expensive and not returnable, so please confirm.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V3-DOOR-MOULD",
+        "confidence": 0.7,
+        "mode": "suggest",
+        "reason_short": "Door moulding usually comes off with the shell.",
+        "reason_long": "The right front door moulding is normally replaced when the door shell is swapped. It depends on the door shell being confirmed.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V3-HANDLE-R",
+        "confidence": 0.65,
+        "mode": "suggest",
+        "reason_short": "Outer handle may need replacing with the door.",
+        "reason_long": "The right front outer door handle often has to be moved or replaced when the shell is changed. It depends on the door shell being confirmed.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "note",
+        "part_id": null,
+        "confidence": 0.8,
+        "mode": "suggest",
+        "reason_short": "Check the right mirror and blind-spot sensor.",
+        "reason_long": "This Akera has a heated blind-spot mirror on the door. If it is removed, check the sensor works after refitting.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I suggested a right front door shell, plus moulding and handle to go with it.",
+    "ms": 4018
+  }
+}

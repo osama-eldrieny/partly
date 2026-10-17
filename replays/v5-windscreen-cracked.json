@@ -1,0 +1,43 @@
+{
+  "vehicle": {
+    "id": "V5",
+    "trim": "Long Range (Autopilot camera)"
+  },
+  "message": "Windscreen cracked",
+  "result": {
+    "vehicle": {
+      "id": "V5",
+      "name": "2023 Tesla Model 3",
+      "trim_known": true
+    },
+    "steps": [
+      "Matched vehicle: 2023 Tesla Model 3 Long Range",
+      "Found windscreen with camera bracket for this Model 3",
+      "Checked for camera calibration after glass replacement"
+    ],
+    "lines": [
+      {
+        "component": "part_card",
+        "part_id": "V5-WS",
+        "confidence": 0.95,
+        "mode": "suggest",
+        "reason_short": "Cracked windscreen needs the camera-bracket glass for this Model 3.",
+        "reason_long": "This Model 3 has one windscreen that fits all trims, and it includes the camera bracket. It is non-returnable and over $150, so it needs your confirmation.",
+        "question": null,
+        "choices": []
+      },
+      {
+        "component": "part_card",
+        "part_id": "V5-CAM-CAL",
+        "confidence": 0.9,
+        "mode": "suggest",
+        "reason_short": "Autopilot camera needs calibrating after the windscreen is replaced.",
+        "reason_long": "The Autopilot camera sits on the windscreen, so it must be recalibrated after the glass is changed. This depends on the windscreen being confirmed.",
+        "question": null,
+        "choices": []
+      }
+    ],
+    "reply": "I suggested the windscreen with camera bracket and the Autopilot camera calibration for this Model 3.",
+    "ms": 3512
+  }
+}

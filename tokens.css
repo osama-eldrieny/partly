@@ -1,0 +1,57 @@
+/*
+  Two-tier tokens.
+  Tier 1  primitive  raw values: colours, space, radius, type, motion
+  Tier 2  semantic   what a colour means (surface, text, risk...), themed for light and dark
+  Rule for people and coding agents: colours come from semantic tokens only.
+  Space, radius, type and motion use primitives directly. See RULES.md.
+*/
+
+/* Tier 1: primitive (values taken from partly.com/brand: near-black, silver, workshop red) */
+:root {
+  --p-ink-950: #0c0c0d; --p-ink-900: #131314; --p-ink-800: #1c1c1d; --p-ink-700: #3e3e3e;
+  --p-gray-600: #565657; --p-gray-500: #68686a; --p-gray-400: #8a8b8d;
+  --p-silver-300: #b9bbc0; --p-gray-200: #e2e2e2; --p-gray-100: #efeff1; --p-gray-50: #f7f7f7; --p-white: #ffffff;
+  --p-red-600: #c62127; --p-red-500: #b8302f; --p-red-300: #ff5a5f; --p-red-100: #f1d6d5;
+  --p-green-600: #16a34a; --p-green-400: #4ade80;
+  --p-radius-s: 4px; --p-radius-m: 8px; --p-radius-l: 12px; --p-radius-full: 999px;
+  --p-space-1: 4px; --p-space-2: 8px; --p-space-3: 12px; --p-space-4: 16px; --p-space-5: 24px; --p-space-6: 32px;
+  /* Partly uses FK Grotesk + Replica Mono (licensed). Free stand-ins: Geist + Geist Mono. */
+  --p-font-sans: "Geist", "FK Grotesk", system-ui, sans-serif; --p-font-mono: "Geist Mono", "Replica Mono", ui-monospace, monospace;
+  --p-dur-fast: 150ms; --p-dur-base: 250ms;
+}
+
+/* Tier 2: semantic (light) */
+:root {
+  --s-surface-page: var(--p-gray-50);
+  --s-surface-raised: var(--p-white);
+  --s-surface-sunken: var(--p-gray-100);
+  --s-border: var(--p-gray-200);
+  --s-text: var(--p-ink-900);
+  --s-text-muted: var(--p-gray-600);
+  --s-text-inverse: var(--p-white);
+  --s-action: var(--p-ink-900);
+  --s-focus: var(--p-red-600);
+  --s-brand-mark: var(--p-ink-900);
+  --s-certain: var(--p-ink-900);    /* AI acted on its own: solid, quiet */
+  --s-likely: var(--p-gray-500);    /* AI suggests, user confirms */
+  --s-unsure: var(--p-red-600);     /* AI needs the user: the one place red appears */
+  --s-unsure-soft: var(--p-red-100);
+  --s-danger: var(--p-red-600);
+  --s-live: var(--p-green-600);     /* system status only: connected to the live AI */
+}
+
+/* Tier 2: semantic (dark) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --s-surface-page: var(--p-ink-950); --s-surface-raised: var(--p-ink-900); --s-surface-sunken: var(--p-ink-800);
+    --s-border: var(--p-ink-700); --s-text: var(--p-gray-200); --s-text-muted: var(--p-gray-400); --s-text-inverse: var(--p-ink-900);
+    --s-action: var(--p-gray-200); --s-focus: var(--p-red-300); --s-brand-mark: var(--p-silver-300);
+    --s-certain: var(--p-gray-200); --s-likely: var(--p-silver-300); --s-unsure: var(--p-red-300); --s-unsure-soft: rgba(255,90,95,.14); --s-danger: var(--p-red-300); --s-live: var(--p-green-400);
+  }
+}
+:root[data-theme="dark"] {
+  --s-surface-page: var(--p-ink-950); --s-surface-raised: var(--p-ink-900); --s-surface-sunken: var(--p-ink-800);
+  --s-border: var(--p-ink-700); --s-text: var(--p-gray-200); --s-text-muted: var(--p-gray-400); --s-text-inverse: var(--p-ink-900);
+  --s-action: var(--p-gray-200); --s-focus: var(--p-red-300); --s-brand-mark: var(--p-silver-300);
+  --s-certain: var(--p-gray-200); --s-likely: var(--p-silver-300); --s-unsure: var(--p-red-300); --s-unsure-soft: rgba(255,90,95,.14); --s-danger: var(--p-red-300); --s-live: var(--p-green-400);
+}

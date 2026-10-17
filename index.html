@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PartlyRepair AI Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=5">
+<link rel="stylesheet" href="components.css?v=15">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--s-surface-page);color:var(--s-text);font:15px/1.55 var(--p-font-sans);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--s-focus);outline-offset:2px}
+.mono{font-family:var(--p-font-mono)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 210px}
+header{display:flex;align-items:center;gap:12px;padding:18px 0 14px;position:sticky;top:0;background:var(--s-surface-page);z-index:5;border-bottom:1px solid var(--s-border)}
+.logo{height:22px;width:auto;color:var(--s-brand-mark);display:block}
+.product{font:500 13px var(--p-font-sans);padding-left:12px;border-left:1px solid var(--s-border)}
+.product small{display:block;font:400 11px var(--p-font-mono);color:var(--s-text-muted);text-transform:uppercase;letter-spacing:.06em}
+.spacer{flex:1}
+.dslink{font-size:13px;color:var(--s-text-muted);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.dslink:hover{color:var(--s-text)}
+.pill{font:500 12px/1 var(--p-font-mono);padding:6px 10px;border-radius:var(--p-radius-full);border:1px solid var(--s-border);color:var(--s-text-muted);display:flex;gap:6px;align-items:center;white-space:nowrap}
+.pill i{width:7px;height:7px;border-radius:50%;background:var(--s-text-muted)}
+.pill.live{color:var(--s-text)}
+.pill.live i{position:relative;background:var(--s-live)}
+.pill.live i::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--s-live);animation:livepulse 1.8s ease-out infinite}
+@keyframes livepulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.8);opacity:0}}
+.pill.replay i{background:var(--s-unsure)}
+.icon-btn{width:34px;height:34px;border-radius:var(--p-radius-m);border:1px solid var(--s-border);background:var(--s-surface-raised);display:grid;place-items:center;transition:border-color var(--p-dur-fast)}
+.icon-btn:hover{border-color:var(--s-text-muted)}
+.icon-btn svg{width:16px;height:16px}
+.eyebrow{font:500 11px var(--p-font-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--s-text-muted)}
+h2{font-size:28px;letter-spacing:-.025em;margin:6px 0 6px;font-weight:600}
+.lead{color:var(--s-text-muted);margin:0 0 20px}
+.vstep{padding:40px 0 8px}
+.btn.lg{padding:0 20px;font-size:15px}
+.link{background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px;color:var(--s-text-muted);font-size:13px}
+.link:hover{color:var(--s-text)}
+.demo-plates{margin-top:14px;font-size:13px;color:var(--s-text-muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.demo-plates [data-plate]{font:500 12px var(--p-font-mono);letter-spacing:.08em;border:1px solid var(--s-border);background:var(--s-surface-raised);border-radius:6px;padding:4px 8px;transition:border-color var(--p-dur-fast)}
+.demo-plates [data-plate]:hover{border-color:var(--s-text)}
+.manual{display:none;gap:8px;flex-wrap:wrap;margin-top:14px}
+.manual.on{display:flex}
+select{font:inherit;color:var(--s-text);background:var(--s-surface-raised);border:1px solid var(--s-border);border-radius:var(--p-radius-m);padding:9px 12px;max-width:100%}
+.verr{color:var(--s-danger);font-size:14px;margin-top:10px}
+.vcard{display:flex;gap:14px;align-items:center;margin:20px 0 4px;padding:14px var(--p-space-4);background:var(--s-surface-raised);border:1px solid var(--s-border);border-radius:var(--p-radius-l)}
+.vcard .ico{width:40px;height:40px;border-radius:var(--p-radius-m);background:var(--s-surface-sunken);display:grid;place-items:center;flex:none}
+.vcard .ico svg{width:22px;height:22px}
+.vcard b{display:block}
+.vcard small{color:var(--s-text-muted);font-size:13px}
+.vcard .tick{font:500 11px var(--p-font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--s-text-muted);display:flex;gap:4px;align-items:center;white-space:nowrap}
+.vcard .tick svg{width:12px;height:12px}
+.msg-you{margin:22px 0 0 auto;max-width:80%;width:fit-content;background:var(--s-surface-sunken);padding:10px 14px;border-radius:14px 14px 4px 14px}
+.reply{margin:14px 0 8px;font-weight:500}
+.steps{margin:12px 0 4px;font-size:14px;color:var(--s-text-muted)}
+.steps ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+.steps li{display:flex;gap:10px;align-items:center}
+.steps .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--s-border);flex:none;display:grid;place-items:center}
+.steps li.done .dot{border-color:var(--s-certain);background:var(--s-certain)}
+.steps li.done .dot::after{content:"";width:4px;height:7px;border:solid var(--s-text-inverse);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-.5px,-1px)}
+.steps li.now .dot{border-top-color:var(--s-text);animation:spin .8s linear infinite}
+.steps li.now{color:var(--s-text)}
+.steps summary{cursor:pointer;list-style:none;display:inline-flex;gap:8px;align-items:center}
+.steps summary::-webkit-details-marker{display:none}
+.steps summary::before{content:"";width:6px;height:6px;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);transition:transform var(--p-dur-fast)}
+.steps details[open] summary::before{transform:rotate(45deg)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.composer{position:fixed;z-index:10;left:0;right:0;bottom:0;background:linear-gradient(transparent,var(--s-surface-page) 30%);padding:28px 16px 16px;transition:opacity var(--p-dur-base),transform var(--p-dur-base)}
+.composer.locked{opacity:0;pointer-events:none;transform:translateY(12px)}
+.composer .inner{max-width:760px;margin:0 auto}
+.quick{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+.quick .chip{white-space:nowrap}
+form.ask-form{display:flex;gap:8px;background:var(--s-surface-raised);border:1px solid var(--s-border);border-radius:var(--p-radius-l);padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+form.ask-form input{flex:1;border:0;background:transparent;color:var(--s-text);font:inherit;padding:8px 10px;min-width:0}
+form.ask-form input:focus-visible{outline:none}
+form.ask-form:focus-within{border-color:var(--s-text)}
+.foot{font-size:11px;color:var(--s-text-muted);text-align:center;margin-top:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.sec{margin-top:22px}
+.alldone{display:flex;align-items:center;gap:12px;padding:16px;border:1px dashed var(--s-border);border-radius:var(--p-radius-l);color:var(--s-text-muted)}
+.alldone>.i{width:20px;height:20px;color:var(--s-text)}
+.alldone .btn{margin-left:auto}
+.sendrow{display:flex;align-items:center;gap:12px;justify-content:flex-end;margin-top:12px;font-size:13px;color:var(--s-text-muted)}
+.btn.lgsend{padding:12px 22px;font-size:15px}
+.sent-lock{pointer-events:none;opacity:.55;transition:opacity var(--p-dur-base)}
+.sent-lock .sendrow{display:none}
+.toast{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);background:var(--s-text);color:var(--s-text-inverse);padding:10px 16px;border-radius:var(--p-radius-m);font-size:14px;z-index:20;animation:enter .3s ease}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:560px){.qrow .who:not(.ai){display:none}.qrow .body{padding-left:var(--p-space-4)}.conf .bar{display:none}.product small,.pill span{display:none}.price{font-size:14px}h2{font-size:24px}.plate input{width:140px}.vcard .tick{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img class="logo" src="brand/partly-logo.svg" alt="Partly" id="logo">
+    <div class="product">Repair AI<small>Concept · not a Partly product</small></div>
+    <div class="spacer"></div>
+    <a class="dslink" href="system.html">Design system</a>
+    <span class="pill" id="mode"><i></i><span>Checking…</span></span>
+    <button class="icon-btn" id="theme" type="button" aria-label="Toggle theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </header>
+
+  <main id="feed" aria-live="polite">
+    <section class="vstep" id="vstep">
+      <div class="eyebrow">Step 1 of 2</div>
+      <h2>Which vehicle?</h2>
+      <p class="lead">Enter the plate. The exact model and trim come with it, so you won't be asked later.</p>
+      <form id="plateForm" class="plate-row">
+        <label class="plate-in"><span>NZ</span><input id="plate" maxlength="8" autocomplete="off" placeholder="ABC123" aria-label="Number plate"></label>
+        <button class="btn lg" type="submit">Look up</button>
+      </form>
+      <div class="demo-plates">Demo plates:
+        <button type="button" data-plate="KXR482" title="Corolla ZR">KXR482</button>
+        <button type="button" data-plate="JTA119" title="Corolla Ascent Sport">JTA119</button>
+        <button type="button" data-plate="LMT915" title="Ranger XLT">LMT915</button>
+        <button type="button" data-plate="WLD402" title="Ranger Wildtrak">WLD402</button>
+        <button type="button" data-plate="PZD207" title="CX-5 Akera">PZD207</button>
+        <button type="button" data-plate="HLX330" title="Hilux SR5">HLX330</button>
+        <button type="button" data-plate="TSL777" title="Tesla Model 3">TSL777</button>
+        <span aria-hidden="true">·</span><button type="button" class="link" id="manualBtn">No plate? Pick manually</button>
+      </div>
+      <div class="manual" id="manual">
+        <label class="sr" for="mVehicle">Vehicle</label><select id="mVehicle"></select>
+        <label class="sr" for="mTrim">Trim</label><select id="mTrim"></select>
+        <button class="btn" type="button" id="manualGo">Use this vehicle</button>
+      </div>
+      <div class="verr" id="verr" role="alert"></div>
+    </section>
+  </main>
+</div>
+
+<div class="composer locked" id="composer">
+  <div class="inner">
+    <div class="quick" id="quick" aria-label="Quick starts"></div>
+    <form class="ask-form" id="form">
+      <label class="sr" for="msg">Describe the damage</label>
+      <input id="msg" autocomplete="off" placeholder="Describe the damage, e.g. front bumper and left headlight">
+      <button class="btn" type="submit">Send</button>
+    </form>
+    <div class="foot">Unofficial concept by Osama Eldrieny. Made-up part numbers and suppliers. Prices are NZD estimates.</div>
+  </div>
+</div>
+
+<script src="components.js?v=3"></script>
+<script src="repair-steps.js?v=1"></script>
+<script>
+const $=s=>document.querySelector(s);
+const feed=$('#feed'),form=$('#form'),input=$('#msg'),modePill=$('#mode'),composer=$('#composer');
+const REPLAY_FORCED=new URLSearchParams(location.search).has('replay');
+const WAIT_LIMIT=20000;
+const QUICK={V1:['Front bumper hit, left headlight cracked','Lower grille and bumper scraped','Right guard and right headlight damaged'],V2:['Reversed into a pole: rear bumper and left tail light','Front fog light smashed','Tailgate dented'],V3:['Right mirror knocked off','Both mirrors clipped in a car park','Rear bumper scraped'],V4:['Rock chip cracked the windscreen','Hit a kangaroo: bumper, grille, right headlight'],V5:['Front bumper and left headlight damaged','Windscreen cracked']};
+/* After the AI answers, the chips become follow-ups for this job. Offline, only follow-ups with a recording are offered. */
+const FOLLOW={V1:['Also the front number plate bracket','Also the right headlight','Make the bumper a used one'],V2:['Also the rear parking sensors','Make the tail light a used one'],V3:['Also the left mirror'],V4:['Also the bash plate'],V5:['Also the right headlight']};
+const asked=new Set();
+function followChips(){
+  if(sent||!estimate||!estimate.lines.length)return;
+  const offline=modePill.classList.contains('replay');
+  const ok=q=>!asked.has(q.toLowerCase())&&(!offline||replays.some(r=>r.followup&&r.vehicle&&r.vehicle.id===vehicle.id&&r.message.toLowerCase()===q.toLowerCase()));
+  $('#quick').innerHTML=(FOLLOW[vehicle.id]||[]).filter(ok).map(q=>'<button class="chip" type="button" data-q="'+esc(q)+'">'+esc(q)+'</button>').join('');
+}
+let catalog=null,parts={},suppliers={},vehicle=null,estimate=null,replays=[],jobStart=0,sent=false;
+
+function setMode(kind,text){modePill.className='pill '+kind;modePill.querySelector('span').textContent=text}
+function bestSupplier(p){const ids=Object.keys(p.stock||{}).filter(k=>p.stock[k]>0);if(!ids.length)return null;const s=suppliers[ids[0]];return s?s.name+' · '+s.eta:null}
+/* Step 1: vehicle. Facts the system can look up are structured, not chatted. */
+function confirmVehicle(vid,trim,how){
+  const v=catalog.vehicles.find(x=>x.id===vid);if(!v)return;
+  vehicle={id:v.id,name:v.name,trim,how};jobStart=Date.now();
+  $('#vstep').remove();
+  const c=document.createElement('section');c.className='vcard';
+  c.innerHTML='<div class="ico">'+ic('car')+'</div><div><b>'+esc(v.name)+'</b><small>'+esc(trim)+'</small></div><div class="spacer"></div><div class="tick">'+ICON_CHECK+esc(how)+'</div>';
+  feed.prepend(c);
+  $('#quick').innerHTML=(QUICK[v.id]||[]).map(q=>'<button class="chip" type="button" data-q="'+esc(q)+'">'+esc(q)+'</button>').join('');
+  composer.classList.remove('locked');
+  input.focus();
+}
+$('#plateForm').addEventListener('submit',e=>{
+  e.preventDefault();const p=$('#plate').value.replace(/\s/g,'').toUpperCase();const hit=catalog.plates[p];
+  if(!hit){$('#verr').textContent=p?'No vehicle found for '+p+'. Try a demo plate, or pick manually.':'Enter a plate first.';return}
+  confirmVehicle(hit.vehicle,hit.trim,'Plate '+p);
+});
+document.querySelector('.demo-plates').addEventListener('click',e=>{const b=e.target.closest('[data-plate]');if(b){$('#plate').value=b.dataset.plate;$('#plateForm').requestSubmit()}});
+$('#manualBtn').addEventListener('click',()=>$('#manual').classList.toggle('on'));
+function fillTrims(){const v=catalog.vehicles.find(x=>x.id===$('#mVehicle').value);$('#mTrim').innerHTML=v.trims.map(t=>'<option>'+esc(t)+'</option>').join('')}
+$('#mVehicle').addEventListener('change',fillTrims);
+$('#manualGo').addEventListener('click',()=>confirmVehicle($('#mVehicle').value,$('#mTrim').value,'Picked'));
+
+/* Step 2: estimate. The UI, not the prompt, has the final say on autonomy. */
+function summary(r){
+  if(!r.lines.length)return r.reply;
+  const pc=r.lines.filter(l=>l.component==='part_card'&&l.state!=='removed');
+  const added=pc.filter(isAdded).length,sugg=pc.filter(l=>!isAdded(l)).length,qs=r.lines.filter(l=>l.component==='question_card').length,nf=r.lines.filter(l=>l.component==='not_found'&&!l.state).length;
+  const n=(k,w)=>k+' '+w+(k===1?'':'s');const bits=[];
+  if(added)bits.push(n(added,'part')+' on the quote');
+  if(sugg)bits.push(n(sugg,'suggestion')+' to check');
+  if(qs)bits.push(n(qs,'question')+' for you');
+  if(nf)bits.push(n(nf,'part')+' not found');
+  const pend=r.lines.filter(l=>l.component==='not_found'&&l.state==='requested').length;
+  if(pend)bits.push(n(pend,'supplier price')+' pending');
+  return bits.length?bits[0][0].toUpperCase()+bits.join(', ').slice(1)+'.':'Nothing on the quote yet.';
+}
+function render(){
+  const box=document.getElementById('estimate');if(!box||!estimate)return;
+  followChips();
+  const L=estimate.lines.map((l,i)=>[l,i]);
+  const needs=L.filter(([l])=>l.component==='question_card'||(l.component==='not_found'&&!l.state)||l.state==='manual-form'||(l.component==='part_card'&&!isAdded(l)&&l.state!=='removed'));
+  const pending=L.filter(([l])=>l.component==='not_found'&&l.state==='requested');
+  const notes=L.filter(([l])=>l.component==='note');
+  const onQuote=L.filter(([l])=>l.component==='part_card'&&isAdded(l)).concat(L.filter(([l])=>l.component==='part_card'&&l.state==='removed'));
+  /* questions first, then main parts, then fitting parts */
+  const rank=l=>l.component==='not_found'?0:l.component==='question_card'?1:isMain(l)?2:3;
+  needs.sort((a,b)=>rank(a[0])-rank(b[0]));
+  const total=onQuote.filter(([l])=>l.state!=='removed').reduce((s,[l])=>s+parts[l.part_id].price,0);
+  const count=onQuote.filter(([l])=>l.state!=='removed').length;
+  const aiCount=onQuote.filter(([l])=>l.state!=='removed'&&sourceOf(l,parts[l.part_id])==='ai').length;
+  box.querySelector('.reply').textContent=summary(estimate);
+  box.querySelector('.lines').innerHTML=
+    '<div class="sec"><h3 class="sec-h">Needs you <span class="count'+(needs.length?'':' done')+'">'+needs.length+'</span></h3>'
+    +(needs.length?'<div class="lines">'+needs.map(([l,i])=>l.component==='question_card'?questionCard(l,i):l.component==='not_found'?notFoundCard(l,i):needCard(l,i)).join('')+'</div>'
+      :'<div class="alldone">'+ic('check')+'<span>Nothing needs you. Check the quote below, then send it.</span></div>')
+    +notes.map(([l])=>'<div class="tip">'+ic('help','sm')+'<span><b>Tip:</b> '+esc(l.reason_short)+'</span></div>').join('')+'</div>'
+    +'<div class="sec"><h3 class="sec-h">On the quote <span class="count done">'+count+'</span>'+(aiCount?'<span class="sec-sub">'+aiCount+' added by AI: check before sending</span>':'')+'</h3>'
+    +'<div class="quote">'+pending.map(([l,i])=>pendingRow(l,i)).join('')+(onQuote.length||pending.length?onQuote.map(([l,i],k)=>(l.state==='removed'&&(k===0||onQuote[k-1][0].state!=='removed')?'<div class="qlabel">Not needed</div>':'')+quoteRow(l,i)).join(''):'<p style="padding:14px 16px;margin:0;color:var(--s-text-muted);font-size:14px">Nothing yet. Parts you add will appear here.</p>')
+    +'<div class="qfoot"><span>Total <small>· '+count+' part'+(count===1?'':'s')+' · incl. GST</small></span><b>'+fmt(total)+'</b></div></div>'
+    +'<div class="sendrow">'+(needs.length?'<span>Answer the '+needs.length+' item'+(needs.length>1?'s':'')+' above before sending.</span>':!count?'<span>Add at least one part to send the quote.</span>':pending.length?'<span>You can send now and add the pending price later.</span>':'<span>Ready to send.</span>')
+    +'<button class="btn lgsend" data-act="send"'+(needs.length||!count?' disabled':'')+'>'+ic('send','sm')+' Send quote</button></div></div>';
+  box.querySelector('.totalbox').innerHTML='';
+  estimate.lines.forEach(l=>delete l.fresh);
+}
+
+function stepsEl(){
+  const wrap=document.createElement('div');wrap.className='steps';
+  const labels=['Reading the job','Checking the parts catalogue','Checking supplier stock'];
+  wrap.innerHTML='<ul>'+labels.map((l,i)=>'<li class="'+(i?'':'now')+'"><span class="dot"></span>'+l+'…</li>').join('')+'</ul>';
+  const ul=wrap.firstChild;let k=0;
+  const t=setInterval(()=>{const li=ul.children;if(k<li.length-1){li[k].className='done';li[++k].className='now'}},1400);
+  wrap.finish=(steps,ms)=>{clearInterval(t);const s=steps&&steps.length?steps:labels;
+    wrap.innerHTML='<details><summary>Checked '+s.length+' things'+(ms?' in '+(ms/1000).toFixed(1)+'s':'')+'</summary><ul>'+s.map(x=>'<li class="done"><span class="dot"></span>'+esc(x)+'</li>').join('')+'</ul></details>'};
+  wrap.stop=()=>clearInterval(t);
+  return wrap;
+}
+
+async function ask(message,current){
+  if(!REPLAY_FORCED){
+    const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),WAIT_LIMIT);
+    try{
+      const r=await fetch('/api/estimate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,current,vehicle}),signal:ctrl.signal});
+      clearTimeout(timer);const data=await r.json();
+      if(r.ok){setMode('live','Live AI');return data}
+      console.warn('AI error:',data.error);
+    }catch(e){clearTimeout(timer);console.warn('AI unreachable:',e.message)}
+  }
+  if(!replays.length)replays=await (await fetch('/api/replays')).json().catch(()=>[]);
+  const mine=replays.filter(x=>x.vehicle&&x.vehicle.id===vehicle.id&&x.vehicle.trim===vehicle.trim&&!!x.followup===!!current);if(!mine.length)return null;
+  const m=message.toLowerCase();
+  const hit=mine.find(x=>x.message.toLowerCase()===m)||mine.find(x=>m.split(/\W+/).some(w=>w.length>3&&x.message.toLowerCase().includes(w)))||(current?null:mine[0]);
+  if(!hit)return null;
+  setMode('replay','Offline replay');
+  return JSON.parse(JSON.stringify(hit.result));
+}
+
+/* The AI returns a fresh list after a correction; the user's own decisions must survive it. */
+function carryOver(prev,next){
+  const byPart={};prev.lines.forEach(l=>{if(l.part_id&&l.state)byPart[l.part_id]=l});
+  next.lines.forEach(l=>{const o=byPart[l.part_id];if(o&&l.component==='part_card'){l.state=o.state;if(o.state==='you'){l.reason_short=o.reason_short;l.confidence=1}}});
+  const kept=new Set(next.lines.map(l=>l.part_id));
+  // Every user decision survives, even if the AI's new list leaves that part out (RULES §11).
+  prev.lines.forEach(l=>{if((l.part_id&&l.state&&!kept.has(l.part_id))||(l.component==='not_found'&&l.state==='requested'))next.lines.push(l)});
+}
+
+async function send(message){
+  message=message.trim();if(!message||!vehicle)return;
+  asked.add(message.toLowerCase());
+  const followUp=!!(estimate&&estimate.lines.length);
+  const you=document.createElement('div');you.className='msg-you';you.textContent=message;feed.appendChild(you);
+  const steps=stepsEl();feed.appendChild(steps);
+  const old=document.getElementById('estimate');if(old)old.removeAttribute('id');
+  const box=document.createElement('section');box.id='estimate';box.innerHTML='<p class="reply"></p><div class="lines"></div><div class="totalbox"></div>';
+  feed.appendChild(box);steps.scrollIntoView({behavior:'smooth',block:'start'});
+  input.value='';
+  const current=followUp?{lines:estimate.lines.map(({showAlts,guarded,...l})=>l)}:null;
+  const result=await ask(message,current);
+  if(!result){steps.stop();steps.remove();box.innerHTML='<p class="error">I couldn\'t reach the AI and have no saved answer for this. Try a quick start.</p>';return}
+  steps.finish(result.steps,result.ms);
+  result.lines=result.lines.map(guard);
+  if(followUp)carryOver(estimate,result);
+  estimate=result;render();
+}
+
+feed.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b||!estimate||sent||!b.closest('#estimate'))return;
+  if(b.closest('summary'))e.preventDefault();
+  const i=+b.dataset.i,l=estimate.lines[i];
+  switch(b.dataset.act){
+    case 'add':l.state='added';l.fresh=true;l.showAlts=false;break;
+    case 'remove':l.state='removed';l.showAlts=false;break;
+    case 'restore':l.state='added';l.fresh=true;break;
+    case 'wrong':l.showAlts=!l.showAlts;break;
+    case 'swap':
+      estimate.lines[i]={component:'part_card',part_id:b.dataset.part,confidence:1,mode:'suggest',state:'you',fresh:true,reason_short:'You corrected this part.',reason_long:'',question:null,choices:[]};break;
+    case 'choose':{
+      const picked=b.dataset.part.split(',').map(id=>({component:'part_card',part_id:id,confidence:1,mode:'suggest',state:'you',fresh:true,reason_short:'You chose: '+b.dataset.label+'.',reason_long:'',question:null,choices:[]}));
+      estimate.lines.splice(i,1,...picked);break;}
+    case 'ask-suppliers':l.state='requested';break;
+    case 'cancel-request':l.state=undefined;break;
+    case 'manual':l.state='manual-form';break;
+    case 'cancel-manual':l.state=undefined;break;
+    case 'send':sendQuote();return;
+  }
+  render();
+});
+
+/* Step 3: send. The user sees every step, then a receipt that says what happened and what's next. */
+const wait=ms=>new Promise(r=>setTimeout(r,matchMedia('(prefers-reduced-motion: reduce)').matches?0:ms));
+async function sendQuote(){
+  if(sent)return;sent=true;
+  const box=document.getElementById('estimate');box.classList.add('sent-lock');
+  $('#quick').innerHTML='';input.disabled=true;
+  const L=estimate.lines;
+  const onQ=L.filter(l=>l.component==='part_card'&&isAdded(l));
+  const pend=L.filter(l=>l.component==='not_found'&&l.state==='requested');
+  const qno='Q-'+(1000+Math.floor(Math.random()*9000));
+  const groups={};onQ.forEach(l=>{const p=parts[l.part_id],s=p.manual?null:supplierOf(p);const k=s?s.name:'Your own supplier';(groups[k]=groups[k]||{eta:s?s.eta:'You arrange it',lines:[]}).lines.push(l)});
+  const pname=l=>(t=>t[0].toUpperCase()+t.slice(1))(l.reason_short.replace(/^No /,'').replace(/ (found|in stock).*$/,'').toLowerCase());
+  const steps=[['Checking the quote',onQ.length+' part'+(onQ.length===1?'':'s')+(pend.length?', '+pend.length+' price pending':'')+', nothing waiting on you']];
+  Object.entries(groups).forEach(([n,g])=>steps.push(['Holding '+g.lines.length+' part'+(g.lines.length===1?'':'s')+' with '+n,'Held for 24 hours · arrives '+g.eta]));
+  pend.forEach(l=>steps.push(['Asking 5 suppliers to price: '+pname(l),'Request sent · replies usually within the hour']));
+  steps.push(['Sending '+qno+' to the customer for approval','Sent']);
+  const panel=document.createElement('section');panel.className='sending';
+  panel.innerHTML='<h3>'+ic('send','sm')+' Sending quote</h3><ul>'+steps.map(([a])=>'<li><span class="dot"></span><div><b>'+esc(a)+'</b><small></small></div></li>').join('')+'</ul>';
+  feed.appendChild(panel);panel.scrollIntoView({behavior:'smooth',block:'start'});
+  const lis=[...panel.querySelectorAll('li')];
+  for(let k=0;k<lis.length;k++){lis[k].className='now';await wait(1500);lis[k].className='done';lis[k].querySelector('small').textContent=steps[k][1]}
+  await wait(400);
+  const total=onQ.reduce((t,l)=>t+parts[l.part_id].price,0);
+  const rows=Object.entries(groups).map(([n,g])=>'<div class="rc-sup"><span class="sup"><b aria-hidden="true">'+initials(n)+'</b>'+esc(n)+'</span><span class="rc-eta">'+ic('truck','sm')+esc(g.eta)+'</span></div>'
+    +g.lines.map(l=>{const p=parts[l.part_id];return '<div class="rc-row"><span class="nm">'+esc(p.name)+'</span>'+(p.returnable?'':'<span class="ichip risk">'+ic('ban','sm')+'Not returnable</span>')+'<span class="pr">'+fmt(p.price)+'</span></div>'}).join('')).join('')
+    +pend.map(l=>'<div class="rc-sup"><span class="sup"><b aria-hidden="true">5</b>5 suppliers asked</span></div><div class="rc-row"><span class="nm">'+esc(pname(l))+'</span><span class="pr muted">Price pending</span></div>').join('');
+  const firstEta=Object.values(groups).map(g=>g.eta).filter(e=>!/arrange/.test(e)).sort((a,b)=>etaRank(a)-etaRank(b))[0]||'';
+  const rc=document.createElement('section');rc.className='receipt';
+  rc.innerHTML='<div class="rc-head"><span class="rc-ok">'+ic('check')+'</span><div><h2>Quote '+qno+' sent</h2><p>'+esc(vehicle.name)+' · '+esc(vehicle.how)+' · sent to the customer for approval</p></div></div>'
+    +'<div class="rc-list">'+rows+'<div class="qfoot"><span>Total <small>· incl. GST'+(pend.length?' · excludes pending price':'')+'</small></span><b>'+fmt(total)+'</b></div></div>'
+    +'<h3 class="rc-h">Job progress</h3><ol class="track" id="track"></ol>'
+    +'<p class="rc-demo">Demo: nothing was sent to a customer or supplier.</p>';
+  feed.appendChild(rc);
+  job={qno,groups,pend,firstEta,lines:onQ,stage:2,el:rc};
+  renderTrack();postChips();
+  rc.scrollIntoView({behavior:'smooth',block:'start'});
+}
+/* After sending: a tracker for the whole job, moved forward from the chat box. */
+let job=null;
+const etaRank=e=>{const d=/^today/i.test(e)?0:/^tomorrow/i.test(e)?1:2;const m=e.match(/(\d+)(?::(\d+))?\s*(am|pm)/i);const h=m?(+m[1]%12)+(/pm/i.test(m[3])?12:0)+(+(m[2]||0))/60:12;return d*24+h};
+function renderTrack(){
+  const g=Object.entries(job.groups).sort((a,b)=>etaRank(a[1].eta)-etaRank(b[1].eta));
+  const T=[
+    ['check','Quote built','Checked by you, line by line'],
+    ['send','Sent to the customer',job.qno+(job.pend.length?' · 1 price still pending':'')],
+    ['user','Customer approves',job.stage===2?'Parts are held for you for 24 hours':'Approved'],
+    ['truck','Parts ordered',g.map(([n,x])=>n+' ('+x.lines.length+')').join(' · ')],
+    ['car','Parts arrive',g.map(([n,x])=>x.eta+' · '+n).join('<br>')],
+    ['wrench','Repair and close the job',job.guide?job.guide.steps.length+' guided steps · '+job.guide.hours.toFixed(1)+' h labour':hasGuide()?'Guided repair, step by step':'Follow the OEM repair procedure']
+  ];
+  const when=['Done','Done',job.stage===2?'Waiting':'Done',job.stage===3?'Ordering':job.stage>3?'Done':'Next',job.stage===4?'First: '+esc(job.firstEta):job.stage>4?'Done':'',job.stage===5?'Now':job.stage>5?'Done':''];
+  $('#track').innerHTML=T.map(([icon,t,d],k)=>{const st=k<job.stage?'done':k===job.stage?'now':'next';return '<li class="'+st+'"><span class="tk">'+(st==='done'?ic('check','sm'):ic(icon,'sm'))+'</span><div><b>'+t+'</b><small>'+d+'</small></div><em>'+when[k]+'</em></li>'}).join('');
+  const titles={2:'Quote '+job.qno+' sent',3:'Ordering parts',4:'Parts ordered',5:'Parts arrived',6:'Job closed'};
+  const subs={2:'waiting for customer approval',4:'arriving '+job.firstEta+' first',5:'ready to fit',6:'all parts fitted'};
+  job.el.querySelector('h2').textContent=titles[job.stage]||titles[2];
+  const sub=job.el.querySelector('.rc-head p');sub.textContent=vehicle.name+' · '+vehicle.how+' · '+(subs[job.stage]||'');
+}
+function postChips(){
+  const C={2:[['Customer approved: order the parts','approve'],['Change this quote','edit'],['Start next job','new']],4:[['All parts arrived','arrive'],['Start next job','new']],5:job.guide?[['Start next job','new']]:hasGuide()?[['Start the repair guide','repair'],['Start next job','new']]:[['Repair done: close the job','close'],['Start next job','new']],6:[['Start next job','new']]}[job.stage]||[];
+  $('#quick').innerHTML=C.map(([t,a],k)=>'<button class="chip'+(k===0&&a!=='new'?' primary':'')+'" type="button" data-next="'+a+'">'+t+'</button>').join('');
+  composer.classList.remove('locked');
+  input.disabled=job.stage!==2;
+  input.placeholder=job.stage===2?'Change the quote, e.g. "also the right guard"':'Pick a next step above';
+}
+async function nextStep(a){
+  if(a==='new')return location.reload();
+  if(a==='edit')return reopen();
+  $('#quick').innerHTML='';
+  if(a==='approve'){job.stage=3;renderTrack();await wait(900);job.stage=4}
+  if(a==='arrive')job.stage=5;
+  if(a==='repair'){startRepair();return postChips()}
+  if(a==='close')job.stage=6;
+  renderTrack();postChips();job.el.querySelector('#track').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* Repair guide: the last step of "anyone can repair anything". Steps come from the parts on the quote. */
+const CAR_SVG='<svg viewBox="0 0 400 210" class="car" aria-hidden="true">'
+ +'<path class="body" d="M40 150 L52 92 Q60 70 90 66 L130 40 Q140 34 155 34 L245 34 Q260 34 270 40 L310 66 Q340 70 348 92 L360 150 Z"/>'
+ +'<path class="glass" d="M138 46 L262 46 L292 70 L108 70 Z"/>'
+ +'<path data-r="bonnet" class="rg" d="M100 74 L300 74 L330 96 L70 96 Z"/>'
+ +'<path data-r="guard-r" class="rg" d="M52 96 L70 96 L64 138 L44 140 Z"/><path data-r="guard-l" class="rg" d="M330 96 L348 96 L356 140 L336 138 Z"/>'
+ +'<path data-r="hl-r" class="rg" d="M72 100 L132 104 L126 122 L70 118 Z"/><path data-r="hl-l" class="rg" d="M268 104 L328 100 L330 118 L274 122 Z"/>'
+ +'<rect data-r="grille" class="rg" x="150" y="104" width="100" height="20" rx="4"/>'
+ +'<rect data-r="reinf" class="rg hidden-part" x="70" y="128" width="260" height="8" rx="2"/>'
+ +'<rect data-r="absorber" class="rg hidden-part" x="90" y="138" width="220" height="10" rx="3"/>'
+ +'<path data-r="bumper" class="rg" d="M48 126 L352 126 L358 160 Q358 172 344 172 L56 172 Q42 172 42 160 Z"/>'
+ +'<g data-r="sensors" class="rg dots"><circle cx="110" cy="152" r="4"/><circle cx="160" cy="156" r="4"/><circle cx="240" cy="156" r="4"/><circle cx="290" cy="152" r="4"/></g>'
+ +'<g data-r="clips" class="rg dots small"><circle cx="70" cy="128" r="2.6"/><circle cx="110" cy="127" r="2.6"/><circle cx="150" cy="127" r="2.6"/><circle cx="200" cy="127" r="2.6"/><circle cx="250" cy="127" r="2.6"/><circle cx="290" cy="127" r="2.6"/><circle cx="330" cy="128" r="2.6"/></g>'
+ +'<rect class="tyre" x="58" y="172" width="44" height="22" rx="6"/><rect class="tyre" x="298" y="172" width="44" height="22" rx="6"/>'
+ +'<text x="98" y="200" class="side">Right</text><text x="302" y="200" class="side">Left</text></svg>';
+function buildGuide(){
+  const groups=job.lines.map(l=>parts[l.part_id].group),usedG=job.lines.filter(l=>/used/i.test(parts[l.part_id].name)).map(l=>parts[l.part_id].group);
+  const S=repairSteps(vehicle.id,vehicle.trim,groups,usedG);
+  return {steps:S,hours:S.reduce((a,x)=>a+x.h,0),at:0,photo:false};
+}
+function hasGuide(){return repairSteps(vehicle.id,vehicle.trim,job.lines.map(l=>parts[l.part_id].group),[]).length>0}
+function startRepair(){
+  job.guide=buildGuide();job.stage=5;renderTrack();
+  let el=document.querySelector('.guide');if(!el){el=document.createElement('section');el.className='guide';feed.appendChild(el)}
+  renderGuide();el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderGuide(){
+  const G=job.guide,el=document.querySelector('.guide'),cur=G.steps[G.at],doneH=G.steps.slice(0,G.at).reduce((a,x)=>a+x.h,0);
+  const all=G.at>=G.steps.length;
+  el.innerHTML='<div class="g-head"><span class="rc-ok">'+ic('wrench')+'</span><div><h2>Repair guide</h2><p>'+esc(vehicle.name)+' · '+esc(vehicle.how)+' · '+G.steps.length+' steps · '+G.hours.toFixed(1)+' h labour</p></div></div>'
+   +'<div class="g-bar" role="progressbar" aria-valuemin="0" aria-valuemax="'+G.steps.length+'" aria-valuenow="'+Math.min(G.at,G.steps.length)+'"><i style="width:'+(Math.min(G.at,G.steps.length)/G.steps.length*100)+'%"></i></div>'
+   +'<div class="g-body"><div class="g-fig'+(vehicle.id==='V1'?'':' no-svg')+'"><img class="g-img" alt="'+esc(all?'Repair complete':cur.t)+'" src="shots/repair/'+(all?G.steps[G.steps.length-1].id:cur.id)+'.jpg" onload="this.parentNode.classList.add(\'has-img\')" onerror="this.parentNode.classList.remove(\'has-img\');this.remove()">'+(vehicle.id==='V1'?CAR_SVG:'')+'<p class="g-figcap">'+(all?'All steps done':cur.r.length?'Highlighted: where this step happens':'Illustration of this step')+'</p></div>'
+   +'<ol class="g-steps">'+G.steps.map((x,k)=>{const st=k<G.at?'done':k===G.at?'now':'next';
+      return '<li class="'+st+'"><div class="g-row"><span class="g-n">'+(st==='done'?ic('check','sm'):k+1)+'</span><b>'+esc(x.t)+'</b><em>'+x.h.toFixed(1)+' h</em></div>'
+       +(st==='now'?'<div class="g-detail"><p>'+esc(x.n)+'</p>'+(x.w?'<p class="g-warn">'+ic('alert','sm')+esc(x.w)+'</p>':'')
+         +(x.inspect?'<button type="button" class="g-photo'+(G.photo?' on':'')+'" data-g="photo">'+(G.photo?ic('check','sm')+'Photo added: fitted bumper and sensor test':ic('camera','sm')+'Add a photo for the job record')+'</button>':'')
+         +'<div class="g-actions">'+(G.at?'<button type="button" class="btn ghost" data-g="back">Back</button>':'')+'<button type="button" class="btn" data-g="done"'+(x.inspect&&!G.photo?' disabled':'')+'>'+ic('check','sm')+(x.inspect?' Inspection passed':' Done')+'</button></div></div>':'')
+       +'</li>'}).join('')+'</ol></div>'
+   +(all?'<div class="g-finish">'+ic('check')+'<div><b>Repair complete</b><span>'+G.hours.toFixed(1)+' h labour · photo saved to the job</span></div><button type="button" class="btn" data-g="close">Close the job</button></div>':'')
+   +'<p class="rc-demo">Illustrative steps for the demo. A real job follows the OEM repair procedure.</p>';
+  el.querySelectorAll('.car .rg').forEach(n=>n.classList.toggle('on',!all&&cur.r.includes(n.dataset.r)));
+  $('#track').querySelector('li:last-child small').textContent=(all?'Repair complete · ':'Step '+(G.at+1)+' of '+G.steps.length+' · ')+doneH.toFixed(1)+' of '+G.hours.toFixed(1)+' h';
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-g]');if(!b||!job||!job.guide)return;
+  const G=job.guide;
+  if(b.dataset.g==='done')G.at++;
+  if(b.dataset.g==='back')G.at=Math.max(0,G.at-1);
+  if(b.dataset.g==='photo')G.photo=true;
+  if(b.dataset.g==='close'){job.stage=6;renderTrack();postChips();document.querySelector('.guide').classList.add('closed');job.el.scrollIntoView({behavior:'smooth',block:'start'});return}
+  renderGuide();
+});
+function reopen(){
+  sent=false;job.el.remove();document.querySelector('.sending')?.remove();job=null;
+  const box=document.getElementById('estimate');box.classList.remove('sent-lock');
+  input.disabled=false;input.placeholder='Describe the damage, e.g. front bumper and left headlight';
+  render();box.scrollIntoView({behavior:'smooth',block:'start'});input.focus();
+}
+form.addEventListener('submit',e=>{e.preventDefault();const t=input.value;if(job&&job.stage===2){if(!t.trim())return;reopen()}send(t)});
+feed.addEventListener('submit',e=>{
+  const f=e.target.closest('.manual-add');if(!f)return;e.preventDefault();
+  const i=+f.dataset.i,name=f.name.value.trim(),price=parseFloat(f.price.value.replace(/[^0-9.]/g,''));
+  if(!name||!(price>=0))return;
+  const id='M-'+Date.now();parts[id]={id,name,number:'Manual entry',price,stock:{},returnable:true,role:'main',manual:true};
+  estimate.lines[i]={component:'part_card',part_id:id,confidence:1,mode:'suggest',state:'you',fresh:true,reason_short:'Added manually by you.',reason_long:'',question:null,choices:[]};
+  render();
+});
+$('#quick').addEventListener('click',e=>{const n=e.target.closest('[data-next]');if(n)return nextStep(n.dataset.next);const c=e.target.closest('[data-q]');if(c)send(c.dataset.q)});
+
+(function(){
+  const root=document.documentElement;
+  const saved=(()=>{try{return localStorage.getItem('demo-theme')}catch(e){return null}})();
+  if(saved)root.dataset.theme=saved;
+  $('#theme').addEventListener('click',()=>{
+    const dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme=dark?'light':'dark';try{localStorage.setItem('demo-theme',root.dataset.theme)}catch(e){}
+  });
+})();
+
+/* Inline the logo so it follows the theme colour. */
+(async()=>{try{const svg=await (await fetch('brand/partly-logo.svg')).text();const d=document.createElement('div');d.innerHTML=svg;const el=d.querySelector('svg');el.setAttribute('class','logo');el.removeAttribute('width');el.removeAttribute('height');$('#logo').replaceWith(el)}catch(e){}})();
+
+(async()=>{
+  catalog=await (await fetch('catalog.json')).json();
+  catalog.vehicles.forEach(v=>v.parts.forEach(p=>parts[p.id]=p));suppliers=catalog.suppliers;
+  PDS.parts=parts;PDS.suppliers=suppliers;PDS.slotOptions=p=>catalog.vehicles.find(v=>v.id===vehicle.id).parts.filter(x=>x.group===p.group&&x.id!==p.id&&PDS.fitsTrim(x,vehicle.trim));
+  $('#mVehicle').innerHTML=catalog.vehicles.map(v=>'<option value="'+v.id+'">'+esc(v.name)+'</option>').join('');fillTrims();
+  if(REPLAY_FORCED)return setMode('replay','Offline replay');
+  try{const s=await (await fetch('/api/status')).json();setMode(s.key?'live':'replay',s.key?'Live AI':'No key: replay')}catch(e){setMode('replay','Offline replay')}
+})();
+</script>
+</body>
+</html>
