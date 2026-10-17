@@ -247,13 +247,13 @@ async function ask(message,current){
   if(!REPLAY_FORCED){
     const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),WAIT_LIMIT);
     try{
-      const r=await fetch('/api/estimate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,current,vehicle}),signal:ctrl.signal});
+      const r=await fetch('api/estimate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,current,vehicle}),signal:ctrl.signal});
       clearTimeout(timer);const data=await r.json();
       if(r.ok){setMode('live','Live AI');return data}
       console.warn('AI error:',data.error);
     }catch(e){clearTimeout(timer);console.warn('AI unreachable:',e.message)}
   }
-  if(!replays.length)replays=await (await fetch('/api/replays')).json().catch(()=>[]);
+  if(!replays.length){for(const u of ['api/replays','replays.json']){try{const r=await fetch(u);if(!r.ok)continue;const d=await r.json();if(d.length){replays=d;break}}catch(e){}}}
   const mine=replays.filter(x=>x.vehicle&&x.vehicle.id===vehicle.id&&x.vehicle.trim===vehicle.trim&&!!x.followup===!!current);if(!mine.length)return null;
   const m=message.toLowerCase();
   const hit=mine.find(x=>x.message.toLowerCase()===m)||mine.find(x=>m.split(/\W+/).some(w=>w.length>3&&x.message.toLowerCase().includes(w)))||(current?null:mine[0]);
@@ -476,7 +476,7 @@ $('#quick').addEventListener('click',e=>{const n=e.target.closest('[data-next]')
   PDS.parts=parts;PDS.suppliers=suppliers;PDS.slotOptions=p=>catalog.vehicles.find(v=>v.id===vehicle.id).parts.filter(x=>x.group===p.group&&x.id!==p.id&&PDS.fitsTrim(x,vehicle.trim));
   $('#mVehicle').innerHTML=catalog.vehicles.map(v=>'<option value="'+v.id+'">'+esc(v.name)+'</option>').join('');fillTrims();
   if(REPLAY_FORCED)return setMode('replay','Offline replay');
-  try{const s=await (await fetch('/api/status')).json();setMode(s.key?'live':'replay',s.key?'Live AI':'No key: replay')}catch(e){setMode('replay','Offline replay')}
+  try{const s=await (await fetch('api/status')).json();setMode(s.key?'live':'replay',s.key?'Live AI':'No key: replay')}catch(e){setMode('replay','Offline replay')}
 })();
 </script>
 </body>

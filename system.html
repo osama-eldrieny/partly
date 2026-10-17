@@ -269,7 +269,7 @@ footer{margin-top:96px}
   <a class="brand" href="#overview"><span class="logo-slot"></span><span class="sep"></span><b>Repair AI Design System</b></a>
   <span class="ver">v0.3</span>
   <nav aria-label="Main"><a href="#tokens">Foundations</a><a href="#components">Components</a><a href="#flow">How it works</a><a href="#contract">AI</a><a href="#rules">Guidelines</a></nav>
-  <div class="right"><a class="file primary" href="/">Open demo</a></div>
+  <div class="right"><a class="file primary" href="index.html">Open demo</a></div>
 </header>
 <div class="layout">
 <nav class="side" aria-label="Sections">
@@ -309,7 +309,7 @@ footer{margin-top:96px}
 </nav>
 
 <main>
-<div class="mobile-top"><a href="/">Demo</a><a href="#tokens">Tokens</a><a href="#c-part">Components</a><a href="#contract">AI contract</a><a href="#rules">Rules</a><a href="#agents">Agents</a></div>
+<div class="mobile-top"><a href="index.html">Demo</a><a href="#tokens">Tokens</a><a href="#c-part">Components</a><a href="#contract">AI contract</a><a href="#rules">Rules</a><a href="#agents">Agents</a></div>
 
 <section id="overview">
   <div class="eyebrow">Unofficial concept by Osama Eldrieny · not a Partly product</div>
@@ -327,7 +327,7 @@ footer{margin-top:96px}
     <a class="file" href="components.css" target="_blank">components.css</a>
     <a class="file" href="components.js" target="_blank">components.js</a>
     <a class="file" href="RULES.md" target="_blank">RULES.md</a>
-    <a class="file" href="/api/contract" target="_blank">/api/contract</a>
+    <a class="file" href="contract.json" target="_blank">contract.json</a>
   </div>
   <p style="font-size:13px;color:var(--s-text-muted);margin-top:14px">Everything below is rendered from these files at load time. Change a token or a component and this page and the demo change together.</p>
 </section>
@@ -677,7 +677,7 @@ function buildFlow(){
 }
 /* ---------- File structure (explorer + dependency map) ---------- */
 const FILES=[
-  {g:'Design system',f:'tokens.css',t:'css',ln:57,what:'Two tiers of tokens. Primitives hold raw values; semantic tokens say what a colour means. Light and dark themes.',readers:['Engineers','Coding agents'],uses:[],usedBy:['components.css','index.html','system.html','presentation.html'],key:['--p-* primitives','--s-* semantic','--s-unsure = risk','--s-live = status'],snip:'--s-unsure: var(--p-red-600);  /* AI needs the user */'},
+  {g:'Design system',f:'tokens.css',t:'css',ln:57,what:'Two tiers of tokens. Primitives hold raw values; semantic tokens say what a colour means. Light and dark themes.',readers:['Engineers','Coding agents'],uses:[],usedBy:['components.css','index.html','system.html','slides.html'],key:['--p-* primitives','--s-* semantic','--s-unsure = risk','--s-live = status'],snip:'--s-unsure: var(--p-red-600);  /* AI needs the user */'},
   {g:'Design system',f:'components.css',t:'css',ln:113,what:'Styles for every component. Takes colours from semantic tokens only.',readers:['Engineers','Coding agents'],uses:['tokens.css'],usedBy:['index.html','system.html'],key:['.card','.badge','.ichip','.conf','.qrow','.who'],snip:'.ichip.risk{background:var(--s-unsure-soft);color:var(--s-unsure)}'},
   {g:'Design system',f:'components.js',t:'js',ln:129,what:'The core AI components as functions: data in, HTML out. Also guard(), the safety rule, and the 2-red-chip limit.',readers:['Engineers','Coding agents'],uses:['catalog.json'],usedBy:['index.html','system.html'],key:['needCard()','questionCard()','notFoundCard()','quoteRow()','sourceLabel()','chips()','guard()'],snip:"if(line.mode==='auto'&&(line.confidence<0.9||p.price>=150||!p.returnable))\n  return {...line,mode:'suggest',guarded:true};"},
   {g:'Design system',f:'RULES.md',t:'md',ln:84,what:'15 written rules: shapes, modes, confidence, corrections, copy, layout, chips, icons, saying no, source labels, after sending, repair guide, small inputs. The AI prompt follows the same rules.',readers:['Engineers','Coding agents','AI'],uses:[],usedBy:['server.py','system.html'],key:['§2 What the AI can return','§3 Modes','§8 Chips','§12 Source labels','§13 After sending','§14 Repair guide']},
@@ -689,7 +689,7 @@ const FILES=[
   {g:'Product',f:'index.html',t:'html',ln:480,what:'The demo: plate, composer, Needs you, On the quote, Send, then receipt, job tracker and repair guide. Keeps user decisions when the AI updates (carryOver).',readers:['Users'],uses:['tokens.css','components.css','components.js','server.py','catalog.json','repair-steps.js','shots/repair/'],usedBy:[],key:['render()','carryOver()','sendQuote()','renderTrack()','renderGuide()']},
   {g:'Product',f:'repair-steps.js',t:'js',ln:150,what:'Repair steps for all 5 cars. Each step says which parts and trims it needs, its time, one warning, and the image prompt. repairSteps() builds a job\'s guide from the quoted parts.',readers:['Engineers','Coding agents'],uses:[],usedBy:['index.html'],key:['REPAIR_STEPS','repairSteps()','REPAIR_INSPECT','REPAIR_BASE prompt'],snip:"{id:'v1-hl-left', t:'Replace the left headlight', h:0.6,\n when:has=>has('HL-L'), w:null}"},
   {g:'Product',f:'shots/repair/',t:'dir',ln:67,lnLabel:'66 images',what:'One image per repair step, all 5 cars. PROMPTS.md holds the prompt for each. Left and right are the car\'s own sides.',readers:['Users'],uses:['repair-steps.js'],usedBy:['index.html'],key:['v1-bumper-off.jpg','…','PROMPTS.md']},
-  {g:'Product',f:'presentation.html',t:'html',ln:354,what:'The presentation: context, the live demo, and the design-system rules behind it.',readers:['Presenter'],uses:['tokens.css'],usedBy:[],key:['16 slides','#n links']},
+  {g:'Product',f:'slides.html',t:'html',ln:354,what:'The case study deck: context to next steps, with the live demo in the middle.',readers:['Presenter'],uses:['tokens.css'],usedBy:[],key:['16 slides','#n links']},
   {g:'Product',f:'start.command',t:'sh',ln:2,what:'Double-click to start the local server on port 8791.',readers:['Presenter'],uses:['server.py'],usedBy:[],key:[]}
 ];
 const ftLabel={css:'CSS',js:'JS',md:'MD',py:'PY',json:'JSON',html:'HTML',dir:'DIR',env:'ENV',sh:'SH'};
@@ -714,7 +714,7 @@ function buildFiles(){
   FILES.forEach(f=>{if(f.g!==g){g=f.g;h+='<div class="fold">'+ic('chev','sm')+g+'</div>'}h+='<button type="button" role="option" data-f="'+f.f+'" aria-selected="false"><span class="ft '+f.t+'">'+ftLabel[f.t]+'</span>'+esc(f.f)+'<span class="ln">'+(f.lnLabel||f.ln)+'</span></button>'});
   $('#ideTree').innerHTML=h;
   $('#ideTree').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showFile(b.dataset.f)});
-  const cols=[['Sources of truth',['tokens.css','RULES.md','catalog.json','repair-steps.js','.env']],['Building blocks',['components.css','components.js','server.py']],['Surfaces',['index.html','system.html','presentation.html','shots/repair/']],['Runtime',['Claude API','replays/']]];
+  const cols=[['Sources of truth',['tokens.css','RULES.md','catalog.json','repair-steps.js','.env']],['Building blocks',['components.css','components.js','server.py']],['Surfaces',['index.html','system.html','slides.html','shots/repair/']],['Runtime',['Claude API','replays/']]];
   $('#dep').innerHTML=cols.map(([t,fs])=>'<div class="dep-col"><h4>'+t+'</h4>'+fs.map(x=>{const f=FILES.find(y=>y.f===x);return '<button type="button" class="node'+(f?'':' ext')+'" data-f="'+x+'">'+(f?'<span class="ft '+f.t+'">'+ftLabel[f.t]+'</span>':'')+x+'</button>'}).join('')+'</div>').join('');
   $('#dep').addEventListener('click',e=>{const b=e.target.closest('.node');if(b&&FILES.some(f=>f.f===b.dataset.f))showFile(b.dataset.f)});
   showFile('components.js');
@@ -773,7 +773,7 @@ function md(src){
   $('#guardCode').textContent=guard.toString();
   await loadTokens();
   try{const r=await (await fetch('RULES.md')).text();$('#rulesMd').innerHTML=md(r);$('#statRules').textContent=(r.match(/^-\s/gm)||[]).length+(r.match(/^\|\s*`/gm)||[]).length}catch(e){$('#rulesMd').textContent='Could not load RULES.md'}
-  try{const c=await (await fetch('/api/contract')).json();$('#cModel').textContent='Model: '+c.model+'. The parts catalogue is appended after these instructions.';$('#cInstr').textContent=c.instructions;$('#cSchema').textContent=pretty(c.schema)}
+  try{let r=await fetch('api/contract');if(!r.ok)r=await fetch('contract.json');const c=await r.json();$('#cModel').textContent='Model: '+c.model+'. The parts catalogue is appended after these instructions.';$('#cInstr').textContent=c.instructions;$('#cSchema').textContent=pretty(c.schema)}
   catch(e){$('#cInstr').textContent='Start the demo server to load the live contract.';$('#cSchema').textContent=''}
   try{const t=await (await fetch('brand/partly-logo.svg')).text();const el=document.querySelector('.logo-slot');el.innerHTML=t;const v=el.querySelector('svg');v.removeAttribute('width');v.removeAttribute('height');v.setAttribute('class','logo')}catch(e){}
   if(location.hash){const t=document.querySelector(location.hash);if(t)t.scrollIntoView()}
