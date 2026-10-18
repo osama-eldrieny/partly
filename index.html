@@ -28,6 +28,8 @@ header{display:flex;align-items:center;gap:12px;padding:18px 0 14px;position:sti
 .pill.live i{position:relative;background:var(--s-live)}
 .pill.live i::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--s-live);animation:livepulse 1.8s ease-out infinite}
 @keyframes livepulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.8);opacity:0}}
+.live-note{margin:12px 0 0;padding:10px 14px;border:1px solid var(--s-border);border-radius:var(--p-radius-m);background:var(--s-surface-sunken);color:var(--s-text-muted);font-size:13px;line-height:1.5}
+.live-note a{color:var(--s-text);text-decoration:underline;text-underline-offset:3px}
 .pill.replay i{background:var(--s-unsure)}
 .icon-btn{width:34px;height:34px;border-radius:var(--p-radius-m);border:1px solid var(--s-border);background:var(--s-surface-raised);display:grid;place-items:center;transition:border-color var(--p-dur-fast)}
 .icon-btn:hover{border-color:var(--s-text-muted)}
@@ -103,6 +105,8 @@ form.ask-form:focus-within{border-color:var(--s-text)}
     <button class="icon-btn" id="theme" type="button" aria-label="Toggle theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
   </header>
 
+  <p class="live-note" id="liveNote" hidden>This is the offline version. It runs on recorded real AI answers, because the live AI needs a private API key. Want to try the live version? <a href="https://www.osamaeldrieny.com" target="_blank" rel="noopener">Contact me</a> and I will send you the link.</p>
+
   <main id="feed" aria-live="polite">
     <section class="vstep" id="vstep">
       <div class="eyebrow">Step 1 of 2</div>
@@ -163,7 +167,7 @@ function followChips(){
 }
 let catalog=null,parts={},suppliers={},vehicle=null,estimate=null,replays=[],jobStart=0,sent=false;
 
-function setMode(kind,text){modePill.className='pill '+kind;modePill.querySelector('span').textContent=text}
+function setMode(kind,text){modePill.className='pill '+kind;modePill.querySelector('span').textContent=text;const n=document.getElementById('liveNote');if(n)n.hidden=kind!=='replay'}
 function bestSupplier(p){const ids=Object.keys(p.stock||{}).filter(k=>p.stock[k]>0);if(!ids.length)return null;const s=suppliers[ids[0]];return s?s.name+' · '+s.eta:null}
 /* Step 1: vehicle. Facts the system can look up are structured, not chatted. */
 function confirmVehicle(vid,trim,how){
